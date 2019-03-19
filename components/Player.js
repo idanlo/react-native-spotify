@@ -69,7 +69,10 @@ class Player extends React.Component {
     };
 
     componentWillUnmount() {
-        Spotify.queue.removeListener('play');
+        Spotify.removeListener('play');
+        Spotify.removeListener('pause');
+        Spotify.removeListener('metadataChange');
+        Spotify.removeListener('trackChange');
     }
 
     playPauseHandler = () => {
