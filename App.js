@@ -3,12 +3,15 @@ import LoginScreen from './screens/Login';
 import HomeScreen from './screens/Home';
 import SearchScreen from './screens/Search';
 import LibraryScreen from './screens/Library';
+import { View } from 'react-native';
 import {
     createSwitchNavigator,
     createAppContainer,
-    createBottomTabNavigator
+    createBottomTabNavigator,
+    BottomTabBar
 } from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Player from './components/Player';
 
 const HomeNavigator = createBottomTabNavigator(
     {
@@ -43,7 +46,13 @@ const HomeNavigator = createBottomTabNavigator(
             activeTintColor: '#1DB954',
             showIcon: true,
             style: { backgroundColor: '#212025' }
-        }
+        },
+        tabBarComponent: props => (
+            <View>
+                <Player />
+                <BottomTabBar {...props} />
+            </View>
+        )
     }
 );
 
