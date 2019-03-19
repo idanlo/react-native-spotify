@@ -7,12 +7,13 @@ export default class LoginScreen extends Component {
         loaded: false
     };
     componentDidMount() {
+        console.log(this.props);
         this.initializeIfNeeded().catch(err => {
             console.warn('Error', err.message);
         });
     }
 
-    async initializeIfNeeded() {
+    initializeIfNeeded = async () => {
         if (!(await Spotify.isInitializedAsync())) {
             // init
             const options = {
@@ -23,7 +24,11 @@ export default class LoginScreen extends Component {
                     'user-read-private',
                     'playlist-read',
                     'playlist-read-private',
-                    'streaming'
+                    'streaming',
+                    'app-remote-control',
+                    'user-read-playback-state',
+                    'user-read-playback-state',
+                    'user-modify-playback-state'
                 ]
             };
 
@@ -41,9 +46,9 @@ export default class LoginScreen extends Component {
                 this.setState({ loaded: true });
             }
         }
-    }
+    };
 
-    login() {
+    login = () => {
         Spotify.login().then(loggedIn => {
             if (loggedIn) {
                 this.props.navigation.navigate('Home');
@@ -51,7 +56,7 @@ export default class LoginScreen extends Component {
                 console.log('FAILURE');
             }
         });
-    }
+    };
 
     render() {
         return this.state.loaded ? (
