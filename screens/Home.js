@@ -4,7 +4,7 @@ import { Text, View, StyleSheet } from 'react-native';
 export default function Home() {
     return (
         <View style={styles.container}>
-            <Text>Home</Text>
+            <Text style={styles.header}>Home</Text>
         </View>
     );
 }
@@ -15,5 +15,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#191414'
+    },
+    header: {
+        color: '#fff',
+        fontSize: 34,
+        fontWeight: 'bold'
     }
 });

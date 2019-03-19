@@ -4,7 +4,7 @@ import { Text, View, StyleSheet } from 'react-native';
 export default function Library() {
     return (
         <View style={styles.container}>
-            <Text>Library</Text>
+            <Text style={styles.header}>Library</Text>
         </View>
     );
 }
@@ -15,5 +15,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#191414'
+    },
+    header: {
+        color: '#fff',
+        fontSize: 34,
+        fontWeight: 'bold'
     }
 });

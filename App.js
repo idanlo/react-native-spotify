@@ -8,7 +8,7 @@ import {
     createAppContainer,
     createBottomTabNavigator
 } from 'react-navigation';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const HomeNavigator = createBottomTabNavigator(
     {
@@ -16,7 +16,7 @@ const HomeNavigator = createBottomTabNavigator(
             screen: HomeScreen,
             navigationOptions: {
                 tabBarIcon: ({ tintColor }) => (
-                    <Icon name="home" size={30} color="#fff" />
+                    <Icon name="md-home" size={30} color={tintColor} />
                 )
             }
         },
@@ -24,7 +24,7 @@ const HomeNavigator = createBottomTabNavigator(
             screen: SearchScreen,
             navigationOptions: {
                 tabBarIcon: ({ tintColor }) => (
-                    <Icon name="search" size={30} color="#fff" />
+                    <Icon name="ios-search" size={30} color={tintColor} />
                 )
             }
         },
@@ -32,7 +32,7 @@ const HomeNavigator = createBottomTabNavigator(
             screen: LibraryScreen,
             navigationOptions: {
                 tabBarIcon: ({ tintColor }) => (
-                    <Icon name="grip-lines-vertical" size={30} color="#fff" />
+                    <Icon name="ios-apps" size={30} color={tintColor} />
                 )
             }
         }
