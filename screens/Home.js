@@ -1,10 +1,13 @@
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default function Home() {
     return (
         <View style={styles.container}>
-            <Text style={styles.header}>Home</Text>
+            <ScrollView>
+                <Text style={styles.header}>Home</Text>
+            </ScrollView>
         </View>
     );
 }

@@ -1,10 +1,13 @@
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default function Search() {
     return (
         <View style={styles.container}>
-            <Text style={styles.header}>Search</Text>
+            <ScrollView>
+                <Text style={styles.header}>Search</Text>
+            </ScrollView>
         </View>
     );
 }
