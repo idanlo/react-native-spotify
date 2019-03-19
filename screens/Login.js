@@ -57,11 +57,10 @@ export default class LoginScreen extends Component {
         return this.state.loaded ? (
             <View style={styles.container}>
                 <Text style={styles.loginHeader}>Spotify</Text>
-                <TouchableNativeFeedback
-                    style={styles.login}
-                    onPress={this.login}
-                >
-                    <Text style={styles.loginText}>Login</Text>
+                <TouchableNativeFeedback onPress={this.login}>
+                    <View style={styles.login}>
+                        <Text style={styles.loginText}>Login</Text>
+                    </View>
                 </TouchableNativeFeedback>
             </View>
         ) : null;
