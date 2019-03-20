@@ -35,8 +35,11 @@ export default class LoginScreen extends Component {
                 ]
             };
 
-            const loggedIn = await Spotify.initialize(options);
+            // const session = await Spotify.renewSession();
+            // console.log('session ', session);
 
+            const loggedIn = await Spotify.initialize(options);
+            console.log('is logged in - ', loggedIn);
             if (loggedIn) {
                 this.props.navigation.navigate('Home');
             } else {
