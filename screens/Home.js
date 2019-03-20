@@ -7,6 +7,7 @@ import {
     TouchableWithoutFeedback
 } from 'react-native-gesture-handler';
 import Spotify from 'rn-spotify-sdk';
+import globalStyles from '../styles';
 import AlbumView from '../components/AlbumView';
 
 function Home(props) {
@@ -72,7 +73,7 @@ function Home(props) {
             });
     }, []);
     return (
-        <View style={styles.container}>
+        <View style={globalStyles.container}>
             <ScrollView>
                 {recentlyPlayed ? (
                     <View style={styles.albumList}>
@@ -253,13 +254,6 @@ const getAlbumStyle = (index, length) => ({
 });
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexGrow: 1,
-        alignItems: 'center',
-        backgroundColor: '#191414',
-        paddingTop: StatusBar.currentHeight
-    },
     header: {
         color: '#fff',
         fontSize: 34,
