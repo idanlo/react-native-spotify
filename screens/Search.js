@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, StatusBar } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 export default function Search() {
@@ -17,7 +17,8 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#191414'
+        backgroundColor: '#191414',
+        paddingTop: StatusBar.currentHeight
     },
     header: {
         color: '#fff',

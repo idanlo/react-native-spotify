@@ -23,7 +23,7 @@ class Player extends React.Component {
         Spotify.addListener('pause', this.stateChangedHandler);
         Spotify.addListener('metadataChange', this.stateChangedHandler);
         Spotify.addListener('trackChange', this.trackChange);
-        Spotify.playURI('spotify:track:3n69hLUdIsSa1WlRmjMZlW', 0, 0);
+        // Spotify.playURI('spotify:track:3n69hLUdIsSa1WlRmjMZlW', 0, 0);
     };
 
     stateChangedHandler = async () => {
