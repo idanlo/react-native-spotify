@@ -80,8 +80,13 @@ export default function Home() {
                             horizontal
                             showsHorizontalScrollIndicator={false}
                             data={recentlyPlayed.items}
-                            renderItem={({ item }) => (
-                                <View style={styles.album}>
+                            renderItem={({ item, index }) => (
+                                <View
+                                    style={getAlbumStyle(
+                                        index,
+                                        recentlyPlayed.items.length
+                                    )}
+                                >
                                     <TouchableWithoutFeedback
                                         onPress={() =>
                                             Spotify.playURI(
@@ -100,6 +105,15 @@ export default function Home() {
                                             style={styles.albumImage}
                                         />
                                         <Text style={styles.albumName}>
+                                            {item.track.name}
+                                        </Text>
+                                        <Text
+                                            style={{
+                                                textAlign: 'center',
+                                                color: 'grey',
+                                                fontSize: 12
+                                            }}
+                                        >
                                             {item.track.album.name}
                                         </Text>
                                     </TouchableWithoutFeedback>
@@ -117,8 +131,13 @@ export default function Home() {
                             horizontal
                             showsHorizontalScrollIndicator={false}
                             data={featured.playlists.items}
-                            renderItem={({ item }) => (
-                                <View style={styles.album}>
+                            renderItem={({ item, index }) => (
+                                <View
+                                    style={getAlbumStyle(
+                                        index,
+                                        featured.playlists.items.length
+                                    )}
+                                >
                                     <TouchableWithoutFeedback
                                         onPress={() =>
                                             Spotify.playURI(item.uri, 0, 0)
@@ -148,25 +167,33 @@ export default function Home() {
                             horizontal
                             showsHorizontalScrollIndicator={false}
                             data={topArtists.items}
-                            renderItem={({ item }) => (
-                                <View style={styles.album}>
-                                    <TouchableWithoutFeedback
-                                        onPress={() =>
-                                            Spotify.playURI(item.uri, 0, 0)
-                                        }
+                            renderItem={({ item, index }) => {
+                                console.log(item.index);
+                                return (
+                                    <View
+                                        style={getAlbumStyle(
+                                            index,
+                                            topArtists.items.length
+                                        )}
                                     >
-                                        <Image
-                                            source={{
-                                                uri: item.images[1].url
-                                            }}
-                                            style={styles.artistImage}
-                                        />
-                                        <Text style={styles.albumName}>
-                                            {item.name}
-                                        </Text>
-                                    </TouchableWithoutFeedback>
-                                </View>
-                            )}
+                                        <TouchableWithoutFeedback
+                                            onPress={() =>
+                                                Spotify.playURI(item.uri, 0, 0)
+                                            }
+                                        >
+                                            <Image
+                                                source={{
+                                                    uri: item.images[1].url
+                                                }}
+                                                style={styles.artistImage}
+                                            />
+                                            <Text style={styles.albumName}>
+                                                {item.name}
+                                            </Text>
+                                        </TouchableWithoutFeedback>
+                                    </View>
+                                );
+                            }}
                             keyExtractor={(_, i) => i.toString()}
                         />
                     </View>
@@ -179,8 +206,13 @@ export default function Home() {
                             horizontal
                             showsHorizontalScrollIndicator={false}
                             data={newReleases.albums.items}
-                            renderItem={({ item }) => (
-                                <View style={styles.album}>
+                            renderItem={({ item, index }) => (
+                                <View
+                                    style={getAlbumStyle(
+                                        index,
+                                        newReleases.albums.items.length
+                                    )}
+                                >
                                     <TouchableWithoutFeedback
                                         onPress={() =>
                                             Spotify.playURI(item.uri, 0, 0)
@@ -207,6 +239,14 @@ export default function Home() {
     );
 }
 
+const getAlbumStyle = (index, length) => ({
+    height: 180,
+    width: 170,
+    marginLeft: index === 0 ? 10 : 0,
+    marginRight: index === length - 1 ? -10 : 0,
+    alignItems: 'center'
+});
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -223,19 +263,18 @@ const styles = StyleSheet.create({
         marginTop: 10
     },
     albumList: {
-        width: '95%',
-        height: 204,
+        width: '100%',
+        height: 248,
         justifyContent: 'center',
         alignItems: 'center'
     },
     album: {
-        height: 150,
-        width: 130,
-        marginLeft: 10
+        height: 180,
+        width: 170
     },
     albumImage: {
-        width: 120,
-        height: 120
+        height: 150,
+        width: 150
     },
     albumName: {
         color: '#fff',
@@ -243,8 +282,8 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     artistImage: {
-        width: 120,
-        height: 120,
-        borderRadius: 60
+        width: 150,
+        height: 150,
+        borderRadius: 75
     }
 });
