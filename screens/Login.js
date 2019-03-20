@@ -21,14 +21,17 @@ export default class LoginScreen extends Component {
                 sessionUserDefaultsKey: 'SpotifySession',
                 redirectURL: 'reactnativespotify://auth',
                 scopes: [
-                    'user-read-private',
-                    'playlist-read',
-                    'playlist-read-private',
                     'streaming',
                     'app-remote-control',
                     'user-read-playback-state',
-                    'user-read-playback-state',
-                    'user-modify-playback-state'
+                    'user-modify-playback-state',
+                    'user-read-currently-playing',
+                    'user-read-recently-played',
+                    'user-top-read',
+                    'user-library-read',
+                    'user-read-private',
+                    'playlist-read-private',
+                    'playlist-read'
                 ]
             };
 
