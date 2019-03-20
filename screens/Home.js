@@ -1,13 +1,15 @@
 import React from 'react';
 import { Text, View, StyleSheet, Image, StatusBar } from 'react-native';
+import { createStackNavigator } from 'react-navigation';
 import {
     FlatList,
     ScrollView,
     TouchableWithoutFeedback
 } from 'react-native-gesture-handler';
 import Spotify from 'rn-spotify-sdk';
+import AlbumView from '../components/AlbumView';
 
-export default function Home() {
+function Home(props) {
     const [recentlyPlayed, setRecentlyPlayed] = React.useState(null);
     const [featured, setFeatured] = React.useState(null);
     const [topArtists, setTopArtists] = React.useState(null);
@@ -88,11 +90,17 @@ export default function Home() {
                                     )}
                                 >
                                     <TouchableWithoutFeedback
+                                        // onPress={() =>
+                                        //     Spotify.playURI(
+                                        //         item.track.uri,
+                                        //         0,
+                                        //         0
+                                        //     )
+                                        // }
                                         onPress={() =>
-                                            Spotify.playURI(
-                                                item.track.uri,
-                                                0,
-                                                0
+                                            props.navigation.navigate(
+                                                'AlbumView',
+                                                { albumId: item.track.album.id }
                                             )
                                         }
                                     >
@@ -167,33 +175,30 @@ export default function Home() {
                             horizontal
                             showsHorizontalScrollIndicator={false}
                             data={topArtists.items}
-                            renderItem={({ item, index }) => {
-                                console.log(item.index);
-                                return (
-                                    <View
-                                        style={getAlbumStyle(
-                                            index,
-                                            topArtists.items.length
-                                        )}
+                            renderItem={({ item, index }) => (
+                                <View
+                                    style={getAlbumStyle(
+                                        index,
+                                        topArtists.items.length
+                                    )}
+                                >
+                                    <TouchableWithoutFeedback
+                                        onPress={() =>
+                                            Spotify.playURI(item.uri, 0, 0)
+                                        }
                                     >
-                                        <TouchableWithoutFeedback
-                                            onPress={() =>
-                                                Spotify.playURI(item.uri, 0, 0)
-                                            }
-                                        >
-                                            <Image
-                                                source={{
-                                                    uri: item.images[1].url
-                                                }}
-                                                style={styles.artistImage}
-                                            />
-                                            <Text style={styles.albumName}>
-                                                {item.name}
-                                            </Text>
-                                        </TouchableWithoutFeedback>
-                                    </View>
-                                );
-                            }}
+                                        <Image
+                                            source={{
+                                                uri: item.images[1].url
+                                            }}
+                                            style={styles.artistImage}
+                                        />
+                                        <Text style={styles.albumName}>
+                                            {item.name}
+                                        </Text>
+                                    </TouchableWithoutFeedback>
+                                </View>
+                            )}
                             keyExtractor={(_, i) => i.toString()}
                         />
                     </View>
@@ -287,3 +292,15 @@ const styles = StyleSheet.create({
         borderRadius: 75
     }
 });
+
+export default createStackNavigator(
+    {
+        Main: {
+            screen: Home
+        },
+        AlbumView: {
+            screen: AlbumView
+        }
+    },
+    { headerMode: 'none' }
+);
