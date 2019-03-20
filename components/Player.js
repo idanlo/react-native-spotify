@@ -23,7 +23,13 @@ class Player extends React.Component {
         Spotify.addListener('pause', this.stateChangedHandler);
         Spotify.addListener('metadataChange', this.stateChangedHandler);
         Spotify.addListener('trackChange', this.trackChange);
-        // Spotify.playURI('spotify:track:3n69hLUdIsSa1WlRmjMZlW', 0, 0);
+        // Spotify.playURI('spotify:track:3n69hLUdIsSa1WlRmjMZlW', 0, 0)
+        //     .then(res => {
+        //         console.warn(res);
+        //     })
+        //     .catch(err => {
+        //         console.warn(err);
+        //     });
     };
 
     stateChangedHandler = async () => {
@@ -116,13 +122,17 @@ class Player extends React.Component {
                             alignItems: 'center'
                         }}
                     >
-                        <Text style={playerStyles.songName}>
-                            {this.state.currentTrack
-                                ? this.state.currentTrack.name +
-                                  ' - ' +
-                                  this.state.currentTrack.artistName
-                                : null}
-                        </Text>
+                        {this.state.currentTrack ? (
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text style={playerStyles.songName}>
+                                    {this.state.currentTrack.name}
+                                </Text>
+                                <Text style={{ color: '#A9A9A9' }}>
+                                    {' '}
+                                    ● {this.state.currentTrack.artistName}
+                                </Text>
+                            </View>
+                        ) : null}
                     </View>
                     <View
                         style={{
@@ -166,7 +176,8 @@ const playerStyles = StyleSheet.create({
         flexDirection: 'row'
     },
     songName: {
-        color: '#fff'
+        color: '#fff',
+        fontWeight: 'bold'
     }
 });
 
