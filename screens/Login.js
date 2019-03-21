@@ -21,6 +21,8 @@ export default class LoginScreen extends Component {
                 clientID: '4266b38056c54d47a5480dc099f59cb6',
                 sessionUserDefaultsKey: 'SpotifySession',
                 redirectURL: 'reactnativespotify://auth',
+                tokenSwapURL: 'http://10.0.2.2:8888/swap',
+                tokenRefreshURL: 'http://10.0.2.2:8888/refresh',
                 scopes: [
                     'streaming',
                     'app-remote-control',
@@ -36,17 +38,16 @@ export default class LoginScreen extends Component {
                 ]
             };
 
-            // const session = await Spotify.getSessionAsync();
-            // console.log('session ', session);
-
             const loggedIn = await Spotify.initialize(options);
             console.log('is logged in - ', loggedIn);
-            this.setState({ loaded: true });
-            // if (loggedIn) {
-            //     this.props.navigation.navigate('Home');
-            // } else {
-            //     this.setState({ loaded: true });
-            // }
+
+            const session = await Spotify.getSessionAsync();
+            console.log('session ', session);
+            if (loggedIn) {
+                this.props.navigation.navigate('Home');
+            } else {
+                this.setState({ loaded: true });
+            }
         } else {
             if (await Spotify.isLoggedInAsync()) {
                 this.props.navigation.navigate('Home');

@@ -36,6 +36,10 @@ node_modules/
 npm-debug.log
 yarn-error.log
 
+# auth server
+server/node_modules/
+server/.env
+
 # BUCK
 buck-out/
 \.buckd/
