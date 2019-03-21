@@ -10,6 +10,8 @@ import {
 import Spotify from 'rn-spotify-sdk';
 import globalStyles from '../styles';
 import AlbumView from '../components/AlbumView';
+import ArtistView from '../components/ArtistView';
+import PlaylistView from '../components/PlaylistView';
 
 function Home(props) {
     const [recentlyPlayed, setRecentlyPlayed] = React.useState(null);
@@ -321,6 +323,12 @@ export default createStackNavigator(
         },
         AlbumView: {
             screen: AlbumView
+        },
+        ArtistView: {
+            screen: ArtistView
+        },
+        PlaylistView: {
+            screen: PlaylistView
         }
     },
     { headerMode: 'none' }
