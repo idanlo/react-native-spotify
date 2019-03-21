@@ -91,42 +91,67 @@ function Home(props) {
                                         recentlyPlayed.items.length
                                     )}
                                 >
-                                    <TouchableWithoutFeedback
-                                        // onPress={() =>
-                                        //     Spotify.playURI(
-                                        //         item.track.uri,
-                                        //         0,
-                                        //         0
-                                        //     )
-                                        // }
-                                        onPress={() =>
-                                            props.navigation.navigate(
-                                                'AlbumView',
-                                                { albumId: item.track.album.id }
-                                            )
-                                        }
-                                    >
-                                        <Image
-                                            source={{
-                                                uri:
-                                                    item.track.album.images[1]
-                                                        .url
-                                            }}
-                                            style={styles.albumImage}
-                                        />
-                                        <Text style={styles.albumName}>
-                                            {item.track.name}
-                                        </Text>
-                                        <Text
-                                            style={{
-                                                textAlign: 'center',
-                                                color: 'grey',
-                                                fontSize: 12
-                                            }}
+                                    {item.context !== 'null' &&
+                                    item.context.type === 'artist' ? (
+                                        <TouchableWithoutFeedback
+                                            onPress={() =>
+                                                // navigate to ArtistView
+                                                Spotify.playURI(
+                                                    item.context.uri,
+                                                    0,
+                                                    0
+                                                )
+                                            }
                                         >
-                                            {item.track.album.name}
-                                        </Text>
-                                    </TouchableWithoutFeedback>
+                                            <Image
+                                                source={{
+                                                    uri:
+                                                        item.track.album
+                                                            .images[1].url
+                                                }}
+                                                style={styles.artistImage}
+                                            />
+                                            <Text style={styles.albumName}>
+                                                {item.track.artists &&
+                                                item.track.artists.length > 0
+                                                    ? item.track.artists[0].name
+                                                    : null}
+                                            </Text>
+                                        </TouchableWithoutFeedback>
+                                    ) : (
+                                        <TouchableWithoutFeedback
+                                            onPress={() =>
+                                                props.navigation.navigate(
+                                                    'AlbumView',
+                                                    {
+                                                        albumId:
+                                                            item.track.album.id
+                                                    }
+                                                )
+                                            }
+                                        >
+                                            <Image
+                                                source={{
+                                                    uri:
+                                                        item.track.album
+                                                            .images[1].url
+                                                }}
+                                                style={styles.albumImage}
+                                            />
+                                            <Text style={styles.albumName}>
+                                                {item.track.name}
+                                            </Text>
+                                            <Text
+                                                style={{
+                                                    textAlign: 'center',
+                                                    color: 'grey',
+                                                    fontSize: 12
+                                                }}
+                                            >
+                                                {item.track.album.name}
+                                            </Text>
+                                        </TouchableWithoutFeedback>
+                                    )}
                                 </View>
                             )}
                             keyExtractor={(_, i) => i.toString()}
