@@ -4,11 +4,11 @@ import { Text } from '../UI';
 import globalStyles from '../styles';
 import { ScrollView } from 'react-native-gesture-handler';
 
-function ArtistView(props) {
+function PlaylistView(props) {
     return (
         <View style={globalStyles.container}>
             <ScrollView>
-                <Text>{props.navigation.getParam('artistId')}</Text>
+                <Text>{props.navigation.getParam('playlistId')}</Text>
             </ScrollView>
         </View>
     );
@@ -20,4 +20,4 @@ function ArtistView(props) {
 //     }
 // })
 
-export default ArtistView;
+export default PlaylistView;

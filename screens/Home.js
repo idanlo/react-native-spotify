@@ -94,14 +94,19 @@ function Home(props) {
                                     )}
                                 >
                                     {item.context !== 'null' &&
-                                    item.context.type === 'artist' ? (
+                                    item.context.type === 'artist' &&
+                                    item.track.artists &&
+                                    item.track.artists.length > 0 ? (
                                         <TouchableWithoutFeedback
                                             onPress={() =>
                                                 // navigate to ArtistView
-                                                Spotify.playURI(
-                                                    item.context.uri,
-                                                    0,
-                                                    0
+                                                props.navigation.navigate(
+                                                    'ArtistView',
+                                                    {
+                                                        artistId:
+                                                            item.track
+                                                                .artists[0].id
+                                                    }
                                                 )
                                             }
                                         >
@@ -114,15 +119,13 @@ function Home(props) {
                                                 style={styles.artistImage}
                                             />
                                             <Text style={styles.albumName}>
-                                                {item.track.artists &&
-                                                item.track.artists.length > 0
-                                                    ? item.track.artists[0].name
-                                                    : null}
+                                                {item.track.artists[0].name}
                                             </Text>
                                         </TouchableWithoutFeedback>
                                     ) : (
                                         <TouchableWithoutFeedback
                                             onPress={() =>
+                                                // navigate to AlbumView
                                                 props.navigation.navigate(
                                                     'AlbumView',
                                                     {
@@ -177,7 +180,11 @@ function Home(props) {
                                 >
                                     <TouchableWithoutFeedback
                                         onPress={() =>
-                                            Spotify.playURI(item.uri, 0, 0)
+                                            // navigate to PlaylistView
+                                            props.navigation.navigate(
+                                                'PlaylistView',
+                                                { playlistId: item.id }
+                                            )
                                         }
                                     >
                                         <Image
@@ -213,7 +220,11 @@ function Home(props) {
                                 >
                                     <TouchableWithoutFeedback
                                         onPress={() =>
-                                            Spotify.playURI(item.uri, 0, 0)
+                                            // navigate to ArtistView
+                                            props.navigation.navigate(
+                                                'ArtistView',
+                                                { artistId: item.id }
+                                            )
                                         }
                                     >
                                         <Image
@@ -249,6 +260,7 @@ function Home(props) {
                                 >
                                     <TouchableWithoutFeedback
                                         onPress={() =>
+                                            // navigate to AlbumView
                                             props.navigation.navigate(
                                                 'AlbumView',
                                                 { albumId: item.id }
