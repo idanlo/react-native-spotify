@@ -247,7 +247,10 @@ function Home(props) {
                                 >
                                     <TouchableWithoutFeedback
                                         onPress={() =>
-                                            Spotify.playURI(item.uri, 0, 0)
+                                            props.navigation.navigate(
+                                                'AlbumView',
+                                                { albumId: item.id }
+                                            )
                                         }
                                     >
                                         <Image
