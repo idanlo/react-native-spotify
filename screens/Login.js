@@ -21,8 +21,10 @@ export default class LoginScreen extends Component {
                 clientID: '4266b38056c54d47a5480dc099f59cb6',
                 sessionUserDefaultsKey: 'SpotifySession',
                 redirectURL: 'reactnativespotify://auth',
-                tokenSwapURL: 'http://10.0.2.2:8888/swap',
-                tokenRefreshURL: 'http://10.0.2.2:8888/refresh',
+                tokenSwapURL:
+                    'https://react-native-spotify-server.herokuapp.com/swap',
+                tokenRefreshURL:
+                    'https://react-native-spotify-server.herokuapp.com/refresh',
                 scopes: [
                     'streaming',
                     'app-remote-control',
