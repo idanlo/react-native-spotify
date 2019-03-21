@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { Text } from '../UI';
 import Spotify from 'rn-spotify-sdk';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
@@ -176,7 +177,6 @@ const playerStyles = StyleSheet.create({
         flexDirection: 'row'
     },
     songName: {
-        color: '#fff',
         fontWeight: 'bold'
     }
 });

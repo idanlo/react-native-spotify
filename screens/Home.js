@@ -1,5 +1,6 @@
 import React from 'react';
-import { Text, View, StyleSheet, Image, StatusBar } from 'react-native';
+import { View, StyleSheet, Image, StatusBar } from 'react-native';
+import { Text } from '../UI';
 import { createStackNavigator } from 'react-navigation';
 import {
     FlatList,
@@ -255,7 +256,6 @@ const getAlbumStyle = (index, length) => ({
 
 const styles = StyleSheet.create({
     header: {
-        color: '#fff',
         fontSize: 34,
         fontWeight: 'bold',
         marginBottom: 10,
@@ -276,7 +276,6 @@ const styles = StyleSheet.create({
         width: 150
     },
     albumName: {
-        color: '#fff',
         fontWeight: 'bold',
         textAlign: 'center'
     },

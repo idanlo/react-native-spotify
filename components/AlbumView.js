@@ -1,5 +1,6 @@
 import React from 'react';
-import { Text, View, StyleSheet, Image, StatusBar } from 'react-native';
+import { View, StyleSheet, Image, StatusBar } from 'react-native';
+import { Text } from '../UI';
 import Spotify from 'rn-spotify-sdk';
 import {
     FlatList,
@@ -35,7 +36,6 @@ function AlbumView(props) {
                         style={{
                             fontWeight: 'bold',
                             fontSize: 24,
-                            color: '#fff',
                             textAlign: 'center'
                         }}
                     >
@@ -58,7 +58,6 @@ function AlbumView(props) {
                         >
                             <Text
                                 style={{
-                                    color: '#fff',
                                     fontSize: 28,
                                     textAlign: 'center',
                                     fontWeight: 'bold'
@@ -94,7 +93,6 @@ function AlbumView(props) {
                                 </TouchableWithoutFeedback>
                                 <Text
                                     style={{
-                                        color: '#fff',
                                         marginLeft: 10
                                     }}
                                 >

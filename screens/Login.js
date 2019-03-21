@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableNativeFeedback } from 'react-native';
+import { StyleSheet, View, TouchableNativeFeedback } from 'react-native';
+import { Text } from '../UI';
 import Spotify from 'rn-spotify-sdk';
 
 export default class LoginScreen extends Component {
@@ -35,16 +36,17 @@ export default class LoginScreen extends Component {
                 ]
             };
 
-            // const session = await Spotify.renewSession();
+            // const session = await Spotify.getSessionAsync();
             // console.log('session ', session);
 
             const loggedIn = await Spotify.initialize(options);
             console.log('is logged in - ', loggedIn);
-            if (loggedIn) {
-                this.props.navigation.navigate('Home');
-            } else {
-                this.setState({ loaded: true });
-            }
+            this.setState({ loaded: true });
+            // if (loggedIn) {
+            //     this.props.navigation.navigate('Home');
+            // } else {
+            //     this.setState({ loaded: true });
+            // }
         } else {
             if (await Spotify.isLoggedInAsync()) {
                 this.props.navigation.navigate('Home');
@@ -70,7 +72,7 @@ export default class LoginScreen extends Component {
                 <Text style={styles.loginHeader}>Spotify</Text>
                 <TouchableNativeFeedback onPress={this.login}>
                     <View style={styles.login}>
-                        <Text style={styles.loginText}>Login</Text>
+                        <Text>Login</Text>
                     </View>
                 </TouchableNativeFeedback>
             </View>
@@ -87,7 +89,6 @@ const styles = StyleSheet.create({
     },
     loginHeader: {
         fontSize: 34,
-        color: '#fff',
         marginBottom: 25,
         fontWeight: 'bold'
     },
@@ -98,8 +99,5 @@ const styles = StyleSheet.create({
         borderRadius: 60,
         justifyContent: 'center',
         alignItems: 'center'
-    },
-    loginText: {
-        color: '#fff'
     }
 });
