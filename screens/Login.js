@@ -43,6 +43,15 @@ export default class LoginScreen extends Component {
 
             const session = await Spotify.getSessionAsync();
             console.log('session ', session);
+            if (session.expireTime - Date.now() < 0) {
+                // renew session if access token expired
+                console.log('renewing session');
+                await Spotify.renewSession();
+            } else {
+                console.log('session does not need to be renewed');
+            }
+
+            this.setState({ loaded: true });
             if (loggedIn) {
                 this.props.navigation.navigate('Home');
             } else {
