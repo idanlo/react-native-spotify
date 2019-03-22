@@ -10,7 +10,8 @@ import Spotify from 'rn-spotify-sdk';
 
 export default class LoginScreen extends Component {
     state = {
-        loaded: false
+        loaded: false,
+        msg: ''
     };
     componentDidMount() {
         console.log(this.props);
@@ -44,16 +45,17 @@ export default class LoginScreen extends Component {
                     'playlist-read'
                 ]
             };
-
+            this.setState({ msg: 'Initializing Spotify' });
             const loggedIn = await Spotify.initialize(options);
             console.log('is logged in - ', loggedIn);
-            // this.setState({ loaded: true });
+            this.setState({ msg: 'Getting Session' });
 
             const session = await Spotify.getSessionAsync();
             console.log('session ', session);
             if (session && session.expireTime - Date.now() < 0) {
                 // renew session if access token expired
                 console.log('renewing session');
+                this.setState({ msg: 'Renewing Session' });
                 await Spotify.renewSession();
             } else {
                 console.log(
@@ -98,6 +100,7 @@ export default class LoginScreen extends Component {
         ) : (
             <View style={styles.container}>
                 <ActivityIndicator size="large" color="#1DB954" />
+                <Text>{this.state.msg}</Text>
             </View>
         );
     }
