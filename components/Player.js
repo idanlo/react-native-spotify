@@ -123,17 +123,15 @@ class Player extends React.Component {
                             alignItems: 'center'
                         }}
                     >
-                        {this.state.currentTrack ? (
-                            <View style={{ flexDirection: 'row' }}>
-                                <Text style={playerStyles.songName}>
-                                    {this.state.currentTrack.name}
-                                </Text>
-                                <Text style={{ color: '#A9A9A9' }}>
-                                    {' '}
-                                    ● {this.state.currentTrack.artistName}
-                                </Text>
-                            </View>
-                        ) : null}
+                        <View style={{ flexDirection: 'row' }}>
+                            <Text style={playerStyles.songName}>
+                                {this.state.currentTrack.name}
+                            </Text>
+                            <Text style={{ color: '#A9A9A9' }}>
+                                {' '}
+                                ● {this.state.currentTrack.artistName}
+                            </Text>
+                        </View>
                     </View>
                     <View
                         style={{
