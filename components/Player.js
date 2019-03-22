@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { Text } from '../UI';
 import Spotify from 'rn-spotify-sdk';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 class Player extends React.Component {
     state = {
@@ -115,7 +115,9 @@ class Player extends React.Component {
                             alignItems: 'center'
                         }}
                     >
-                        <Icon name="ios-arrow-up" size={30} color="#fff" />
+                        <TouchableOpacity>
+                            <Icon name="ios-arrow-up" size={30} color="#fff" />
+                        </TouchableOpacity>
                     </View>
                     <View
                         style={{
@@ -139,15 +141,13 @@ class Player extends React.Component {
                             alignItems: 'center'
                         }}
                     >
-                        <TouchableWithoutFeedback
-                            onPress={this.playPauseHandler}
-                        >
+                        <TouchableOpacity onPress={this.playPauseHandler}>
                             {this.state.state && this.state.state.playing ? (
                                 <Icon name="ios-pause" size={30} color="#fff" />
                             ) : (
                                 <Icon name="ios-play" size={30} color="#fff" />
                             )}
-                        </TouchableWithoutFeedback>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </View>
