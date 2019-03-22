@@ -143,6 +143,7 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-splash-screen')
     implementation project(':react-native-vector-icons')
     implementation project(':rn-spotify-sdk')
     implementation project(':react-native-events')

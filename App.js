@@ -4,6 +4,7 @@ import HomeScreen from './screens/Home';
 import SearchScreen from './screens/Search';
 import LibraryScreen from './screens/Library';
 import { View } from 'react-native';
+import SplashScreen from 'react-native-splash-screen';
 import {
     createSwitchNavigator,
     createAppContainer,
@@ -66,4 +67,16 @@ const AppNavigator = createSwitchNavigator(
     { initialRouteName: 'Login' }
 );
 
-export default createAppContainer(AppNavigator);
+const Container = createAppContainer(AppNavigator);
+
+class App extends React.Component {
+    componentDidMount() {
+        SplashScreen.hide();
+    }
+
+    render() {
+        return <Container />;
+    }
+}
+
+export default App;

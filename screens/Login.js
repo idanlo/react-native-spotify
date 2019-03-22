@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableNativeFeedback } from 'react-native';
+import {
+    StyleSheet,
+    View,
+    TouchableNativeFeedback,
+    ActivityIndicator
+} from 'react-native';
 import { Text } from '../UI';
 import Spotify from 'rn-spotify-sdk';
 
@@ -42,6 +47,7 @@ export default class LoginScreen extends Component {
 
             const loggedIn = await Spotify.initialize(options);
             console.log('is logged in - ', loggedIn);
+            // this.setState({ loaded: true });
 
             const session = await Spotify.getSessionAsync();
             console.log('session ', session);
@@ -55,7 +61,6 @@ export default class LoginScreen extends Component {
                 );
             }
 
-            this.setState({ loaded: true });
             if (loggedIn) {
                 this.props.navigation.navigate('Home');
             } else {
@@ -90,7 +95,11 @@ export default class LoginScreen extends Component {
                     </View>
                 </TouchableNativeFeedback>
             </View>
-        ) : null;
+        ) : (
+            <View style={styles.container}>
+                <ActivityIndicator size="large" color="#1DB954" />
+            </View>
+        );
     }
 }
 
