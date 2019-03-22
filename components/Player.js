@@ -95,7 +95,7 @@ class Player extends React.Component {
     };
 
     render() {
-        return (
+        return this.state.currentTrack ? (
             <View style={playerStyles.player}>
                 <View
                     style={{
@@ -153,7 +153,7 @@ class Player extends React.Component {
                     </View>
                 </View>
             </View>
-        );
+        ) : null;
     }
 }
 
