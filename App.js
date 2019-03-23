@@ -15,6 +15,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Player from './components/Player';
 import PlayerView from './screens/PlayerView';
 import AlbumView from './components/AlbumView';
+import PlaylistView from './components/PlaylistView';
 
 const HomeNavigator = createBottomTabNavigator(
     {
@@ -51,6 +52,13 @@ const HomeNavigator = createBottomTabNavigator(
         },
         AlbumView: {
             screen: AlbumView,
+            navigationOptions: {
+                tabBarButtonComponent: () => null
+            }
+        },
+
+        PlaylistView: {
+            screen: PlaylistView,
             navigationOptions: {
                 tabBarButtonComponent: () => null
             }
