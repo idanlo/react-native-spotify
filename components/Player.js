@@ -24,6 +24,15 @@ class Player extends React.Component {
         Spotify.addListener('pause', this.stateChangedHandler);
         Spotify.addListener('metadataChange', this.stateChangedHandler);
         Spotify.addListener('trackChange', this.trackChange);
+        const initialData = await Spotify.getPlaybackMetadataAsync();
+        if (initialData) {
+            this.setState({
+                currentTrack: initialData.currentTrack,
+                prevTrack: initialData.prevTrack,
+                nextTrack: initialData.nextTrack
+            });
+            this.stateChangedHandler();
+        }
         // Spotify.playURI('spotify:track:3n69hLUdIsSa1WlRmjMZlW', 0, 0)
         //     .then(res => {
         //         console.warn(res);
@@ -76,10 +85,11 @@ class Player extends React.Component {
     };
 
     componentWillUnmount() {
-        Spotify.removeListener('play');
-        Spotify.removeListener('pause');
-        Spotify.removeListener('metadataChange');
-        Spotify.removeListener('trackChange');
+        clearInterval(this.interval);
+        Spotify.removeListener('play', this.stateChangedHandler);
+        Spotify.removeListener('pause', this.stateChangedHandler);
+        Spotify.removeListener('metadataChange', this.stateChangedHandler);
+        Spotify.removeListener('trackChange', this.trackChange);
     }
 
     playPauseHandler = () => {
@@ -115,7 +125,11 @@ class Player extends React.Component {
                             alignItems: 'center'
                         }}
                     >
-                        <TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() =>
+                                this.props.navigation.navigate('PlayerView')
+                            }
+                        >
                             <Icon name="ios-arrow-up" size={30} color="#fff" />
                         </TouchableOpacity>
                     </View>
