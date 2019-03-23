@@ -9,7 +9,7 @@ import {
 } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
 import globalStyles from '../styles';
-import Song from './Song';
+import Song from '../components/Song';
 
 function PlaylistView(props) {
     const [data, setData] = React.useState(null);
