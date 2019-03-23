@@ -45,17 +45,14 @@ const HomeNavigator = createBottomTabNavigator(
         PlayerView: {
             screen: PlayerView,
             navigationOptions: {
-                tabBarIcon: ({ tintColor }) => (
-                    <Icon name="ios-apps" size={30} color={tintColor} />
-                )
+                tabBarButtonComponent: () => null,
+                tabBarVisible: false
             }
         },
         AlbumView: {
             screen: AlbumView,
             navigationOptions: {
-                tabBarIcon: ({ tintColor }) => (
-                    <Icon name="ios-apps" size={30} color={tintColor} />
-                )
+                tabBarButtonComponent: () => null
             }
         }
     },
