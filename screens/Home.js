@@ -147,9 +147,10 @@ function Home(props) {
                                             <Text
                                                 style={{
                                                     textAlign: 'center',
-                                                    color: 'grey',
+
                                                     fontSize: 12
                                                 }}
+                                                color="grey"
                                             >
                                                 {item.track.album.name}
                                             </Text>

@@ -85,9 +85,9 @@ function PlaylistView(props) {
                             <Text
                                 style={{
                                     fontSize: 14,
-                                    textAlign: 'center',
-                                    color: 'grey'
+                                    textAlign: 'center'
                                 }}
+                                color="grey"
                             >
                                 Playlist by {data.owner.display_name}
                             </Text>

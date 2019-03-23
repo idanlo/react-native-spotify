@@ -86,9 +86,9 @@ function AlbumView(props) {
                             <Text
                                 style={{
                                     fontSize: 14,
-                                    textAlign: 'center',
-                                    color: 'grey'
+                                    textAlign: 'center'
                                 }}
+                                color="grey"
                             >
                                 Album by{' '}
                                 {data.artists
