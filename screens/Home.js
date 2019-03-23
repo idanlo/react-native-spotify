@@ -9,7 +9,7 @@ import {
 } from 'react-native-gesture-handler';
 import Spotify from 'rn-spotify-sdk';
 import globalStyles from '../styles';
-import ArtistView from '../components/ArtistView';
+import ArtistView from './ArtistView';
 
 function Home(props) {
     const [recentlyPlayed, setRecentlyPlayed] = React.useState(null);
@@ -326,14 +326,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default createStackNavigator(
-    {
-        Main: {
-            screen: Home
-        },
-        ArtistView: {
-            screen: ArtistView
-        }
-    },
-    { headerMode: 'none' }
-);
+export default Home;

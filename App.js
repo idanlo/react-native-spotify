@@ -16,6 +16,7 @@ import Player from './components/Player';
 import PlayerView from './screens/PlayerView';
 import AlbumView from './screens/AlbumView';
 import PlaylistView from './screens/PlaylistView';
+import ArtistView from './screens/ArtistView';
 
 const HomeNavigator = createBottomTabNavigator(
     {
@@ -59,6 +60,12 @@ const HomeNavigator = createBottomTabNavigator(
 
         PlaylistView: {
             screen: PlaylistView,
+            navigationOptions: {
+                tabBarButtonComponent: () => null
+            }
+        },
+        ArtistView: {
+            screen: ArtistView,
             navigationOptions: {
                 tabBarButtonComponent: () => null
             }
