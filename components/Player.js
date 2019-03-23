@@ -3,7 +3,10 @@ import { StyleSheet, View } from 'react-native';
 import { Text } from '../UI';
 import Spotify from 'rn-spotify-sdk';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import {
+    TouchableOpacity,
+    TouchableWithoutFeedback
+} from 'react-native-gesture-handler';
 
 class Player extends React.Component {
     state = {
@@ -139,15 +142,21 @@ class Player extends React.Component {
                             alignItems: 'center'
                         }}
                     >
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={playerStyles.songName}>
-                                {this.state.currentTrack.name}
-                            </Text>
-                            <Text style={{ color: '#A9A9A9' }}>
-                                {' '}
-                                ● {this.state.currentTrack.artistName}
-                            </Text>
-                        </View>
+                        <TouchableWithoutFeedback
+                            onPress={() =>
+                                this.props.navigation.navigate('PlayerView')
+                            }
+                        >
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text style={playerStyles.songName}>
+                                    {this.state.currentTrack.name}
+                                </Text>
+                                <Text style={{ color: '#A9A9A9' }}>
+                                    {' '}
+                                    ● {this.state.currentTrack.artistName}
+                                </Text>
+                            </View>
+                        </TouchableWithoutFeedback>
                     </View>
                     <View
                         style={{
