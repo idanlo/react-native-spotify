@@ -333,9 +333,6 @@ export default createStackNavigator(
         Main: {
             screen: Home
         },
-        AlbumView: {
-            screen: AlbumView
-        },
         ArtistView: {
             screen: ArtistView
         },

@@ -13,6 +13,8 @@ import {
 } from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Player from './components/Player';
+import PlayerView from './screens/PlayerView';
+import AlbumView from './components/AlbumView';
 
 const HomeNavigator = createBottomTabNavigator(
     {
@@ -39,6 +41,22 @@ const HomeNavigator = createBottomTabNavigator(
                     <Icon name="ios-apps" size={30} color={tintColor} />
                 )
             }
+        },
+        PlayerView: {
+            screen: PlayerView,
+            navigationOptions: {
+                tabBarIcon: ({ tintColor }) => (
+                    <Icon name="ios-apps" size={30} color={tintColor} />
+                )
+            }
+        },
+        AlbumView: {
+            screen: AlbumView,
+            navigationOptions: {
+                tabBarIcon: ({ tintColor }) => (
+                    <Icon name="ios-apps" size={30} color={tintColor} />
+                )
+            }
         }
     },
     {
@@ -50,7 +68,7 @@ const HomeNavigator = createBottomTabNavigator(
         },
         tabBarComponent: props => (
             <View>
-                <Player />
+                <Player navigation={props.navigation} />
                 <BottomTabBar {...props} />
             </View>
         )

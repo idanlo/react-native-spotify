@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, ActivityIndicator } from 'react-native';
 import { Text } from '../UI';
 import Spotify from 'rn-spotify-sdk';
 import {
@@ -13,23 +13,45 @@ import Song from './Song';
 
 function AlbumView(props) {
     const [data, setData] = React.useState(null);
-    const albumId = props.navigation.getParam('albumId');
+    const [loading, setLoading] = React.useState(true);
+    let routeSubscription;
 
     React.useEffect(() => {
+        routeSubscription = props.navigation.addListener(
+            'willFocus',
+            fetchData
+        );
+        fetchData();
+        return () => {
+            routeSubscription.unsubscribe();
+        };
+    }, []);
+
+    fetchData = ctx => {
+        setLoading(true);
+        let albumId;
+        if (ctx) {
+            albumId = ctx.state.params.albumId;
+        } else {
+            albumId = props.navigation.getParam('albumId');
+        }
+        // console.log('Fetching album...');
+        // console.log('albumId', albumId);
         Spotify.getAlbum(albumId)
             .then(res => {
                 console.log(res);
                 setData(res);
+                setLoading(false);
             })
             .catch(err => {
                 console.log(err);
             });
-    }, []);
+    };
 
     return (
         <View style={globalStyles.container}>
-            <ScrollView>
-                {data ? (
+            {data && !loading ? (
+                <ScrollView>
                     <View style={([globalStyles.container], { paddingTop: 0 })}>
                         <View style={styles.header}>
                             <TouchableOpacity
@@ -115,8 +137,20 @@ function AlbumView(props) {
                             )}
                         />
                     </View>
-                ) : null}
-            </ScrollView>
+                </ScrollView>
+            ) : (
+                <View
+                    style={[
+                        globalStyles.container,
+                        {
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        }
+                    ]}
+                >
+                    <ActivityIndicator size="large" color="#1DB954" />
+                </View>
+            )}
         </View>
     );
 }
