@@ -23,7 +23,7 @@ function AlbumView(props) {
         );
         fetchData();
         return () => {
-            routeSubscription.unsubscribe();
+            routeSubscription.remove();
         };
     }, []);
 
