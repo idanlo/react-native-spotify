@@ -60,7 +60,6 @@ export default class PlayerView extends PlayerBase {
                                     position: 'absolute',
                                     left: -250,
                                     top: 10,
-                                    zIndex: -1,
                                     opacity: 0.7,
                                     width: 280,
                                     height: 280
@@ -88,7 +87,6 @@ export default class PlayerView extends PlayerBase {
                                     position: 'absolute',
                                     right: -250,
                                     top: 10,
-                                    zIndex: -1,
                                     opacity: 0.7,
                                     width: 280,
                                     height: 280
@@ -107,6 +105,9 @@ export default class PlayerView extends PlayerBase {
                             <Slider
                                 maximumValue={this.state.currentTrack.duration}
                                 minimumValue={0}
+                                minimumTrackTintColor="#fff"
+                                maximumTrackTintColor="grey"
+                                thumbTintColor="#fff"
                                 value={this.state.timeline}
                                 style={{
                                     width: width - 100
