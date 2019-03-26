@@ -9,5 +9,7 @@ include ':react-native-events'
 project(':react-native-events').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-events/android')
 include ':react-native-gesture-handler'
 project(':react-native-gesture-handler').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-gesture-handler/android')
+include ':react-native-linear-gradient'
+project(':react-native-linear-gradient').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-linear-gradient/android')
 
 include ':app'

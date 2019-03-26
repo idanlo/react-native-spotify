@@ -6,9 +6,11 @@ import {
     StyleSheet,
     Dimensions,
     TouchableOpacity,
+    StatusBar,
     Slider
 } from 'react-native';
 import Spotify from 'rn-spotify-sdk/src/Spotify';
+import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
 import globalStyles from '../styles';
 import { Text } from '../UI';
@@ -23,158 +25,182 @@ export default class PlayerView extends PlayerBase {
     };
     render() {
         return this.state.currentTrack && this.state.state ? (
-            <View style={globalStyles.container}>
-                <View style={[styles.header]}>
-                    <TouchableOpacity
-                        onPress={() => this.props.navigation.goBack()}
-                    >
-                        <Icon name="ios-arrow-down" size={30} color="#fff" />
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Icon name="ios-list" size={30} color="#fff" />
-                    </TouchableOpacity>
-                </View>
+            <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 0, y: 1 }}
+                colors={['#3A5B5F', '#191414']}
+                style={globalStyles.container}
+            >
+                <StatusBar backgroundColor="#3A5B5F" />
+                <View>
+                    <View style={styles.header}>
+                        <TouchableOpacity
+                            onPress={() => this.props.navigation.goBack()}
+                        >
+                            <Icon
+                                name="ios-arrow-down"
+                                size={30}
+                                color="#fff"
+                            />
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                            <Icon name="ios-list" size={30} color="#fff" />
+                        </TouchableOpacity>
+                    </View>
 
-                <View style={styles.body}>
-                    {this.state.prevTrack ? (
+                    <View style={styles.body}>
+                        {this.state.prevTrack ? (
+                            <Image
+                                source={{
+                                    uri: `https:${this.state.prevTrack.albumCoverArtURL.substring(
+                                        7
+                                    )}`
+                                }}
+                                style={{
+                                    position: 'absolute',
+                                    left: -250,
+                                    top: 10,
+                                    zIndex: -1,
+                                    opacity: 0.7,
+                                    width: 280,
+                                    height: 280
+                                }}
+                            />
+                        ) : null}
+
                         <Image
                             source={{
-                                uri: `https:${this.state.prevTrack.albumCoverArtURL.substring(
+                                uri: `https:${this.state.currentTrack.albumCoverArtURL.substring(
                                     7
                                 )}`
                             }}
-                            style={{
-                                position: 'absolute',
-                                left: -250,
-                                top: 10,
-                                zIndex: -1,
-                                opacity: 0.75,
-                                width: 280,
-                                height: 280
-                            }}
+                            style={styles.albumImage}
                         />
-                    ) : null}
 
-                    <Image
-                        source={{
-                            uri: `https:${this.state.currentTrack.albumCoverArtURL.substring(
-                                7
-                            )}`
-                        }}
-                        style={styles.albumImage}
-                    />
-
-                    {this.state.nextTrack ? (
-                        <Image
-                            source={{
-                                uri: `https:${this.state.nextTrack.albumCoverArtURL.substring(
-                                    7
-                                )}`
-                            }}
-                            style={{
-                                position: 'absolute',
-                                right: -250,
-                                top: 10,
-                                zIndex: -1,
-                                opacity: 0.75,
-                                width: 280,
-                                height: 280
-                            }}
-                        />
-                    ) : null}
-                    <View style={styles.songDetails}>
-                        <Text style={[styles.txt, styles.songName]}>
-                            {this.state.currentTrack.name}
-                        </Text>
-                        <Text style={styles.txt} color="grey">
-                            {this.state.currentTrack.albumName}
-                        </Text>
-                    </View>
-                    <View style={styles.slider}>
-                        <Slider
-                            maximumValue={this.state.currentTrack.duration}
-                            minimumValue={0}
-                            value={this.state.timeline}
-                            style={{
-                                width: width - 100
-                            }}
-                            onSlidingComplete={this.seek}
-                        />
-                    </View>
-                    <View style={styles.buttons}>
-                        <TouchableOpacity
-                            onPress={() =>
-                                Spotify.setShuffling(
-                                    !this.state.state.shuffling
-                                )
-                            }
-                            style={styles.sideBtn}
-                        >
-                            <Icon
-                                name="ios-shuffle"
-                                color={
-                                    this.state.state.shuffling
-                                        ? '#1DB954'
-                                        : '#fff'
+                        {this.state.nextTrack ? (
+                            <Image
+                                source={{
+                                    uri: `https:${this.state.nextTrack.albumCoverArtURL.substring(
+                                        7
+                                    )}`
+                                }}
+                                style={{
+                                    position: 'absolute',
+                                    right: -250,
+                                    top: 10,
+                                    zIndex: -1,
+                                    opacity: 0.7,
+                                    width: 280,
+                                    height: 280
+                                }}
+                            />
+                        ) : null}
+                        <View style={styles.songDetails}>
+                            <Text style={[styles.txt, styles.songName]}>
+                                {this.state.currentTrack.name}
+                            </Text>
+                            <Text style={styles.txt} color="grey">
+                                {this.state.currentTrack.albumName}
+                            </Text>
+                        </View>
+                        <View style={styles.slider}>
+                            <Slider
+                                maximumValue={this.state.currentTrack.duration}
+                                minimumValue={0}
+                                value={this.state.timeline}
+                                style={{
+                                    width: width - 100
+                                }}
+                                onSlidingComplete={this.seek}
+                            />
+                        </View>
+                        <View style={styles.buttons}>
+                            <TouchableOpacity
+                                onPress={() =>
+                                    Spotify.setShuffling(
+                                        !this.state.state.shuffling
+                                    )
                                 }
-                                size={25}
-                            />
-                        </TouchableOpacity>
+                                style={styles.sideBtn}
+                            >
+                                <Icon
+                                    name="ios-shuffle"
+                                    color={
+                                        this.state.state.shuffling
+                                            ? '#1DB954'
+                                            : '#fff'
+                                    }
+                                    size={25}
+                                />
+                            </TouchableOpacity>
 
-                        <TouchableOpacity
-                            onPress={() => Spotify.skipToPrevious()}
-                            disabled={!this.state.prevTrack}
-                            style={styles.btn}
-                        >
-                            <Icon
-                                name="ios-skip-backward"
-                                color={this.state.prevTrack ? '#fff' : 'grey'}
-                                size={40}
-                            />
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={this.playPauseHandler}
-                            style={styles.btn}
-                        >
-                            {this.state.state.playing ? (
-                                <Icon name="ios-pause" size={55} color="#fff" />
-                            ) : (
-                                <Icon name="ios-play" size={55} color="#fff" />
-                            )}
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={() => Spotify.skipToNext()}
-                            disabled={!this.state.nextTrack}
-                            style={styles.btn}
-                        >
-                            <Icon
-                                name="ios-skip-forward"
-                                color={this.state.nextTrack ? '#fff' : 'grey'}
-                                size={40}
-                            />
-                        </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={() => Spotify.skipToPrevious()}
+                                disabled={!this.state.prevTrack}
+                                style={styles.btn}
+                            >
+                                <Icon
+                                    name="ios-skip-backward"
+                                    color={
+                                        this.state.prevTrack ? '#fff' : 'grey'
+                                    }
+                                    size={40}
+                                />
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={this.playPauseHandler}
+                                style={styles.btn}
+                            >
+                                {this.state.state.playing ? (
+                                    <Icon
+                                        name="ios-pause"
+                                        size={55}
+                                        color="#fff"
+                                    />
+                                ) : (
+                                    <Icon
+                                        name="ios-play"
+                                        size={55}
+                                        color="#fff"
+                                    />
+                                )}
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={() => Spotify.skipToNext()}
+                                disabled={!this.state.nextTrack}
+                                style={styles.btn}
+                            >
+                                <Icon
+                                    name="ios-skip-forward"
+                                    color={
+                                        this.state.nextTrack ? '#fff' : 'grey'
+                                    }
+                                    size={40}
+                                />
+                            </TouchableOpacity>
 
-                        <TouchableOpacity
-                            onPress={() =>
-                                Spotify.setRepeating(
-                                    !this.state.state.repeating
-                                )
-                            }
-                            style={styles.sideBtn}
-                        >
-                            <Icon
-                                name="ios-repeat"
-                                color={
-                                    this.state.state.repeating
-                                        ? '#1DB954'
-                                        : '#fff'
+                            <TouchableOpacity
+                                onPress={() =>
+                                    Spotify.setRepeating(
+                                        !this.state.state.repeating
+                                    )
                                 }
-                                size={25}
-                            />
-                        </TouchableOpacity>
+                                style={styles.sideBtn}
+                            >
+                                <Icon
+                                    name="ios-repeat"
+                                    color={
+                                        this.state.state.repeating
+                                            ? '#1DB954'
+                                            : '#fff'
+                                    }
+                                    size={25}
+                                />
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </View>
-            </View>
+            </LinearGradient>
         ) : (
             <View
                 style={[
@@ -193,8 +219,9 @@ export default class PlayerView extends PlayerBase {
 
 const styles = StyleSheet.create({
     header: {
-        backgroundColor: '#191414',
+        backgroundColor: 'transparent',
         justifyContent: 'space-between',
+        alignItems: 'center',
         flexDirection: 'row',
         marginHorizontal: 25,
         height: 35
