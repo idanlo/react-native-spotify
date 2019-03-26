@@ -28,10 +28,10 @@ export default class PlayerView extends PlayerBase {
                     <TouchableOpacity
                         onPress={() => this.props.navigation.goBack()}
                     >
-                        <Icon name="ios-arrow-back" size={30} color="#fff" />
+                        <Icon name="ios-arrow-down" size={30} color="#fff" />
                     </TouchableOpacity>
                     <TouchableOpacity>
-                        <Icon name="md-more" size={30} color="#fff" />
+                        <Icon name="ios-list" size={30} color="#fff" />
                     </TouchableOpacity>
                 </View>
 
