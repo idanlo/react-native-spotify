@@ -1,12 +1,15 @@
 import React from 'react';
-import { View, StyleSheet, Image, StatusBar } from 'react-native';
-import { Text } from '../UI';
-import { createStackNavigator } from 'react-navigation';
 import {
+    View,
+    StyleSheet,
+    Image,
+    StatusBar,
     FlatList,
     ScrollView,
     TouchableWithoutFeedback
-} from 'react-native-gesture-handler';
+} from 'react-native';
+import { Text } from '../UI';
+import { createStackNavigator } from 'react-navigation';
 import Spotify from 'rn-spotify-sdk';
 import globalStyles from '../styles';
 import ArtistView from './ArtistView';
@@ -108,17 +111,19 @@ function Home(props) {
                                                 )
                                             }
                                         >
-                                            <Image
-                                                source={{
-                                                    uri:
-                                                        item.track.album
-                                                            .images[1].url
-                                                }}
-                                                style={styles.artistImage}
-                                            />
-                                            <Text style={styles.albumName}>
-                                                {item.track.artists[0].name}
-                                            </Text>
+                                            <View>
+                                                <Image
+                                                    source={{
+                                                        uri:
+                                                            item.track.album
+                                                                .images[1].url
+                                                    }}
+                                                    style={styles.artistImage}
+                                                />
+                                                <Text style={styles.albumName}>
+                                                    {item.track.artists[0].name}
+                                                </Text>
+                                            </View>
                                         </TouchableWithoutFeedback>
                                     ) : (
                                         <TouchableWithoutFeedback
@@ -133,27 +138,29 @@ function Home(props) {
                                                 )
                                             }
                                         >
-                                            <Image
-                                                source={{
-                                                    uri:
-                                                        item.track.album
-                                                            .images[1].url
-                                                }}
-                                                style={styles.albumImage}
-                                            />
-                                            <Text style={styles.albumName}>
-                                                {item.track.name}
-                                            </Text>
-                                            <Text
-                                                style={{
-                                                    textAlign: 'center',
+                                            <View>
+                                                <Image
+                                                    source={{
+                                                        uri:
+                                                            item.track.album
+                                                                .images[1].url
+                                                    }}
+                                                    style={styles.albumImage}
+                                                />
+                                                <Text style={styles.albumName}>
+                                                    {item.track.name}
+                                                </Text>
+                                                <Text
+                                                    style={{
+                                                        textAlign: 'center',
 
-                                                    fontSize: 12
-                                                }}
-                                                color="grey"
-                                            >
-                                                {item.track.album.name}
-                                            </Text>
+                                                        fontSize: 12
+                                                    }}
+                                                    color="grey"
+                                                >
+                                                    {item.track.album.name}
+                                                </Text>
+                                            </View>
                                         </TouchableWithoutFeedback>
                                     )}
                                 </View>
@@ -186,15 +193,17 @@ function Home(props) {
                                             )
                                         }
                                     >
-                                        <Image
-                                            source={{
-                                                uri: item.images[0].url
-                                            }}
-                                            style={styles.albumImage}
-                                        />
-                                        <Text style={styles.albumName}>
-                                            {item.name}
-                                        </Text>
+                                        <View>
+                                            <Image
+                                                source={{
+                                                    uri: item.images[0].url
+                                                }}
+                                                style={styles.albumImage}
+                                            />
+                                            <Text style={styles.albumName}>
+                                                {item.name}
+                                            </Text>
+                                        </View>
                                     </TouchableWithoutFeedback>
                                 </View>
                             )}
@@ -226,15 +235,17 @@ function Home(props) {
                                             )
                                         }
                                     >
-                                        <Image
-                                            source={{
-                                                uri: item.images[1].url
-                                            }}
-                                            style={styles.artistImage}
-                                        />
-                                        <Text style={styles.albumName}>
-                                            {item.name}
-                                        </Text>
+                                        <View>
+                                            <Image
+                                                source={{
+                                                    uri: item.images[1].url
+                                                }}
+                                                style={styles.artistImage}
+                                            />
+                                            <Text style={styles.albumName}>
+                                                {item.name}
+                                            </Text>
+                                        </View>
                                     </TouchableWithoutFeedback>
                                 </View>
                             )}
@@ -266,15 +277,17 @@ function Home(props) {
                                             )
                                         }
                                     >
-                                        <Image
-                                            source={{
-                                                uri: item.images[1].url
-                                            }}
-                                            style={styles.albumImage}
-                                        />
-                                        <Text style={styles.albumName}>
-                                            {item.name}
-                                        </Text>
+                                        <View>
+                                            <Image
+                                                source={{
+                                                    uri: item.images[1].url
+                                                }}
+                                                style={styles.albumImage}
+                                            />
+                                            <Text style={styles.albumName}>
+                                                {item.name}
+                                            </Text>
+                                        </View>
                                     </TouchableWithoutFeedback>
                                 </View>
                             )}

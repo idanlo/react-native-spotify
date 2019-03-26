@@ -1,7 +1,6 @@
 import React from 'react';
-import { View, StyleSheet, StatusBar } from 'react-native';
+import { View, StyleSheet, StatusBar, ScrollView } from 'react-native';
 import { Text } from '../UI';
-import { ScrollView } from 'react-native-gesture-handler';
 import globalStyles from '../styles';
 
 export default function Search() {

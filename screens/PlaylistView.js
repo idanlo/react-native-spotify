@@ -1,12 +1,15 @@
 import React from 'react';
-import { View, StyleSheet, Image, ActivityIndicator } from 'react-native';
-import { Text } from '../UI';
-import Spotify from 'rn-spotify-sdk';
 import {
+    View,
+    StyleSheet,
+    Image,
+    ActivityIndicator,
     FlatList,
     TouchableOpacity,
     ScrollView
-} from 'react-native-gesture-handler';
+} from 'react-native';
+import { Text } from '../UI';
+import Spotify from 'rn-spotify-sdk';
 import Icon from 'react-native-vector-icons/Ionicons';
 import globalStyles from '../styles';
 import Song from '../components/Song';

@@ -1,12 +1,13 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import {
+    StyleSheet,
+    View,
+    TouchableOpacity,
+    TouchableWithoutFeedback
+} from 'react-native';
 import { Text } from '../UI';
 import Spotify from 'rn-spotify-sdk';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {
-    TouchableOpacity,
-    TouchableWithoutFeedback
-} from 'react-native-gesture-handler';
 import PlayerBase from './PlayerBase';
 
 class Player extends PlayerBase {

@@ -1,8 +1,7 @@
 import React from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator, ScrollView } from 'react-native';
 import { Text } from '../UI';
 import globalStyles from '../styles';
-import { ScrollView } from 'react-native-gesture-handler';
 
 function ArtistView(props) {
     const [loading, setLoading] = React.useState(true);
