@@ -64,11 +64,12 @@ export default class PlayerView extends PlayerBase {
                     </View>
                     <View style={styles.buttons}>
                         <TouchableOpacity
+                            disabled={!this.state.prevTrack}
                             onPress={() => Spotify.skipToPrevious()}
                         >
                             <Icon
                                 name="ios-skip-backward"
-                                color="#fff"
+                                color={this.state.prevTrack ? '#fff' : 'grey'}
                                 size={40}
                             />
                         </TouchableOpacity>
@@ -79,10 +80,13 @@ export default class PlayerView extends PlayerBase {
                                 <Icon name="ios-play" size={55} color="#fff" />
                             )}
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => Spotify.skipToNext()}>
+                        <TouchableOpacity
+                            onPress={() => Spotify.skipToNext()}
+                            disabled={!this.state.nextTrack}
+                        >
                             <Icon
                                 name="ios-skip-forward"
-                                color="#fff"
+                                color={this.state.nextTrack ? '#fff' : 'grey'}
                                 size={40}
                             />
                         </TouchableOpacity>
