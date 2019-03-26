@@ -4,9 +4,10 @@ import {
     Image,
     ActivityIndicator,
     StyleSheet,
-    Dimensions
+    Dimensions,
+    TouchableOpacity,
+    Slider
 } from 'react-native';
-import { TouchableOpacity, Slider } from 'react-native-gesture-handler';
 import Spotify from 'rn-spotify-sdk/src/Spotify';
 import Icon from 'react-native-vector-icons/Ionicons';
 import globalStyles from '../styles';
@@ -21,7 +22,7 @@ export default class PlayerView extends PlayerBase {
         this.stateChangedHandler();
     };
     render() {
-        return this.state.currentTrack ? (
+        return this.state.currentTrack && this.state.state ? (
             <View style={globalStyles.container}>
                 <View style={[styles.header]}>
                     <TouchableOpacity
@@ -41,9 +42,9 @@ export default class PlayerView extends PlayerBase {
                                 7
                             )}`
                         }}
-                        style={{ width: 300, height: 300 }}
+                        style={styles.albumImage}
                     />
-                    <View>
+                    <View style={styles.songDetails}>
                         <Text style={[styles.txt, styles.songName]}>
                             {this.state.currentTrack.name}
                         </Text>
@@ -51,7 +52,7 @@ export default class PlayerView extends PlayerBase {
                             {this.state.currentTrack.albumName}
                         </Text>
                     </View>
-                    <View>
+                    <View style={styles.slider}>
                         <Slider
                             maximumValue={this.state.currentTrack.duration}
                             minimumValue={0}
@@ -64,8 +65,28 @@ export default class PlayerView extends PlayerBase {
                     </View>
                     <View style={styles.buttons}>
                         <TouchableOpacity
-                            disabled={!this.state.prevTrack}
+                            onPress={() =>
+                                Spotify.setShuffling(
+                                    !this.state.state.shuffling
+                                )
+                            }
+                            style={styles.sideBtn}
+                        >
+                            <Icon
+                                name="ios-shuffle"
+                                color={
+                                    this.state.state.shuffling
+                                        ? '#1DB954'
+                                        : '#fff'
+                                }
+                                size={25}
+                            />
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
                             onPress={() => Spotify.skipToPrevious()}
+                            disabled={!this.state.prevTrack}
+                            style={styles.btn}
                         >
                             <Icon
                                 name="ios-skip-backward"
@@ -73,8 +94,11 @@ export default class PlayerView extends PlayerBase {
                                 size={40}
                             />
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={this.playPauseHandler}>
-                            {this.state.state && this.state.state.playing ? (
+                        <TouchableOpacity
+                            onPress={this.playPauseHandler}
+                            style={styles.btn}
+                        >
+                            {this.state.state.playing ? (
                                 <Icon name="ios-pause" size={55} color="#fff" />
                             ) : (
                                 <Icon name="ios-play" size={55} color="#fff" />
@@ -83,11 +107,31 @@ export default class PlayerView extends PlayerBase {
                         <TouchableOpacity
                             onPress={() => Spotify.skipToNext()}
                             disabled={!this.state.nextTrack}
+                            style={styles.btn}
                         >
                             <Icon
                                 name="ios-skip-forward"
                                 color={this.state.nextTrack ? '#fff' : 'grey'}
                                 size={40}
+                            />
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            onPress={() =>
+                                Spotify.setRepeating(
+                                    !this.state.state.repeating
+                                )
+                            }
+                            style={styles.sideBtn}
+                        >
+                            <Icon
+                                name="ios-repeat"
+                                color={
+                                    this.state.state.repeating
+                                        ? '#1DB954'
+                                        : '#fff'
+                                }
+                                size={25}
                             />
                         </TouchableOpacity>
                     </View>
@@ -121,16 +165,38 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
+    albumImage: {
+        width: 300,
+        height: 300,
+        marginBottom: 40
+    },
+    songDetails: {
+        marginBottom: 40
+    },
     txt: {
         textAlign: 'center'
     },
     songName: {
         fontSize: 34
     },
+    slider: {
+        marginBottom: 40
+    },
     buttons: {
         flexDirection: 'row',
-        justifyContent: 'space-evenly',
-        alignItems: 'center',
+        // display: 'flex',
+        // justifyContent: 'center',
+        // alignItems: 'center',
         width: width - 100
+    },
+    btn: {
+        flex: 2,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    sideBtn: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 });
