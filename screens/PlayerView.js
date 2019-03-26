@@ -36,6 +36,25 @@ export default class PlayerView extends PlayerBase {
                 </View>
 
                 <View style={styles.body}>
+                    {this.state.prevTrack ? (
+                        <Image
+                            source={{
+                                uri: `https:${this.state.prevTrack.albumCoverArtURL.substring(
+                                    7
+                                )}`
+                            }}
+                            style={{
+                                position: 'absolute',
+                                left: -250,
+                                top: 10,
+                                zIndex: -1,
+                                opacity: 0.75,
+                                width: 280,
+                                height: 280
+                            }}
+                        />
+                    ) : null}
+
                     <Image
                         source={{
                             uri: `https:${this.state.currentTrack.albumCoverArtURL.substring(
@@ -44,6 +63,25 @@ export default class PlayerView extends PlayerBase {
                         }}
                         style={styles.albumImage}
                     />
+
+                    {this.state.nextTrack ? (
+                        <Image
+                            source={{
+                                uri: `https:${this.state.nextTrack.albumCoverArtURL.substring(
+                                    7
+                                )}`
+                            }}
+                            style={{
+                                position: 'absolute',
+                                right: -250,
+                                top: 10,
+                                zIndex: -1,
+                                opacity: 0.75,
+                                width: 280,
+                                height: 280
+                            }}
+                        />
+                    ) : null}
                     <View style={styles.songDetails}>
                         <Text style={[styles.txt, styles.songName]}>
                             {this.state.currentTrack.name}
