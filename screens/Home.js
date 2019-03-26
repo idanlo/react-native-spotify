@@ -9,10 +9,8 @@ import {
     TouchableWithoutFeedback
 } from 'react-native';
 import { Text } from '../UI';
-import { createStackNavigator } from 'react-navigation';
 import Spotify from 'rn-spotify-sdk';
 import globalStyles from '../styles';
-import ArtistView from './ArtistView';
 
 function Home(props) {
     const [recentlyPlayed, setRecentlyPlayed] = React.useState(null);
@@ -78,6 +76,7 @@ function Home(props) {
     }, []);
     return (
         <View style={globalStyles.container}>
+            <StatusBar backgroundColor="#191414" />
             <ScrollView>
                 {recentlyPlayed ? (
                     <View style={styles.albumList}>

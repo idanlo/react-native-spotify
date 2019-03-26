@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ActivityIndicator, ScrollView } from 'react-native';
+import { View, ActivityIndicator, ScrollView, StatusBar } from 'react-native';
 import { Text } from '../UI';
 import globalStyles from '../styles';
 
@@ -31,6 +31,7 @@ function ArtistView(props) {
 
     return (
         <View style={globalStyles.container}>
+            <StatusBar backgroundColor="#191414" />
             {!loading ? (
                 <ScrollView>
                     <Text>Artist</Text>

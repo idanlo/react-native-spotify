@@ -6,6 +6,7 @@ import globalStyles from '../styles';
 export default function Library() {
     return (
         <View style={globalStyles.container}>
+            <StatusBar backgroundColor="#191414" />
             <ScrollView>
                 <Text style={styles.header}>Library</Text>
             </ScrollView>

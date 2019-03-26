@@ -6,7 +6,8 @@ import {
     ActivityIndicator,
     FlatList,
     TouchableOpacity,
-    ScrollView
+    ScrollView,
+    StatusBar
 } from 'react-native';
 import { Text } from '../UI';
 import Spotify from 'rn-spotify-sdk';
@@ -53,6 +54,7 @@ function AlbumView(props) {
 
     return (
         <View style={globalStyles.container}>
+            <StatusBar backgroundColor="#191414" />
             {data && !loading ? (
                 <ScrollView>
                     <View style={([globalStyles.container], { paddingTop: 0 })}>
