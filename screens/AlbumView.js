@@ -6,10 +6,7 @@ import {
     ActivityIndicator,
     FlatList,
     TouchableOpacity,
-    Animated,
     ScrollView,
-    Dimensions,
-    TouchableWithoutFeedback,
     StatusBar
 } from 'react-native';
 import { Text } from '../UI';
@@ -18,10 +15,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import globalStyles from '../styles';
 import Song from '../components/Song';
 import LinearGradient from 'react-native-linear-gradient';
-import Modal from '../components/Modal';
 import { ModalContext } from '../App';
-
-const { height } = Dimensions.get('window');
 
 class AlbumView extends React.Component {
     state = {
@@ -36,7 +30,6 @@ class AlbumView extends React.Component {
             this.fetchData
         );
         this.fetchData();
-        console.log('statatatatata', this.state);
     }
 
     componentWillUnmount() {
@@ -108,6 +101,16 @@ class AlbumView extends React.Component {
                                                         )
                                                         .join(', '),
                                                     [
+                                                        {
+                                                            text:
+                                                                'Add To Queue',
+                                                            click: () =>
+                                                                Spotify.queueURI(
+                                                                    this.state
+                                                                        .data
+                                                                        .uri
+                                                                )
+                                                        },
                                                         {
                                                             text: 'View Artist',
                                                             click: () =>
