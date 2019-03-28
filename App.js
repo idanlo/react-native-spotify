@@ -17,6 +17,7 @@ import PlayerView from './screens/PlayerView';
 import AlbumView from './screens/AlbumView';
 import PlaylistView from './screens/PlaylistView';
 import ArtistView from './screens/ArtistView';
+import Modal from './components/Modal';
 
 const HomeNavigator = createBottomTabNavigator(
     {
@@ -99,13 +100,59 @@ const AppNavigator = createSwitchNavigator(
 
 const Container = createAppContainer(AppNavigator);
 
+export const ModalContext = React.createContext({
+    isOpen: false,
+    openModal: null,
+    closeModal: null,
+    image: '',
+    primaryText: '',
+    secondaryText: '',
+    actions: []
+});
+
 class App extends React.Component {
+    state = {
+        isOpen: false,
+        actions: null
+    };
+
     componentDidMount() {
         SplashScreen.hide();
     }
 
+    openModal = (image, primaryText, secondaryText, actions) => {
+        this.setState({
+            isOpen: true,
+            image,
+            primaryText,
+            secondaryText,
+            actions
+        });
+    };
+
+    closeModal = () => {
+        this.setState({ isOpen: false });
+    };
+    contextData = {
+        isOpen: this.state.isOpen,
+        openModal: this.openModal,
+        closeModal: this.closeModal
+    };
+
     render() {
-        return <Container />;
+        return (
+            <ModalContext.Provider value={this.contextData}>
+                <Modal
+                    showModal={this.state.isOpen}
+                    onClose={this.closeModal}
+                    image={this.state.image}
+                    primaryText={this.state.primaryText}
+                    secondaryText={this.state.secondaryText}
+                    actions={this.state.actions}
+                />
+                <Container />
+            </ModalContext.Provider>
+        );
     }
 }
 
