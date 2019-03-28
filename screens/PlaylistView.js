@@ -50,6 +50,17 @@ function PlaylistView(props) {
             .catch(err => {
                 console.log(err);
             });
+
+        Spotify.getMe().then(res => {
+            Spotify.sendRequest(
+                `v1/playlists/${playlistId}/followers/contains`,
+                'GET',
+                { ids: `${res.id}` },
+                false
+            ).then(isFollowing => {
+                console.log(isFollowing);
+            });
+        });
     };
 
     return (
