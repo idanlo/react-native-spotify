@@ -243,6 +243,7 @@ class ArtistView extends React.Component {
                                         }}
                                         scrollEnabled={false}
                                         data={this.state.artistTopTracks.slice(
+                                            0,
                                             5
                                         )}
                                         keyExtractor={(_, i) => i.toString()}
