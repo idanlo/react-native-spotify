@@ -49,10 +49,10 @@ export default function Modal({ options, ...props }) {
                         }}
                     />
                     <Text
+                        bold
+                        size={18}
                         style={{
                             width: '75%',
-                            fontWeight: 'bold',
-                            fontSize: 18,
                             textAlign: 'center'
                         }}
                     >

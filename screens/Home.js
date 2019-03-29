@@ -150,10 +150,9 @@ function Home(props) {
                                                     {item.track.name}
                                                 </Text>
                                                 <Text
+                                                    size={12}
                                                     style={{
-                                                        textAlign: 'center',
-
-                                                        fontSize: 12
+                                                        textAlign: 'center'
                                                     }}
                                                     color="grey"
                                                 >

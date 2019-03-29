@@ -131,17 +131,17 @@ function PlaylistView(props) {
                                         style={{ width: 150, height: 150 }}
                                     />
                                     <Text
+                                        bold
+                                        size={24}
                                         style={{
-                                            fontWeight: 'bold',
-                                            fontSize: 24,
                                             textAlign: 'center'
                                         }}
                                     >
                                         {data.name}
                                     </Text>
                                     <Text
+                                        size={14}
                                         style={{
-                                            fontSize: 14,
                                             textAlign: 'center'
                                         }}
                                         color="grey"
@@ -166,10 +166,10 @@ function PlaylistView(props) {
                                             }}
                                         >
                                             <Text
+                                                bold
+                                                size={28}
                                                 style={{
-                                                    fontSize: 28,
-                                                    textAlign: 'center',
-                                                    fontWeight: 'bold'
+                                                    textAlign: 'center'
                                                 }}
                                             >
                                                 Play

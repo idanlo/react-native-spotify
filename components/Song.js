@@ -26,7 +26,7 @@ function Song(props) {
                 <View>
                     <Text>{props.song.name}</Text>
                     {props.artists && props.artists.length > 0 ? (
-                        <Text style={{ fontSize: 13 }} color="grey">
+                        <Text size={13} color="grey">
                             {props.artists
                                 .map(artist => artist.name)
                                 .join(', ')}
