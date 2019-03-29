@@ -16,7 +16,6 @@ class ArtistView extends React.Component {
             'willFocus',
             this.fetchData
         );
-        this.fetchData();
     }
 
     fetchData = ctx => {

@@ -29,7 +29,6 @@ class AlbumView extends React.Component {
             'willFocus',
             this.fetchData
         );
-        this.fetchData();
     }
 
     componentWillUnmount() {
