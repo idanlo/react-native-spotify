@@ -14,7 +14,7 @@ import Spotify from 'rn-spotify-sdk';
 import Icon from 'react-native-vector-icons/Ionicons';
 import globalStyles from '../styles';
 import Song from '../components/Song';
-import { ModalContext } from '../App';
+import { ModalContext } from '../components/Modal';
 
 function PlaylistView(props) {
     const [data, setData] = React.useState(null);

@@ -14,7 +14,7 @@ import {
 import { Text } from '../UI';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Spotify from 'rn-spotify-sdk/src/Spotify';
-import { ModalContext } from '../App';
+import { ModalContext } from '../components/Modal';
 import Song from '../components/Song';
 import globalStyles from '../styles';
 

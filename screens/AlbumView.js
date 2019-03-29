@@ -15,7 +15,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import globalStyles from '../styles';
 import Song from '../components/Song';
 import LinearGradient from 'react-native-linear-gradient';
-import { ModalContext } from '../App';
+import { ModalContext } from '../components/Modal';
 
 class AlbumView extends React.Component {
     state = {

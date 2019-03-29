@@ -17,7 +17,7 @@ import PlayerView from './screens/PlayerView';
 import AlbumView from './screens/AlbumView';
 import PlaylistView from './screens/PlaylistView';
 import ArtistView from './screens/ArtistView';
-import Modal from './components/Modal';
+import Modal, { ModalContext } from './components/Modal';
 
 const HomeNavigator = createBottomTabNavigator(
     {
@@ -99,19 +99,6 @@ const AppNavigator = createSwitchNavigator(
 );
 
 const Container = createAppContainer(AppNavigator);
-
-export const ModalContext = React.createContext({
-    isOpen: false,
-    openModal: null,
-    closeModal: null,
-    options: {
-        image: '',
-        primaryText: '',
-        secondaryText: '',
-        type: ''
-    },
-    actions: []
-});
 
 class App extends React.Component {
     state = {

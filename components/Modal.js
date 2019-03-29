@@ -11,6 +11,19 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import { Text } from '../UI';
 
+export const ModalContext = React.createContext({
+    isOpen: false,
+    openModal: null,
+    closeModal: null,
+    options: {
+        image: '',
+        primaryText: '',
+        secondaryText: '',
+        type: ''
+    },
+    actions: []
+});
+
 export default function Modal({ options, ...props }) {
     return options ? (
         <RNModal
