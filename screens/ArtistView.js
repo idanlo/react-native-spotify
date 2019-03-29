@@ -249,24 +249,45 @@ class ArtistView extends React.Component {
                                     </Text>
                                     {/* Popular songs list (top 5). this is not in the topTracks View because it 
                                     then makes the Song component not full width for some reason */}
-                                    <FlatList
-                                        contentContainerStyle={{
+                                    <View
+                                        style={{
                                             flex: 1,
                                             marginHorizontal: 10
                                         }}
-                                        scrollEnabled={false}
-                                        data={this.state.artistTopTracks.slice(
-                                            0,
-                                            5
-                                        )}
-                                        keyExtractor={(_, i) => i.toString()}
-                                        renderItem={({ item }) => (
-                                            <Song
-                                                song={item}
-                                                artists={item.artists}
-                                            />
-                                        )}
-                                    />
+                                    >
+                                        <FlatList
+                                            scrollEnabled={false}
+                                            data={this.state.artistTopTracks.slice(
+                                                0,
+                                                5
+                                            )}
+                                            keyExtractor={(_, i) =>
+                                                i.toString()
+                                            }
+                                            renderItem={({ item }) => (
+                                                <Song
+                                                    song={item}
+                                                    artists={item.artists}
+                                                />
+                                            )}
+                                        />
+                                        <View
+                                            style={{
+                                                flex: 1,
+                                                height: 50,
+                                                marginHorizontal: 10,
+                                                marginTop: 8
+                                            }}
+                                        >
+                                            <TouchableOpacity>
+                                                <View>
+                                                    <Text bold>
+                                                        See All Albums
+                                                    </Text>
+                                                </View>
+                                            </TouchableOpacity>
+                                        </View>
+                                    </View>
 
                                     <Text
                                         bold
