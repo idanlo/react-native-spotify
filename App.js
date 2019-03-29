@@ -79,6 +79,7 @@ const HomeNavigator = createBottomTabNavigator(
             showIcon: true,
             style: { backgroundColor: '#212025' }
         },
+        backBehavior: 'history',
         tabBarComponent: props => (
             <View>
                 <Player navigation={props.navigation} />
