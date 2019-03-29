@@ -11,8 +11,8 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import { Text } from '../UI';
 
-export default function Modal(props) {
-    return (
+export default function Modal({ options, ...props }) {
+    return options ? (
         <RNModal
             animationType="slide"
             transparent
@@ -40,11 +40,12 @@ export default function Modal(props) {
                 >
                     <Image
                         source={{
-                            uri: props.image
+                            uri: options.image
                         }}
                         style={{
                             width: 150,
-                            height: 150
+                            height: 150,
+                            borderRadius: options.type === 'artist' ? 75 : 0
                         }}
                     />
                     <Text
@@ -55,17 +56,19 @@ export default function Modal(props) {
                             textAlign: 'center'
                         }}
                     >
-                        {props.primaryText}
+                        {options.primaryText}
                     </Text>
-                    <Text
-                        color="grey"
-                        style={{
-                            width: '50%',
-                            textAlign: 'center'
-                        }}
-                    >
-                        {props.secondaryText}
-                    </Text>
+                    {options.secondaryText ? (
+                        <Text
+                            color="grey"
+                            style={{
+                                width: '50%',
+                                textAlign: 'center'
+                            }}
+                        >
+                            {options.secondaryText}
+                        </Text>
+                    ) : null}
                 </View>
             </LinearGradient>
             <ScrollView
@@ -97,7 +100,7 @@ export default function Modal(props) {
                 />
             </ScrollView>
         </RNModal>
-    );
+    ) : null;
 }
 
 const styles = StyleSheet.create({

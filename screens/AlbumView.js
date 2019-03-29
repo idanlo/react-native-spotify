@@ -90,15 +90,19 @@ class AlbumView extends React.Component {
                                         <TouchableOpacity
                                             onPress={() => {
                                                 openModal(
-                                                    this.state.data.images[1]
-                                                        .url,
-                                                    this.state.data.name,
-                                                    this.state.data.artists
-                                                        .map(
-                                                            artist =>
-                                                                artist.name
-                                                        )
-                                                        .join(', '),
+                                                    {
+                                                        image: this.state.data
+                                                            .images[1].url,
+                                                        primaryText: this.state
+                                                            .data.name,
+                                                        secondaryText: this.state.data.artists
+                                                            .map(
+                                                                artist =>
+                                                                    artist.name
+                                                            )
+                                                            .join(', ')
+                                                    },
+
                                                     [
                                                         {
                                                             text:

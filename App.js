@@ -104,9 +104,12 @@ export const ModalContext = React.createContext({
     isOpen: false,
     openModal: null,
     closeModal: null,
-    image: '',
-    primaryText: '',
-    secondaryText: '',
+    options: {
+        image: '',
+        primaryText: '',
+        secondaryText: '',
+        type: ''
+    },
     actions: []
 });
 
@@ -120,13 +123,11 @@ class App extends React.Component {
         SplashScreen.hide();
     }
 
-    openModal = (image, primaryText, secondaryText, actions) => {
+    openModal = (options, actions) => {
         this.setState({
             isOpen: true,
-            image,
-            primaryText,
-            secondaryText,
-            actions
+            actions,
+            options: { ...options }
         });
     };
 
@@ -145,9 +146,7 @@ class App extends React.Component {
                 <Modal
                     showModal={this.state.isOpen}
                     onClose={this.closeModal}
-                    image={this.state.image}
-                    primaryText={this.state.primaryText}
-                    secondaryText={this.state.secondaryText}
+                    options={this.state.options}
                     actions={this.state.actions}
                 />
                 <Container />

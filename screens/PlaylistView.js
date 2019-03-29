@@ -91,11 +91,13 @@ function PlaylistView(props) {
                                     <TouchableOpacity
                                         onPress={() => {
                                             openModal(
-                                                data.images[0].url,
-                                                data.name,
-                                                `Playlist by ${
-                                                    data.owner.display_name
-                                                }`,
+                                                {
+                                                    image: data.images[0].url,
+                                                    primaryText: data.name,
+                                                    secondaryText: `Playlist by ${
+                                                        data.owner.display_name
+                                                    }`
+                                                },
                                                 [
                                                     {
                                                         text: 'Follow',
