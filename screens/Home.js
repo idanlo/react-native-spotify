@@ -6,7 +6,7 @@ import {
     StatusBar,
     FlatList,
     ScrollView,
-    TouchableWithoutFeedback
+    TouchableOpacity
 } from 'react-native';
 import { Text } from '../UI';
 import Spotify from 'rn-spotify-sdk';
@@ -97,7 +97,7 @@ function Home(props) {
                                     item.context.type === 'artist' &&
                                     item.track.artists &&
                                     item.track.artists.length > 0 ? (
-                                        <TouchableWithoutFeedback
+                                        <TouchableOpacity
                                             onPress={() =>
                                                 // navigate to ArtistView
                                                 props.navigation.navigate(
@@ -123,9 +123,9 @@ function Home(props) {
                                                     {item.track.artists[0].name}
                                                 </Text>
                                             </View>
-                                        </TouchableWithoutFeedback>
+                                        </TouchableOpacity>
                                     ) : (
-                                        <TouchableWithoutFeedback
+                                        <TouchableOpacity
                                             onPress={() =>
                                                 // navigate to AlbumView
                                                 props.navigation.navigate(
@@ -159,7 +159,7 @@ function Home(props) {
                                                     {item.track.album.name}
                                                 </Text>
                                             </View>
-                                        </TouchableWithoutFeedback>
+                                        </TouchableOpacity>
                                     )}
                                 </View>
                             )}
@@ -182,7 +182,7 @@ function Home(props) {
                                         featured.playlists.items.length
                                     )}
                                 >
-                                    <TouchableWithoutFeedback
+                                    <TouchableOpacity
                                         onPress={() =>
                                             // navigate to PlaylistView
                                             props.navigation.navigate(
@@ -202,7 +202,7 @@ function Home(props) {
                                                 {item.name}
                                             </Text>
                                         </View>
-                                    </TouchableWithoutFeedback>
+                                    </TouchableOpacity>
                                 </View>
                             )}
                             keyExtractor={(_, i) => i.toString()}
@@ -224,7 +224,7 @@ function Home(props) {
                                         topArtists.items.length
                                     )}
                                 >
-                                    <TouchableWithoutFeedback
+                                    <TouchableOpacity
                                         onPress={() =>
                                             // navigate to ArtistView
                                             props.navigation.navigate(
@@ -244,7 +244,7 @@ function Home(props) {
                                                 {item.name}
                                             </Text>
                                         </View>
-                                    </TouchableWithoutFeedback>
+                                    </TouchableOpacity>
                                 </View>
                             )}
                             keyExtractor={(_, i) => i.toString()}
@@ -266,7 +266,7 @@ function Home(props) {
                                         newReleases.albums.items.length
                                     )}
                                 >
-                                    <TouchableWithoutFeedback
+                                    <TouchableOpacity
                                         onPress={() =>
                                             // navigate to AlbumView
                                             props.navigation.navigate(
@@ -286,7 +286,7 @@ function Home(props) {
                                                 {item.name}
                                             </Text>
                                         </View>
-                                    </TouchableWithoutFeedback>
+                                    </TouchableOpacity>
                                 </View>
                             )}
                             keyExtractor={(_, i) => i.toString()}
