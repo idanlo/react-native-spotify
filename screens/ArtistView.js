@@ -1,62 +1,68 @@
 import React from 'react';
 import { View, ActivityIndicator, ScrollView, StatusBar } from 'react-native';
 import { Text } from '../UI';
+import Spotify from 'rn-spotify-sdk/src/Spotify';
 import globalStyles from '../styles';
 
-function ArtistView(props) {
-    const [loading, setLoading] = React.useState(true);
-    let routeSubscription;
+class ArtistView extends React.Component {
+    state = {
+        data: null,
+        loading: true
+    };
+    routeSubscription = null;
 
-    React.useEffect(() => {
-        routeSubscription = props.navigation.addListener(
+    componentDidMount() {
+        this.routeSubscription = this.props.navigation.addListener(
             'willFocus',
-            fetchData
+            this.fetchData
         );
-        fetchData();
-        return () => {
-            routeSubscription.remove();
-        };
-    });
+        this.fetchData();
+    }
 
     fetchData = ctx => {
-        setLoading(true);
+        this.setState({ loading: true });
         let artistId;
         if (ctx) {
             artistId = ctx.state.params.artistId;
         } else {
-            artistId = props.navigation.getParam('artistId');
+            artistId = this.props.navigation.getParam('artistId');
         }
-        // fetch data
+        Spotify.getArtist(artistId)
+            .then(res => {
+                this.setState({ data: res });
+                console.log(res);
+            })
+            .catch(err => {
+                console.log(err);
+            });
     };
-
-    return (
-        <View style={globalStyles.container}>
-            <StatusBar backgroundColor="#191414" />
-            {!loading ? (
-                <ScrollView>
-                    <Text>Artist</Text>
-                </ScrollView>
-            ) : (
-                <View
-                    style={[
-                        globalStyles.container,
-                        {
-                            justifyContent: 'center',
-                            alignItems: 'center'
-                        }
-                    ]}
-                >
-                    <ActivityIndicator size="large" color="#1DB954" />
-                </View>
-            )}
-        </View>
-    );
+    componentWillUnmount() {
+        this.routeSubscription.remove();
+    }
+    render() {
+        return (
+            <View style={globalStyles.container}>
+                <StatusBar backgroundColor="#191414" />
+                {!this.state.loading ? (
+                    <ScrollView>
+                        <Text>Artist</Text>
+                    </ScrollView>
+                ) : (
+                    <View
+                        style={[
+                            globalStyles.container,
+                            {
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }
+                        ]}
+                    >
+                        <ActivityIndicator size="large" color="#1DB954" />
+                    </View>
+                )}
+            </View>
+        );
+    }
 }
-
-// const styles = StyleSheet.create({
-//     container: {
-
-//     }
-// })
 
 export default ArtistView;

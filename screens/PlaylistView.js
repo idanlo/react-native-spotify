@@ -53,9 +53,9 @@ function PlaylistView(props) {
 
         Spotify.getMe().then(res => {
             Spotify.sendRequest(
-                `v1/playlists/${playlistId}/followers/contains`,
+                `v1/playlists/${playlistId}/followers/contains?ids=${res.id}`,
                 'GET',
-                { ids: `${res.id}` },
+                {},
                 false
             ).then(isFollowing => {
                 console.log(isFollowing);
