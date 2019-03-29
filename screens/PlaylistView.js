@@ -16,37 +16,43 @@ import globalStyles from '../styles';
 import Song from '../components/Song';
 import { ModalContext } from '../components/Modal';
 
-function PlaylistView(props) {
-    const [data, setData] = React.useState(null);
-    const [loading, setLoading] = React.useState(true);
-    let routeSubscription;
+class PlaylistView extends React.Component {
+    state = {
+        playlist: null,
+        loading: true
+    };
+    routeSubscription = null;
 
-    React.useEffect(() => {
-        routeSubscription = props.navigation.addListener(
+    componentDidMount() {
+        this.routeSubscription = this.props.navigation.addListener(
             'willFocus',
-            fetchData
+            this.fetchData
         );
-        fetchData();
-        return () => {
-            console.log('unmount', routeSubscription);
-            routeSubscription.remove();
-        };
-    }, []);
+    }
+
+    componentWillUnmount() {
+        console.log('unmount', this.routeSubscription);
+        this.routeSubscription.remove();
+    }
 
     fetchData = ctx => {
-        setLoading(true);
+        this.setState({ loading: true });
         let playlistId;
         if (ctx) {
             playlistId = ctx.state.params.playlistId;
         } else {
-            playlistId = props.navigation.getParam('playlistId');
+            playlistId = this.props.navigation.getParam('playlistId');
+        }
+        console.log(this.state.playlist);
+        if (this.state.playlist && this.state.playlist.id === playlistId) {
+            this.setState({ loading: false });
+            return;
         }
 
         Spotify.getPlaylist(playlistId)
             .then(res => {
                 console.log(res);
-                setData(res);
-                setLoading(false);
+                this.setState({ playlist: res, loading: false });
             })
             .catch(err => {
                 console.log(err);
@@ -63,155 +69,173 @@ function PlaylistView(props) {
             });
         });
     };
-
-    return (
-        <View style={globalStyles.container}>
-            <StatusBar backgroundColor="#191414" />
-            {data && !loading ? (
-                <ModalContext.Consumer>
-                    {({ openModal }) => (
-                        <ScrollView>
-                            <View
-                                style={
-                                    ([globalStyles.container],
-                                    { paddingTop: 0 })
-                                }
-                            >
-                                <View style={styles.header}>
-                                    <TouchableOpacity
-                                        onPress={() =>
-                                            props.navigation.goBack()
-                                        }
-                                    >
-                                        <Icon
-                                            name="ios-arrow-back"
-                                            size={30}
-                                            color="#fff"
-                                        />
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        onPress={() => {
-                                            openModal(
-                                                {
-                                                    image: data.images[0].url,
-                                                    primaryText: data.name,
-                                                    secondaryText: `Playlist by ${
-                                                        data.owner.display_name
-                                                    }`
-                                                },
-                                                [
+    render() {
+        return (
+            <View style={globalStyles.container}>
+                <StatusBar backgroundColor="#191414" />
+                {this.state.playlist && !this.state.loading ? (
+                    <ModalContext.Consumer>
+                        {({ openModal }) => (
+                            <ScrollView>
+                                <View
+                                    style={
+                                        ([globalStyles.container],
+                                        { paddingTop: 0 })
+                                    }
+                                >
+                                    <View style={styles.header}>
+                                        <TouchableOpacity
+                                            onPress={() =>
+                                                this.props.navigation.goBack()
+                                            }
+                                        >
+                                            <Icon
+                                                name="ios-arrow-back"
+                                                size={30}
+                                                color="#fff"
+                                            />
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            onPress={() => {
+                                                openModal(
                                                     {
-                                                        text: 'Follow',
-                                                        click: () =>
-                                                            Spotify.sendRequest(
-                                                                `v1/playlists/${
-                                                                    data.id
-                                                                }/followers`,
-                                                                'PUT',
-                                                                {},
-                                                                false
-                                                            )
-                                                    }
-                                                ]
-                                            );
-                                        }}
-                                    >
-                                        <Icon
-                                            name="md-more"
-                                            size={30}
-                                            color="#fff"
-                                        />
-                                    </TouchableOpacity>
-                                </View>
-                                <View style={{ alignItems: 'center' }}>
-                                    <Image
-                                        source={{
-                                            uri: data.images[0].url
-                                        }}
-                                        style={{ width: 150, height: 150 }}
-                                    />
-                                    <Text
-                                        bold
-                                        size={24}
-                                        style={{
-                                            textAlign: 'center'
-                                        }}
-                                    >
-                                        {data.name}
-                                    </Text>
-                                    <Text
-                                        size={14}
-                                        style={{
-                                            textAlign: 'center'
-                                        }}
-                                        color="grey"
-                                    >
-                                        Playlist by {data.owner.display_name}
-                                    </Text>
-                                    <TouchableOpacity
-                                        onPress={() =>
-                                            Spotify.playURI(data.uri, 0, 0)
-                                        }
-                                    >
-                                        <View
-                                            style={{
-                                                alignItems: 'center',
-                                                justifyContent: 'center',
-                                                width: 150,
-                                                height: 50,
-                                                borderRadius: 25,
-                                                backgroundColor: '#1DB954',
-                                                marginTop: 10,
-                                                marginBottom: 10
+                                                        image: this.state
+                                                            .playlist.images[0]
+                                                            .url,
+                                                        primaryText: this.state
+                                                            .playlist.name,
+                                                        secondaryText: `Playlist by ${
+                                                            this.state.playlist
+                                                                .owner
+                                                                .display_name
+                                                        }`
+                                                    },
+                                                    [
+                                                        {
+                                                            text: 'Follow',
+                                                            click: () =>
+                                                                Spotify.sendRequest(
+                                                                    `v1/playlists/${
+                                                                        this
+                                                                            .state
+                                                                            .playlist
+                                                                            .id
+                                                                    }/followers`,
+                                                                    'PUT',
+                                                                    {},
+                                                                    false
+                                                                )
+                                                        }
+                                                    ]
+                                                );
                                             }}
                                         >
-                                            <Text
-                                                bold
-                                                size={28}
+                                            <Icon
+                                                name="md-more"
+                                                size={30}
+                                                color="#fff"
+                                            />
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={{ alignItems: 'center' }}>
+                                        <Image
+                                            source={{
+                                                uri: this.state.playlist
+                                                    .images[0].url
+                                            }}
+                                            style={{ width: 150, height: 150 }}
+                                        />
+                                        <Text
+                                            bold
+                                            size={24}
+                                            style={{
+                                                textAlign: 'center'
+                                            }}
+                                        >
+                                            {this.state.playlist.name}
+                                        </Text>
+                                        <Text
+                                            size={14}
+                                            style={{
+                                                textAlign: 'center'
+                                            }}
+                                            color="grey"
+                                        >
+                                            Playlist by{' '}
+                                            {
+                                                this.state.playlist.owner
+                                                    .display_name
+                                            }
+                                        </Text>
+                                        <TouchableOpacity
+                                            onPress={() =>
+                                                Spotify.playURI(
+                                                    this.state.playlist.uri,
+                                                    0,
+                                                    0
+                                                )
+                                            }
+                                        >
+                                            <View
                                                 style={{
-                                                    textAlign: 'center'
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    width: 150,
+                                                    height: 50,
+                                                    borderRadius: 25,
+                                                    backgroundColor: '#1DB954',
+                                                    marginTop: 10,
+                                                    marginBottom: 10
                                                 }}
                                             >
-                                                Play
-                                            </Text>
-                                        </View>
-                                    </TouchableOpacity>
-                                </View>
+                                                <Text
+                                                    bold
+                                                    size={28}
+                                                    style={{
+                                                        textAlign: 'center'
+                                                    }}
+                                                >
+                                                    Play
+                                                </Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                    </View>
 
-                                <FlatList
-                                    contentContainerStyle={{
-                                        flex: 1,
-                                        marginHorizontal: 10
-                                    }}
-                                    scrollEnabled={false}
-                                    data={data.tracks.items}
-                                    keyExtractor={(_, i) => i.toString()}
-                                    renderItem={({ item }) => (
-                                        <Song
-                                            song={item.track}
-                                            artists={item.track.artists}
-                                        />
-                                    )}
-                                />
-                            </View>
-                        </ScrollView>
-                    )}
-                </ModalContext.Consumer>
-            ) : (
-                <View
-                    style={[
-                        globalStyles.container,
-                        {
-                            justifyContent: 'center',
-                            alignItems: 'center'
-                        }
-                    ]}
-                >
-                    <ActivityIndicator size="large" color="#1DB954" />
-                </View>
-            )}
-        </View>
-    );
+                                    <FlatList
+                                        contentContainerStyle={{
+                                            flex: 1,
+                                            marginHorizontal: 10
+                                        }}
+                                        scrollEnabled={false}
+                                        data={this.state.playlist.tracks.items}
+                                        keyExtractor={(_, i) => i.toString()}
+                                        renderItem={({ item }) => (
+                                            <Song
+                                                song={item.track}
+                                                artists={item.track.artists}
+                                            />
+                                        )}
+                                    />
+                                </View>
+                            </ScrollView>
+                        )}
+                    </ModalContext.Consumer>
+                ) : (
+                    <View
+                        style={[
+                            globalStyles.container,
+                            {
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }
+                        ]}
+                    >
+                        <ActivityIndicator size="large" color="#1DB954" />
+                    </View>
+                )}
+            </View>
+        );
+    }
 }
 
 const styles = StyleSheet.create({

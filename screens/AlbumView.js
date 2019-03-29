@@ -45,6 +45,10 @@ class AlbumView extends React.Component {
         } else {
             albumId = this.props.navigation.getParam('albumId');
         }
+        if (this.state.data && this.state.data.id === albumId) {
+            this.setState({ loading: false });
+            return;
+        }
         // console.log('Fetching album...');
         // console.log('albumId', albumId);
         Spotify.getAlbum(albumId)

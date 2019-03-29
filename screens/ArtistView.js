@@ -45,6 +45,17 @@ class ArtistView extends React.Component {
         } else {
             artistId = this.props.navigation.getParam('artistId');
         }
+        if (
+            this.state.artist &&
+            this.state.artistTopTracks &&
+            this.state.artistAlbums &&
+            this.state.artistRelated &&
+            this.state.artist.id === artistId
+        ) {
+            this.setState({ loading: false });
+            return;
+        }
+
         Spotify.getArtist(artistId)
             .then(res => {
                 this.setState({ artist: res, loading: false });
