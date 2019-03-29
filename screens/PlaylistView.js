@@ -41,7 +41,8 @@ function PlaylistView(props) {
         } else {
             playlistId = props.navigation.getParam('playlistId');
         }
-        Spotify.sendRequest(`v1/playlists/${playlistId}`, 'GET', {}, false)
+
+        Spotify.getPlaylist(playlistId)
             .then(res => {
                 console.log(res);
                 setData(res);
