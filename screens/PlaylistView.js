@@ -180,7 +180,6 @@ function PlaylistView(props) {
 
                                 <FlatList
                                     contentContainerStyle={{
-                                        zIndex: 1000,
                                         flex: 1,
                                         marginHorizontal: 10
                                     }}
