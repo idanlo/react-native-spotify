@@ -24,31 +24,31 @@ class PlaylistView extends React.Component {
     routeSubscription = null;
 
     componentDidMount() {
+        // create route subscription to know when to re-fetch data because the component is mounted even if it is
+        // not in the view, so react-navigation provides events
         this.routeSubscription = this.props.navigation.addListener(
             'willFocus',
             this.fetchData
         );
     }
 
-    componentWillUnmount() {
-        console.log('unmount', this.routeSubscription);
-        this.routeSubscription.remove();
-    }
-
     fetchData = ctx => {
         this.setState({ loading: true });
         let playlistId;
+        // sometimes react-navigation gives a 'context' object which contains the route params
         if (ctx) {
             playlistId = ctx.state.params.playlistId;
         } else {
             playlistId = this.props.navigation.getParam('playlistId');
         }
-        console.log(this.state.playlist);
+        // if all data has been loaded and the previous playlist id is the same as the current one -
+        // there is no need to fetch the data again, display the old data
         if (this.state.playlist && this.state.playlist.id === playlistId) {
             this.setState({ loading: false });
             return;
         }
 
+        // fetch playlists (contains the playlist tracks)
         Spotify.getPlaylist(playlistId)
             .then(res => {
                 console.log(res);
@@ -58,6 +58,7 @@ class PlaylistView extends React.Component {
                 console.log(err);
             });
 
+        // check if the user follows this playlist (currently the HTTP request does not work)
         Spotify.getMe().then(res => {
             Spotify.sendRequest(
                 `v1/playlists/${playlistId}/followers/contains?ids=${res.id}`,
@@ -69,6 +70,14 @@ class PlaylistView extends React.Component {
             });
         });
     };
+
+    componentWillUnmount() {
+        // cancel route subscription when the component unmounts (if the subscription exists)
+        if (this.routeSubscription) {
+            this.routeSubscription.remove();
+        }
+    }
+
     render() {
         return (
             <View style={globalStyles.container}>

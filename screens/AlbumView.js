@@ -25,32 +25,31 @@ class AlbumView extends React.Component {
     };
 
     componentDidMount() {
+        // create route subscription to know when to re-fetch data because the component is mounted even if it is
+        // not in the view, so react-navigation provides events
         this.routeSubscription = this.props.navigation.addListener(
             'willFocus',
             this.fetchData
         );
     }
 
-    componentWillUnmount() {
-        if (this.routeSubscription) {
-            this.routeSubscription.remove();
-        }
-    }
-
     fetchData = ctx => {
         this.setState({ loading: true });
         let albumId;
+        // sometimes react-navigation gives a 'context' object which contains the route params
         if (ctx) {
             albumId = ctx.state.params.albumId;
         } else {
             albumId = this.props.navigation.getParam('albumId');
         }
+        // if all data has been loaded and the previous album id is the same as the current one -
+        // there is no need to fetch the data again, display the old data
         if (this.state.data && this.state.data.id === albumId) {
             this.setState({ loading: false });
             return;
         }
-        // console.log('Fetching album...');
-        // console.log('albumId', albumId);
+
+        // fetch album
         Spotify.getAlbum(albumId)
             .then(res => {
                 console.log(res);
@@ -64,6 +63,13 @@ class AlbumView extends React.Component {
     setModal = () => {
         this.setState(prevState => ({ showModal: !prevState.showModal }));
     };
+
+    componentWillUnmount() {
+        // cancel route subscription when the component unmounts (if the subscription exists)
+        if (this.routeSubscription) {
+            this.routeSubscription.remove();
+        }
+    }
 
     render() {
         return (

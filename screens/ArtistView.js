@@ -7,7 +7,6 @@ import {
     ScrollView,
     Dimensions,
     StatusBar,
-    TouchableWithoutFeedback,
     Image,
     StyleSheet
 } from 'react-native';
@@ -31,6 +30,8 @@ class ArtistView extends React.Component {
     routeSubscription = null;
 
     componentDidMount() {
+        // create route subscription to know when to re-fetch data because the component is mounted even if it is
+        // not in the view, so react-navigation provides events
         this.routeSubscription = this.props.navigation.addListener(
             'willFocus',
             this.fetchData
@@ -40,11 +41,15 @@ class ArtistView extends React.Component {
     fetchData = ctx => {
         this.setState({ loading: true });
         let artistId;
+        // sometimes react-navigation gives a 'context' object which contains the route params
         if (ctx) {
             artistId = ctx.state.params.artistId;
         } else {
             artistId = this.props.navigation.getParam('artistId');
         }
+
+        // if all data has been loaded and the previous artist id is the same as the current one -
+        // there is no need to fetch the data again, display the old data
         if (
             this.state.artist &&
             this.state.artistTopTracks &&
@@ -56,6 +61,7 @@ class ArtistView extends React.Component {
             return;
         }
 
+        // fetch artist
         Spotify.getArtist(artistId)
             .then(res => {
                 this.setState({ artist: res, loading: false });
@@ -65,6 +71,7 @@ class ArtistView extends React.Component {
                 console.log(err);
             });
 
+        // fetch artist top tracks
         Spotify.getArtistTopTracks(artistId, 'from_token')
             .then(res => {
                 this.setState({ artistTopTracks: res.tracks, loading: false });
@@ -74,6 +81,7 @@ class ArtistView extends React.Component {
                 console.log(err);
             });
 
+        // fetch artist albums
         Spotify.getArtistAlbums(artistId, { limit: 4 })
             .then(res => {
                 this.setState({ artistAlbums: res, loading: false });
@@ -83,6 +91,7 @@ class ArtistView extends React.Component {
                 console.log(err);
             });
 
+        // fetch artist related artists
         Spotify.getArtistRelatedArtists(artistId, { limit: 10 })
             .then(res => {
                 this.setState({ artistRelated: res.artists, loading: false });
@@ -92,8 +101,12 @@ class ArtistView extends React.Component {
                 console.log(err);
             });
     };
+
     componentWillUnmount() {
-        this.routeSubscription.remove();
+        // cancel route subscription when the component unmounts (if the subscription exists)
+        if (this.routeSubscription) {
+            this.routeSubscription.remove();
+        }
     }
     render() {
         return (
