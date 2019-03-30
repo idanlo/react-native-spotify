@@ -305,7 +305,7 @@ class ArtistView extends React.Component {
                                             marginHorizontal: 10
                                         }}
                                         numColumns={2}
-                                        scrollEnables={false}
+                                        scrollEnabled={false}
                                         data={this.state.artistAlbums.items}
                                         keyExtractor={(_, i) => i.toString()}
                                         renderItem={({ item }) => (
