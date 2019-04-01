@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { Text } from '../UI';
 import Spotify from 'rn-spotify-sdk';
+import { colorsFromUrl } from 'react-native-dominant-color';
 import LinearGradient from 'react-native-linear-gradient';
 import globalStyles from '../styles';
 
@@ -23,10 +24,30 @@ export default class Search extends React.Component {
     };
 
     componentDidMount() {
+        // fetch 10 categories from spotify API
         Spotify.sendRequest('v1/browse/categories', 'GET', { limit: 10 }, false)
-            .then(res => {
-                this.setState({ genres: res.categories });
-                console.log(res);
+            .then(async res => {
+                // extract categories object from 'res' (object destructuring)
+                const { categories } = res;
+                // using `await Promise.all()` to wait for all promises inside `Array.map()` to resolve (get dominant colors)
+                categories.items = await Promise.all(
+                    categories.items.map(async category => {
+                        // re-create the category object, now with a `color` key
+                        const newCategory = { ...category };
+                        // get dominant colors from `react-native-dominant-color`
+                        const colors = await colorsFromUrl(
+                            category.icons[0].url
+                        );
+                        // check if dominant color exists
+                        if (colors && colors.dominantColor) {
+                            newCategory.color = colors.dominantColor;
+                        }
+
+                        // return the "new" category object with the `color` key
+                        return { ...newCategory };
+                    })
+                );
+                this.setState({ genres: categories });
             })
             .catch(err => {
                 console.log(err);
@@ -34,6 +55,7 @@ export default class Search extends React.Component {
     }
 
     render() {
+        console.log(this.state);
         return (
             <View style={{ backgroundColor: '#191414' }}>
                 <ScrollView>
@@ -97,7 +119,7 @@ export default class Search extends React.Component {
                                                     width: width / 2 - 30,
                                                     height:
                                                         (width / 2 - 30) / 2,
-                                                    backgroundColor: 'blue',
+                                                    backgroundColor: item.color,
                                                     borderRadius: 6,
                                                     overflow: 'hidden'
                                                 }}
