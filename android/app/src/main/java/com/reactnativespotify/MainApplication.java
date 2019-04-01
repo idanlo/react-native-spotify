@@ -2,7 +2,7 @@ package com.reactnativespotify;
 
 import android.app.Application;
 import com.facebook.react.ReactApplication;
-import cl.hasaezs.rndominantcolor.RNDominantColorPackage;
+import com.idanlo.rnvibrantcolor.RNVibrantColorPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.lufinkey.react.spotify.RNSpotifyPackage;
@@ -29,7 +29,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new RNDominantColorPackage(),
+            new RNVibrantColorPackage(),
             new SplashScreenReactPackage(),
             new VectorIconsPackage(),
             new RNSpotifyPackage(),

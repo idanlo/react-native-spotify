@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { Text } from '../UI';
 import Spotify from 'rn-spotify-sdk';
-import { colorsFromUrl } from 'react-native-dominant-color';
+import { colorsFromUrl } from 'react-native-vibrant-color';
 import LinearGradient from 'react-native-linear-gradient';
 import globalStyles from '../styles';
 
@@ -38,9 +38,16 @@ export default class Search extends React.Component {
                         const colors = await colorsFromUrl(
                             category.icons[0].url
                         );
-                        // check if dominant color exists
-                        if (colors && colors.dominantColor) {
-                            newCategory.color = colors.dominantColor;
+                        console.log('fafafa', colors);
+                        // check if dominant/vibrant color exists
+                        if (colors) {
+                            if (colors.vibrantColor !== '#CCCCCC') {
+                                newCategory.color = colors.vibrantColor;
+                            } else if (colors.dominantColor !== '#CCCCCC') {
+                                newCategory.color = colors.dominantColor;
+                            } else {
+                                newCategory.color = '#CCCCCC';
+                            }
                         }
 
                         // return the "new" category object with the `color` key
