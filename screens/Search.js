@@ -7,6 +7,7 @@ import {
     FlatList,
     Image,
     TouchableOpacity,
+    ActivityIndicator,
     Dimensions,
     TextInput
 } from 'react-native';
@@ -25,7 +26,7 @@ export default class Search extends React.Component {
 
     componentDidMount() {
         // fetch 10 categories from spotify API
-        Spotify.sendRequest('v1/browse/categories', 'GET', { limit: 10 }, false)
+        Spotify.sendRequest('v1/browse/categories', 'GET', { limit: 15 }, false)
             .then(async res => {
                 // extract categories object from 'res' (object destructuring)
                 const { categories } = res;
@@ -165,7 +166,44 @@ export default class Search extends React.Component {
                                         </TouchableOpacity>
                                     )}
                                 />
-                            ) : null}
+                            ) : (
+                                <FlatList
+                                    data={Array(15).fill(0)}
+                                    numColumns={2}
+                                    scrollEnabled={false}
+                                    keyExtractor={(_, i) => i.toString()}
+                                    contentContainerStyle={{
+                                        marginHorizontal: 10
+                                    }}
+                                    renderItem={() => (
+                                        <TouchableOpacity
+                                            style={{
+                                                flex: 1,
+                                                alignItems: 'center',
+                                                paddingBottom: 20,
+                                                position: 'relative'
+                                            }}
+                                        >
+                                            <View
+                                                style={{
+                                                    width: width / 2 - 30,
+                                                    height:
+                                                        (width / 2 - 30) / 2,
+                                                    backgroundColor: 'black',
+                                                    borderRadius: 6,
+                                                    justifyContent: 'center',
+                                                    alignItems: 'center'
+                                                }}
+                                            >
+                                                <ActivityIndicator
+                                                    color="#1DB954"
+                                                    size={20}
+                                                />
+                                            </View>
+                                        </TouchableOpacity>
+                                    )}
+                                />
+                            )}
                         </View>
                     </LinearGradient>
                 </ScrollView>
