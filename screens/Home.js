@@ -119,7 +119,10 @@ function Home(props) {
                                                     }}
                                                     style={styles.artistImage}
                                                 />
-                                                <Text style={styles.albumName}>
+                                                <Text
+                                                    numberOfLines={1}
+                                                    style={styles.albumName}
+                                                >
                                                     {item.track.artists[0].name}
                                                 </Text>
                                             </View>
@@ -146,14 +149,16 @@ function Home(props) {
                                                     }}
                                                     style={styles.albumImage}
                                                 />
-                                                <Text style={styles.albumName}>
+                                                <Text
+                                                    numberOfLines={1}
+                                                    style={styles.albumName}
+                                                >
                                                     {item.track.name}
                                                 </Text>
                                                 <Text
+                                                    numberOfLines={1}
                                                     size={12}
-                                                    style={{
-                                                        textAlign: 'center'
-                                                    }}
+                                                    style={styles.albumName}
                                                     color="grey"
                                                 >
                                                     {item.track.album.name}
@@ -198,7 +203,10 @@ function Home(props) {
                                                 }}
                                                 style={styles.albumImage}
                                             />
-                                            <Text style={styles.albumName}>
+                                            <Text
+                                                numberOfLines={1}
+                                                style={styles.albumName}
+                                            >
                                                 {item.name}
                                             </Text>
                                         </View>
@@ -240,7 +248,10 @@ function Home(props) {
                                                 }}
                                                 style={styles.artistImage}
                                             />
-                                            <Text style={styles.albumName}>
+                                            <Text
+                                                numberOfLines={1}
+                                                style={styles.albumName}
+                                            >
                                                 {item.name}
                                             </Text>
                                         </View>
@@ -282,7 +293,10 @@ function Home(props) {
                                                 }}
                                                 style={styles.albumImage}
                                             />
-                                            <Text style={styles.albumName}>
+                                            <Text
+                                                numberOfLines={1}
+                                                style={styles.albumName}
+                                            >
                                                 {item.name}
                                             </Text>
                                         </View>
@@ -329,7 +343,8 @@ const styles = StyleSheet.create({
     },
     albumName: {
         fontWeight: 'bold',
-        textAlign: 'center'
+        textAlign: 'center',
+        width: 150
     },
     artistImage: {
         width: 150,
