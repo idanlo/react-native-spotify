@@ -34,6 +34,7 @@ class AlbumView extends React.Component {
     }
 
     fetchData = ctx => {
+        StatusBar.setBackgroundColor('#191414');
         this.setState({ loading: true });
         let albumId;
         // sometimes react-navigation gives a 'context' object which contains the route params
@@ -74,7 +75,6 @@ class AlbumView extends React.Component {
     render() {
         return (
             <View style={globalStyles.container}>
-                <StatusBar backgroundColor="#191414" />
                 {this.state.data && !this.state.loading ? (
                     <ModalContext.Consumer>
                         {({ openModal }) => (

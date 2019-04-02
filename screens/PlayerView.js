@@ -19,6 +19,10 @@ import PlayerBase from '../components/PlayerBase';
 const { width } = Dimensions.get('window');
 
 export default class PlayerView extends PlayerBase {
+    setStatusBarColor = () => {
+        StatusBar.setBackgroundColor('#3A5B5F');
+    };
+
     seek = async val => {
         await Spotify.seek(val);
         this.stateChangedHandler();
@@ -31,7 +35,6 @@ export default class PlayerView extends PlayerBase {
                 colors={['#3A5B5F', '#191414']}
                 style={globalStyles.container}
             >
-                <StatusBar backgroundColor="#3A5B5F" />
                 <View>
                     <View style={styles.header}>
                         <TouchableOpacity

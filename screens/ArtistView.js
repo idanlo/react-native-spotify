@@ -39,6 +39,7 @@ class ArtistView extends React.Component {
     }
 
     fetchData = ctx => {
+        StatusBar.setBackgroundColor('#191414');
         this.setState({ loading: true });
         let artistId;
         // sometimes react-navigation gives a 'context' object which contains the route params
@@ -111,7 +112,6 @@ class ArtistView extends React.Component {
     render() {
         return (
             <View style={globalStyles.container}>
-                <StatusBar backgroundColor="#191414" />
                 {this.state.artist &&
                 this.state.artistTopTracks &&
                 this.state.artistAlbums &&

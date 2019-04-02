@@ -33,6 +33,7 @@ class PlaylistView extends React.Component {
     }
 
     fetchData = ctx => {
+        StatusBar.setBackgroundColor('#191414');
         this.setState({ loading: true });
         let playlistId;
         // sometimes react-navigation gives a 'context' object which contains the route params
@@ -81,7 +82,6 @@ class PlaylistView extends React.Component {
     render() {
         return (
             <View style={globalStyles.container}>
-                <StatusBar backgroundColor="#191414" />
                 {this.state.playlist && !this.state.loading ? (
                     <ModalContext.Consumer>
                         {({ openModal }) => (

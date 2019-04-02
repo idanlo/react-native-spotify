@@ -23,8 +23,13 @@ export default class Search extends React.Component {
     state = {
         genres: null
     };
+    routeSubscription = null;
 
     componentDidMount() {
+        this.routeSubscription = this.props.navigation.addListener(
+            'willFocus',
+            this.setStatusBarColor
+        );
         // fetch 10 categories from spotify API
         Spotify.sendRequest('v1/browse/categories', 'GET', { limit: 16 }, false)
             .then(async res => {
@@ -68,6 +73,15 @@ export default class Search extends React.Component {
             });
     }
 
+    setStatusBarColor = () => {
+        StatusBar.setBackgroundColor('transparent');
+        StatusBar.setTranslucent(true);
+    };
+
+    componentWillUnmount() {
+        this.routeSubscription.remove();
+    }
+
     render() {
         console.log(this.state);
         return (
@@ -79,10 +93,6 @@ export default class Search extends React.Component {
                         end={{ x: 3, y: 3 }}
                         locations={[0, 0.1]}
                     >
-                        <StatusBar
-                            translucent={true}
-                            backgroundColor={'transparent'}
-                        />
                         <View style={{ marginTop: 50 }}>
                             <Text bold size={34} style={styles.header}>
                                 Search
