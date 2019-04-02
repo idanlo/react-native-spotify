@@ -26,7 +26,7 @@ export default class Search extends React.Component {
 
     componentDidMount() {
         // fetch 10 categories from spotify API
-        Spotify.sendRequest('v1/browse/categories', 'GET', { limit: 15 }, false)
+        Spotify.sendRequest('v1/browse/categories', 'GET', { limit: 16 }, false)
             .then(async res => {
                 // extract categories object from 'res' (object destructuring)
                 const { categories } = res;
@@ -36,20 +36,26 @@ export default class Search extends React.Component {
                         // re-create the category object, now with a `color` key
                         const newCategory = { ...category };
                         // get dominant colors from `react-native-dominant-color`
-                        const colors = await colorsFromUrl(
-                            category.icons[0].url
-                        );
-                        console.log('fafafa', colors);
-                        // check if dominant/vibrant color exists
-                        if (colors) {
-                            if (colors.vibrantColor !== '#CCCCCC') {
-                                newCategory.color = colors.vibrantColor;
-                            } else if (colors.dominantColor !== '#CCCCCC') {
-                                newCategory.color = colors.dominantColor;
-                            } else {
-                                newCategory.color = '#CCCCCC';
-                            }
-                        }
+                        // for some reason using 'await' alone does not work, the function doesn't return a value when using await
+                        await colorsFromUrl(category.icons[0].url)
+                            .then(colors => {
+                                // check if dominant/vibrant color exists
+                                if (colors) {
+                                    if (colors.vibrantColor !== '#CCCCCC') {
+                                        newCategory.color = colors.vibrantColor;
+                                    } else if (
+                                        colors.dominantColor !== '#CCCCCC'
+                                    ) {
+                                        newCategory.color =
+                                            colors.dominantColor;
+                                    } else {
+                                        newCategory.color = '#CCCCCC';
+                                    }
+                                }
+                            })
+                            .catch(err => {
+                                console.log(err);
+                            });
 
                         // return the "new" category object with the `color` key
                         return { ...newCategory };
@@ -168,7 +174,7 @@ export default class Search extends React.Component {
                                 />
                             ) : (
                                 <FlatList
-                                    data={Array(15).fill(0)}
+                                    data={Array(16).fill(0)}
                                     numColumns={2}
                                     scrollEnabled={false}
                                     keyExtractor={(_, i) => i.toString()}
