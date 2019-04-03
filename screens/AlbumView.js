@@ -34,7 +34,6 @@ class AlbumView extends React.Component {
     }
 
     fetchData = ctx => {
-        StatusBar.setBackgroundColor('#191414');
         this.setState({ loading: true });
         let albumId;
         // sometimes react-navigation gives a 'context' object which contains the route params
@@ -74,30 +73,31 @@ class AlbumView extends React.Component {
 
     render() {
         return (
-            <View style={globalStyles.container}>
+            <View style={[globalStyles.container, { paddingTop: 0 }]}>
                 {this.state.data && !this.state.loading ? (
                     <ModalContext.Consumer>
                         {({ openModal }) => (
-                            <ScrollView>
-                                <View
-                                    style={
-                                        ([globalStyles.container],
-                                        { paddingTop: 0 })
-                                    }
-                                >
-                                    <View style={styles.header}>
+                            <View>
+                                <View style={styles.header}>
+                                    <TouchableOpacity
+                                        style={{ width: '50%' }}
+                                        onPress={() =>
+                                            this.props.navigation.goBack()
+                                        }
+                                    >
+                                        <Icon
+                                            name="ios-arrow-back"
+                                            size={30}
+                                            color="#fff"
+                                        />
+                                    </TouchableOpacity>
+                                    <View
+                                        style={{
+                                            width: '50%'
+                                        }}
+                                    >
                                         <TouchableOpacity
-                                            onPress={() =>
-                                                this.props.navigation.goBack()
-                                            }
-                                        >
-                                            <Icon
-                                                name="ios-arrow-back"
-                                                size={30}
-                                                color="#fff"
-                                            />
-                                        </TouchableOpacity>
-                                        <TouchableOpacity
+                                            style={{ paddingLeft: '95%' }}
                                             onPress={() => {
                                                 openModal(
                                                     {
@@ -149,89 +149,109 @@ class AlbumView extends React.Component {
                                             />
                                         </TouchableOpacity>
                                     </View>
-                                    <View style={{ alignItems: 'center' }}>
-                                        <Image
-                                            source={{
-                                                uri: this.state.data.images[1]
-                                                    .url
-                                            }}
-                                            style={{ width: 150, height: 150 }}
-                                        />
-                                        <Text
-                                            bold
-                                            size={24}
-                                            style={{
-                                                textAlign: 'center'
-                                            }}
-                                        >
-                                            {this.state.data.name}
-                                        </Text>
-                                        <Text
-                                            size={14}
-                                            style={{
-                                                textAlign: 'center'
-                                            }}
-                                            color="grey"
-                                        >
-                                            Album by{' '}
-                                            {this.state.data.artists
-                                                .map(artist => artist.name)
-                                                .join(', ')}
-                                        </Text>
-                                        <TouchableOpacity
-                                            onPress={() =>
-                                                Spotify.playURI(
-                                                    this.state.data.uri,
-                                                    0,
-                                                    0
-                                                )
+                                </View>
+                                <ScrollView overScrollMode="never">
+                                    <View
+                                        style={[
+                                            globalStyles.container,
+                                            {
+                                                paddingTop: 0,
+                                                paddingBottom:
+                                                    StatusBar.currentHeight + 35
                                             }
-                                        >
-                                            <View
+                                        ]}
+                                    >
+                                        <View style={{ alignItems: 'center' }}>
+                                            <Image
+                                                source={{
+                                                    uri: this.state.data
+                                                        .images[1].url
+                                                }}
                                                 style={{
-                                                    alignItems: 'center',
-                                                    justifyContent: 'center',
                                                     width: 150,
-                                                    height: 50,
-                                                    borderRadius: 25,
-                                                    backgroundColor: '#1DB954',
-                                                    marginTop: 10,
-                                                    marginBottom: 10
+                                                    height: 150
+                                                }}
+                                            />
+                                            <Text
+                                                bold
+                                                size={24}
+                                                style={{
+                                                    textAlign: 'center'
                                                 }}
                                             >
-                                                <Text
-                                                    bold
-                                                    size={28}
+                                                {this.state.data.name}
+                                            </Text>
+                                            <Text
+                                                size={14}
+                                                style={{
+                                                    textAlign: 'center'
+                                                }}
+                                                color="grey"
+                                            >
+                                                Album by{' '}
+                                                {this.state.data.artists
+                                                    .map(artist => artist.name)
+                                                    .join(', ')}
+                                            </Text>
+                                            <TouchableOpacity
+                                                onPress={() =>
+                                                    Spotify.playURI(
+                                                        this.state.data.uri,
+                                                        0,
+                                                        0
+                                                    )
+                                                }
+                                            >
+                                                <View
                                                     style={{
-                                                        textAlign: 'center'
+                                                        alignItems: 'center',
+                                                        justifyContent:
+                                                            'center',
+                                                        width: 150,
+                                                        height: 50,
+                                                        borderRadius: 25,
+                                                        backgroundColor:
+                                                            '#1DB954',
+                                                        marginTop: 10,
+                                                        marginBottom: 10
                                                     }}
                                                 >
-                                                    Play
-                                                </Text>
-                                            </View>
-                                        </TouchableOpacity>
-                                    </View>
+                                                    <Text
+                                                        bold
+                                                        size={28}
+                                                        style={{
+                                                            textAlign: 'center'
+                                                        }}
+                                                    >
+                                                        Play
+                                                    </Text>
+                                                </View>
+                                            </TouchableOpacity>
+                                        </View>
 
-                                    <FlatList
-                                        contentContainerStyle={{
-                                            zIndex: 1000,
-                                            flex: 1,
-                                            marginHorizontal: 10
-                                        }}
-                                        scrollEnabled={false}
-                                        data={this.state.data.tracks.items}
-                                        keyExtractor={(_, i) => i.toString()}
-                                        renderItem={({ item }) => (
-                                            <Song
-                                                song={item}
-                                                artists={
-                                                    this.state.data.artists
-                                                }
-                                            />
-                                        )}
-                                    />
-                                </View>
-                            </ScrollView>
+                                        <FlatList
+                                            contentContainerStyle={{
+                                                zIndex: 1000,
+                                                flex: 1,
+                                                marginHorizontal: 10
+                                            }}
+                                            scrollEnabled={false}
+                                            data={this.state.data.tracks.items}
+                                            keyExtractor={(_, i) =>
+                                                i.toString()
+                                            }
+                                            renderItem={({ item }) => (
+                                                <Song
+                                                    song={item}
+                                                    artists={
+                                                        this.state.data.artists
+                                                    }
+                                                />
+                                            )}
+                                        />
+                                    </View>
+                                </ScrollView>
+                            </View>
                         )}
                     </ModalContext.Consumer>
                 ) : (
@@ -253,12 +273,10 @@ class AlbumView extends React.Component {
 }
 const styles = StyleSheet.create({
     header: {
-        flex: 1,
-        flexGrow: 1,
         backgroundColor: '#191414',
-        justifyContent: 'space-between',
         flexDirection: 'row',
-        marginHorizontal: 15,
+        marginHorizontal: 25,
+        marginTop: StatusBar.currentHeight,
         height: 35
     }
 });

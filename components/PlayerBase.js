@@ -12,9 +12,6 @@ export default class PlayerBase extends React.Component {
     interval = null;
     componentDidMount() {
         this.mount();
-        if (this.setStatusBarColor) {
-            this.setStatusBarColor();
-        }
     }
 
     mount = async () => {

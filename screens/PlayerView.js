@@ -6,7 +6,6 @@ import {
     StyleSheet,
     Dimensions,
     TouchableOpacity,
-    StatusBar,
     Slider
 } from 'react-native';
 import Spotify from 'rn-spotify-sdk/src/Spotify';
@@ -19,10 +18,6 @@ import PlayerBase from '../components/PlayerBase';
 const { width } = Dimensions.get('window');
 
 export default class PlayerView extends PlayerBase {
-    setStatusBarColor = () => {
-        StatusBar.setBackgroundColor('#3A5B5F');
-    };
-
     seek = async val => {
         await Spotify.seek(val);
         this.stateChangedHandler();

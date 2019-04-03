@@ -6,7 +6,6 @@ import {
     TouchableOpacity,
     ScrollView,
     Dimensions,
-    StatusBar,
     Image,
     StyleSheet
 } from 'react-native';
@@ -40,7 +39,6 @@ class ArtistView extends React.Component {
     }
 
     fetchData = ctx => {
-        StatusBar.setBackgroundColor('#191414');
         this.setState({ loading: true });
         let artistId;
         // sometimes react-navigation gives a 'context' object which contains the route params

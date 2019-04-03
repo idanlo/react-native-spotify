@@ -6,8 +6,7 @@ import {
     ActivityIndicator,
     FlatList,
     TouchableOpacity,
-    ScrollView,
-    StatusBar
+    ScrollView
 } from 'react-native';
 import { Text } from '../UI';
 import Spotify from 'rn-spotify-sdk';
@@ -33,7 +32,6 @@ class PlaylistView extends React.Component {
     }
 
     fetchData = ctx => {
-        StatusBar.setBackgroundColor('#191414');
         this.setState({ loading: true });
         let playlistId;
         // sometimes react-navigation gives a 'context' object which contains the route params

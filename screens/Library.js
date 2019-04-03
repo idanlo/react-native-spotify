@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, StatusBar, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import { Text } from '../UI';
 import globalStyles from '../styles';
 
@@ -16,7 +16,7 @@ export default class Library extends React.Component {
     }
 
     fetchData = ctx => {
-        StatusBar.setBackgroundColor('#191414');
+        //
     };
 
     componentWillUnmount() {

@@ -2,7 +2,6 @@ import React from 'react';
 import {
     View,
     StyleSheet,
-    StatusBar,
     ScrollView,
     FlatList,
     Image,
@@ -72,11 +71,6 @@ export default class Search extends React.Component {
                 console.log(err);
             });
     }
-
-    setStatusBarColor = () => {
-        StatusBar.setBackgroundColor('transparent');
-        StatusBar.setTranslucent(true);
-    };
 
     componentWillUnmount() {
         this.routeSubscription.remove();
