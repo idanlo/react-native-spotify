@@ -11,6 +11,7 @@ import {
 import { Text } from '../UI';
 import Spotify from 'rn-spotify-sdk';
 import globalStyles from '../styles';
+import Album from '../components/Album';
 
 function Home(props) {
     const [recentlyPlayed, setRecentlyPlayed] = React.useState(null);
@@ -87,12 +88,7 @@ function Home(props) {
                             showsHorizontalScrollIndicator={false}
                             data={recentlyPlayed.items}
                             renderItem={({ item, index }) => (
-                                <View
-                                    style={getAlbumStyle(
-                                        index,
-                                        recentlyPlayed.items.length
-                                    )}
-                                >
+                                <View style={styles.album}>
                                     {item.context !== 'null' &&
                                     item.context.type === 'artist' &&
                                     item.track.artists &&
@@ -128,7 +124,8 @@ function Home(props) {
                                             </View>
                                         </TouchableOpacity>
                                     ) : (
-                                        <TouchableOpacity
+                                        <Album
+                                            style={{ height: 200 }}
                                             onPress={() =>
                                                 // navigate to AlbumView
                                                 props.navigation.navigate(
@@ -139,32 +136,15 @@ function Home(props) {
                                                     }
                                                 )
                                             }
-                                        >
-                                            <View>
-                                                <Image
-                                                    source={{
-                                                        uri:
-                                                            item.track.album
-                                                                .images[1].url
-                                                    }}
-                                                    style={styles.albumImage}
-                                                />
-                                                <Text
-                                                    numberOfLines={1}
-                                                    style={styles.albumName}
-                                                >
-                                                    {item.track.name}
-                                                </Text>
-                                                <Text
-                                                    numberOfLines={1}
-                                                    size={12}
-                                                    style={styles.albumName}
-                                                    color="grey"
-                                                >
-                                                    {item.track.album.name}
-                                                </Text>
-                                            </View>
-                                        </TouchableOpacity>
+                                            image={
+                                                item.track.album.images[1].url
+                                            }
+                                            imageStyle={styles.albumImage}
+                                            primaryText={item.track.name}
+                                            secondaryText={
+                                                item.track.album.name
+                                            }
+                                        />
                                     )}
                                 </View>
                             )}
@@ -181,12 +161,7 @@ function Home(props) {
                             showsHorizontalScrollIndicator={false}
                             data={featured.playlists.items}
                             renderItem={({ item, index }) => (
-                                <View
-                                    style={getAlbumStyle(
-                                        index,
-                                        featured.playlists.items.length
-                                    )}
-                                >
+                                <View style={styles.album}>
                                     <TouchableOpacity
                                         onPress={() =>
                                             // navigate to PlaylistView
@@ -226,12 +201,7 @@ function Home(props) {
                             showsHorizontalScrollIndicator={false}
                             data={topArtists.items}
                             renderItem={({ item, index }) => (
-                                <View
-                                    style={getAlbumStyle(
-                                        index,
-                                        topArtists.items.length
-                                    )}
-                                >
+                                <View style={styles.album}>
                                     <TouchableOpacity
                                         onPress={() =>
                                             // navigate to ArtistView
@@ -271,12 +241,7 @@ function Home(props) {
                             showsHorizontalScrollIndicator={false}
                             data={newReleases.albums.items}
                             renderItem={({ item, index }) => (
-                                <View
-                                    style={getAlbumStyle(
-                                        index,
-                                        newReleases.albums.items.length
-                                    )}
-                                >
+                                <View style={styles.album}>
                                     <TouchableOpacity
                                         onPress={() =>
                                             // navigate to AlbumView
@@ -312,14 +277,6 @@ function Home(props) {
     );
 }
 
-const getAlbumStyle = (index, length) => ({
-    height: 180,
-    width: 170,
-    marginLeft: index === 0 ? 10 : 0,
-    marginRight: index === length - 1 ? -10 : 0,
-    alignItems: 'center'
-});
-
 const styles = StyleSheet.create({
     header: {
         fontSize: 34,
@@ -335,7 +292,8 @@ const styles = StyleSheet.create({
     },
     album: {
         height: 180,
-        width: 170
+        width: 170,
+        alignItems: 'center'
     },
     albumImage: {
         height: 150,

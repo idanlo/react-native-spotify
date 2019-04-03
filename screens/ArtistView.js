@@ -11,6 +11,7 @@ import {
     StyleSheet
 } from 'react-native';
 import { Text } from '../UI';
+import Album from '../components/Album';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Spotify from 'rn-spotify-sdk/src/Spotify';
 import { ModalContext } from '../components/Modal';
@@ -309,7 +310,7 @@ class ArtistView extends React.Component {
                                         data={this.state.artistAlbums.items}
                                         keyExtractor={(_, i) => i.toString()}
                                         renderItem={({ item }) => (
-                                            <TouchableOpacity
+                                            <Album
                                                 onPress={() =>
                                                     this.props.navigation.navigate(
                                                         'AlbumView',
@@ -321,39 +322,19 @@ class ArtistView extends React.Component {
                                                     alignItems: 'center',
                                                     paddingBottom: 10
                                                 }}
-                                            >
-                                                <Image
-                                                    source={{
-                                                        uri: item.images[1].url
-                                                    }}
-                                                    style={{
-                                                        height: width / 2 - 30,
-                                                        width: width / 2 - 30
-                                                    }}
-                                                />
-                                                <Text
-                                                    bold
-                                                    size={16}
-                                                    style={{
-                                                        textAlign: 'center'
-                                                    }}
-                                                >
-                                                    {item.name}
-                                                </Text>
-                                                <Text
-                                                    size={12}
-                                                    color="grey"
-                                                    style={{
-                                                        textAlign: 'center'
-                                                    }}
-                                                >
-                                                    {item.total_tracks} Songs ●{' '}
-                                                    {item.release_date.substring(
-                                                        0,
-                                                        4
-                                                    )}
-                                                </Text>
-                                            </TouchableOpacity>
+                                                image={item.images[1].url}
+                                                imageStyle={{
+                                                    height: width / 2 - 30,
+                                                    width: width / 2 - 30
+                                                }}
+                                                primaryText={item.name}
+                                                secondaryText={`${
+                                                    item.total_tracks
+                                                } Songs ● ${item.release_date.substring(
+                                                    0,
+                                                    4
+                                                )}`}
+                                            />
                                         )}
                                     />
 
