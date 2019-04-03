@@ -25,10 +25,6 @@ export default class Search extends React.Component {
     routeSubscription = null;
 
     componentDidMount() {
-        this.routeSubscription = this.props.navigation.addListener(
-            'willFocus',
-            this.setStatusBarColor
-        );
         // fetch 10 categories from spotify API
         Spotify.sendRequest('v1/browse/categories', 'GET', { limit: 16 }, false)
             .then(async res => {
