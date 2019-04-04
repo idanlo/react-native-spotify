@@ -15,7 +15,7 @@ import globalStyles from '../../UI/styles';
 import { Text } from '../../UI';
 import PlayerBase from './PlayerBase';
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 export default class PlayerView extends PlayerBase {
     seek = async val => {
@@ -33,6 +33,7 @@ export default class PlayerView extends PlayerBase {
                 <View>
                     <View style={styles.header}>
                         <TouchableOpacity
+                            style={{ width: 40, alignItems: 'flex-start' }}
                             onPress={() => this.props.navigation.goBack()}
                         >
                             <Icon
@@ -41,7 +42,18 @@ export default class PlayerView extends PlayerBase {
                                 color="#fff"
                             />
                         </TouchableOpacity>
-                        <TouchableOpacity>
+                        <View style={{ flex: 1 }}>
+                            <Text
+                                numberOfLines={1}
+                                bold
+                                style={{ textAlign: 'center' }}
+                            >
+                                {this.state.currentTrack.albumName}
+                            </Text>
+                        </View>
+                        <TouchableOpacity
+                            style={{ width: 40, alignItems: 'flex-end' }}
+                        >
                             <Icon name="ios-list" size={30} color="#fff" />
                         </TouchableOpacity>
                     </View>
@@ -221,9 +233,10 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         justifyContent: 'space-between',
         alignItems: 'center',
+        alignContent: 'stretch',
         flexDirection: 'row',
         marginHorizontal: 25,
-        height: 35
+        height: 55
     },
     body: {
         justifyContent: 'center',
