@@ -76,15 +76,26 @@ export default class PlayerView extends PlayerBase {
                                 }}
                             />
                         ) : null}
-
-                        <Image
-                            source={{
-                                uri: `https:${this.state.currentTrack.albumCoverArtURL.substring(
-                                    7
-                                )}`
-                            }}
-                            style={styles.albumImage}
-                        />
+                        {/* FIXME: view needs backgroundColor to display shadow */}
+                        <View
+                            style={[
+                                styles.albumImage,
+                                {
+                                    backgroundColor: 'green',
+                                    outlineProvider: 'bounds',
+                                    elevation: 20
+                                }
+                            ]}
+                        >
+                            <Image
+                                source={{
+                                    uri: `https:${this.state.currentTrack.albumCoverArtURL.substring(
+                                        7
+                                    )}`
+                                }}
+                                style={styles.albumImage}
+                            />
+                        </View>
 
                         {this.state.nextTrack ? (
                             <Image
