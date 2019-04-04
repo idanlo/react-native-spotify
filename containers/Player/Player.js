@@ -5,8 +5,7 @@ import {
     TouchableOpacity,
     TouchableWithoutFeedback
 } from 'react-native';
-import { Text } from '../UI';
-import Spotify from 'rn-spotify-sdk';
+import { Text } from '../../UI';
 import Icon from 'react-native-vector-icons/Ionicons';
 import PlayerBase from './PlayerBase';
 

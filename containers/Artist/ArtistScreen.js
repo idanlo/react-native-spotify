@@ -9,13 +9,13 @@ import {
     Image,
     StyleSheet
 } from 'react-native';
-import { Text } from '../UI';
-import Album from '../components/Album';
+import { Text } from '../../UI';
+import Album from '../Album/Album';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Spotify from 'rn-spotify-sdk/src/Spotify';
-import { ModalContext } from '../components/Modal';
-import Song from '../components/Song';
-import globalStyles from '../styles';
+import { ModalContext } from '../../components/Modal';
+import Song from '../../components/Song';
+import globalStyles from '../../UI/styles';
 
 const { width } = Dimensions.get('window');
 

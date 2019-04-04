@@ -10,11 +10,11 @@ import {
     Dimensions,
     TextInput
 } from 'react-native';
-import { Text } from '../UI';
+import { Text } from '../../UI';
 import Spotify from 'rn-spotify-sdk';
 import { colorsFromUrl } from 'react-native-vibrant-color';
 import LinearGradient from 'react-native-linear-gradient';
-import globalStyles from '../styles';
+import globalStyles from '../../UI/styles';
 
 const { width } = Dimensions.get('screen');
 

@@ -1,8 +1,4 @@
 import React from 'react';
-import LoginScreen from './screens/Login';
-import HomeScreen from './screens/Home';
-import SearchScreen from './screens/Search';
-import LibraryScreen from './screens/Library';
 import { View } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import {
@@ -12,12 +8,16 @@ import {
     BottomTabBar
 } from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Player from './components/Player';
-import PlayerView from './screens/PlayerView';
-import AlbumView from './screens/AlbumView';
-import PlaylistView from './screens/PlaylistView';
-import ArtistView from './screens/ArtistView';
 import Modal, { ModalContext } from './components/Modal';
+import LoginScreen from './containers/LoginScreen';
+import HomeScreen from './containers/HomeScreen';
+import SearchScreen from './containers/Search/SearchScreen';
+import LibraryScreen from './containers/LibraryScreen';
+import PlayerView from './containers/Player/PlayerScreen';
+import Player from './containers/Player/Player';
+import AlbumView from './containers/Album/AlbumScreen';
+import PlaylistView from './containers/Playlist/PlaylistScreen';
+import ArtistView from './containers/Artist/ArtistScreen';
 
 const HomeNavigator = createBottomTabNavigator(
     {

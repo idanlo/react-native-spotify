@@ -8,12 +8,12 @@ import {
     TouchableOpacity,
     ScrollView
 } from 'react-native';
-import { Text } from '../UI';
+import { Text } from '../../UI';
 import Spotify from 'rn-spotify-sdk';
 import Icon from 'react-native-vector-icons/Ionicons';
-import globalStyles from '../styles';
-import Song from '../components/Song';
-import { ModalContext } from '../components/Modal';
+import globalStyles from '../../UI/styles';
+import Song from '../../components/Song';
+import { ModalContext } from '../../components/Modal';
 
 class PlaylistView extends React.Component {
     state = {

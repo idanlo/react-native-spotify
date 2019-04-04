@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Text } from '../UI';
-import globalStyles from '../styles';
+import globalStyles from '../UI/styles';
 
 export default class Library extends React.Component {
     routeSubscription = null;

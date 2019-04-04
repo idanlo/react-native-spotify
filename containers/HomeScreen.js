@@ -10,8 +10,8 @@ import {
 } from 'react-native';
 import { Text } from '../UI';
 import Spotify from 'rn-spotify-sdk';
-import globalStyles from '../styles';
-import Album from '../components/Album';
+import globalStyles from '../UI/styles';
+import Album from './Album/Album';
 
 function Home(props) {
     const [recentlyPlayed, setRecentlyPlayed] = React.useState(null);

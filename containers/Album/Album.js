@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, Image } from 'react-native';
-import { Text } from '../UI';
+import { Text } from '../../UI';
 
 export default function Album(props) {
     return (

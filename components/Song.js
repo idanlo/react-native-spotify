@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-    TouchableWithoutFeedback,
-    TouchableOpacity
-} from 'react-native-gesture-handler';
-import { View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { Text } from '../UI';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Spotify from 'rn-spotify-sdk';

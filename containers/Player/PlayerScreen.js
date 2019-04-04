@@ -11,9 +11,9 @@ import {
 import Spotify from 'rn-spotify-sdk/src/Spotify';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
-import globalStyles from '../styles';
-import { Text } from '../UI';
-import PlayerBase from '../components/PlayerBase';
+import globalStyles from '../../UI/styles';
+import { Text } from '../../UI';
+import PlayerBase from './PlayerBase';
 
 const { width } = Dimensions.get('window');
 

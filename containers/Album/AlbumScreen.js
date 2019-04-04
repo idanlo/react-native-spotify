@@ -9,13 +9,13 @@ import {
     ScrollView,
     StatusBar
 } from 'react-native';
-import { Text } from '../UI';
+import { Text } from '../../UI';
 import Spotify from 'rn-spotify-sdk';
 import Icon from 'react-native-vector-icons/Ionicons';
-import globalStyles from '../styles';
-import Song from '../components/Song';
+import globalStyles from '../../UI/styles';
+import Song from '../../components/Song';
 import LinearGradient from 'react-native-linear-gradient';
-import { ModalContext } from '../components/Modal';
+import { ModalContext } from '../../components/Modal';
 
 class AlbumView extends React.Component {
     state = {
