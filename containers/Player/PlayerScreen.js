@@ -104,12 +104,40 @@ export default class PlayerView extends PlayerBase {
                             />
                         ) : null}
                         <View style={styles.songDetails}>
-                            <Text style={[styles.txt, styles.songName]}>
-                                {this.state.currentTrack.name}
-                            </Text>
-                            <Text style={styles.txt} color="grey">
-                                {this.state.currentTrack.artistName}
-                            </Text>
+                            <View style={{ width: '80%' }}>
+                                <Text
+                                    bold
+                                    size={24}
+                                    numberOfLines={1}
+                                    style={{ textAlign: 'left', width: '100%' }}
+                                >
+                                    {this.state.currentTrack.name}
+                                </Text>
+                                <Text
+                                    size={18}
+                                    color="grey"
+                                    numberOfLines={1}
+                                    style={{ textAlign: 'left', width: '100%' }}
+                                >
+                                    {this.state.currentTrack.artistName}
+                                </Text>
+                            </View>
+                            <View
+                                style={{
+                                    width: '20%',
+                                    alignSelf: 'center',
+                                    justifyContent: 'center',
+                                    flexDirection: 'row'
+                                }}
+                            >
+                                <TouchableOpacity>
+                                    <Icon
+                                        name="ios-heart"
+                                        color="#1DB954"
+                                        size={25}
+                                    />
+                                </TouchableOpacity>
+                            </View>
                         </View>
                         <View style={styles.slider}>
                             <Slider
@@ -120,7 +148,7 @@ export default class PlayerView extends PlayerBase {
                                 thumbTintColor="#fff"
                                 value={this.state.timeline}
                                 style={{
-                                    width: width - 100
+                                    width: '100%'
                                 }}
                                 onSlidingComplete={this.seek}
                             />
@@ -165,17 +193,18 @@ export default class PlayerView extends PlayerBase {
                                 {this.state.state.playing ? (
                                     <Icon
                                         name="ios-pause"
-                                        size={55}
+                                        size={70}
                                         color="#fff"
                                     />
                                 ) : (
                                     <Icon
                                         name="ios-play"
-                                        size={55}
+                                        size={70}
                                         color="#fff"
                                     />
                                 )}
                             </TouchableOpacity>
+
                             <TouchableOpacity
                                 onPress={() => Spotify.skipToNext()}
                                 disabled={!this.state.nextTrack}
@@ -236,7 +265,8 @@ const styles = StyleSheet.create({
         alignContent: 'stretch',
         flexDirection: 'row',
         marginHorizontal: 25,
-        height: 55
+        height: 45,
+        marginBottom: 50
     },
     body: {
         justifyContent: 'center',
@@ -245,10 +275,12 @@ const styles = StyleSheet.create({
     albumImage: {
         width: 300,
         height: 300,
-        marginBottom: 40
+        marginBottom: 75
     },
     songDetails: {
-        marginBottom: 40
+        width: width - 55,
+        flexDirection: 'row',
+        marginBottom: 10
     },
     txt: {
         textAlign: 'center'
@@ -257,6 +289,7 @@ const styles = StyleSheet.create({
         fontSize: 34
     },
     slider: {
+        width: width - 30,
         marginBottom: 40
     },
     buttons: {
