@@ -15,7 +15,6 @@ export default class PlayerBase extends React.Component {
     }
 
     mount = async () => {
-        console.log(Spotify);
         Spotify.addListener('play', this.stateChangedHandler);
         Spotify.addListener('pause', this.stateChangedHandler);
         Spotify.addListener('metadataChange', this.stateChangedHandler);

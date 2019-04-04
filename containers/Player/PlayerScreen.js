@@ -108,7 +108,7 @@ export default class PlayerView extends PlayerBase {
                                 {this.state.currentTrack.name}
                             </Text>
                             <Text style={styles.txt} color="grey">
-                                {this.state.currentTrack.albumName}
+                                {this.state.currentTrack.artistName}
                             </Text>
                         </View>
                         <View style={styles.slider}>
