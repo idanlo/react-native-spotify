@@ -263,8 +263,16 @@ class ArtistView extends React.Component {
                                             keyExtractor={(_, i) =>
                                                 i.toString()
                                             }
-                                            renderItem={({ item }) => (
+                                            renderItem={({ item, index }) => (
                                                 <Song
+                                                    onPress={() =>
+                                                        Spotify.playURI(
+                                                            this.state.artist
+                                                                .uri,
+                                                            index,
+                                                            0
+                                                        )
+                                                    }
                                                     song={item}
                                                     artists={item.artists}
                                                 />

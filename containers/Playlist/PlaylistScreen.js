@@ -216,8 +216,15 @@ class PlaylistView extends React.Component {
                                         scrollEnabled={false}
                                         data={this.state.playlist.tracks.items}
                                         keyExtractor={(_, i) => i.toString()}
-                                        renderItem={({ item }) => (
+                                        renderItem={({ item, index }) => (
                                             <Song
+                                                onPress={() =>
+                                                    Spotify.playURI(
+                                                        this.state.playlist.uri,
+                                                        index,
+                                                        0
+                                                    )
+                                                }
                                                 song={item.track}
                                                 artists={item.track.artists}
                                             />

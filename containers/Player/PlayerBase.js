@@ -21,6 +21,7 @@ export default class PlayerBase extends React.Component {
         Spotify.addListener('trackChange', this.trackChange);
         const initialData = await Spotify.getPlaybackMetadataAsync();
         if (initialData) {
+            console.log(initialData);
             this.setState({
                 currentTrack: initialData.currentTrack,
                 prevTrack: initialData.prevTrack,

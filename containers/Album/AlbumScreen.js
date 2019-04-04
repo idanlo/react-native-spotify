@@ -240,8 +240,15 @@ class AlbumView extends React.Component {
                                             keyExtractor={(_, i) =>
                                                 i.toString()
                                             }
-                                            renderItem={({ item }) => (
+                                            renderItem={({ item, index }) => (
                                                 <Song
+                                                    onPress={() =>
+                                                        Spotify.playURI(
+                                                            this.state.data.uri,
+                                                            index,
+                                                            0
+                                                        )
+                                                    }
                                                     song={item}
                                                     artists={
                                                         this.state.data.artists

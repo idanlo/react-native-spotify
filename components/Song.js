@@ -16,9 +16,7 @@ function Song(props) {
                 justifyContent: 'space-between'
             }}
         >
-            <TouchableOpacity
-                onPress={() => Spotify.playURI(props.song.uri, 0, 0)}
-            >
+            <TouchableOpacity onPress={props.onPress}>
                 <View>
                     <Text>{props.song.name}</Text>
                     {props.artists && props.artists.length > 0 ? (
