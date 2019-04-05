@@ -18,15 +18,7 @@ A Spotify client made with [React Native](https://facebook.github.io/react-nativ
 
 If you find any problems, please [open an issue](https://github.com/idanlo/react-native-spotify/issues/new) or submit a fix as a pull request.
 
-## How can I support developers?
-- Star our GitHub repo :star:
-- [Tweet about it](https://twitter.com/intent/tweet?text=Amazing%20Mobile%20Application%20Template%20built%20with%20React%20Native!&url=https://github.com/flatlogic/react-native-starter&via=flatlogic).
-- Create pull requests, submit bugs, suggest new features or documentation updates :wrench:
-- Follow [@flatlogic on Twitter](https://twitter.com/flatlogic).
-- Subscribe to React Native Starter newsletter at [reactnativestarter.com](https://reactnativestarter.com/)
-- Like our page on [Facebook](https://www.facebook.com/flatlogic/) :thumbsup:
-
-## More from IdanLo
+## More
 
 - [React-Spotify](https://github.com/idanlo/react-spotify) - A Spotify client for the web (made with React)
 - [React-Spotify-Api](https://github.com/idanlo/react-spotify-api) A library that makes interacting with the Spotify api with React easier
