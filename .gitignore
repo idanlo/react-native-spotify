@@ -36,10 +36,6 @@ node_modules/
 npm-debug.log
 yarn-error.log
 
-# auth server
-server/node_modules/
-server/.env
-
 # BUCK
 buck-out/
 \.buckd/
@@ -58,3 +54,5 @@ buck-out/
 
 # Bundle artifact
 *.jsbundle
+
+jest_coverage

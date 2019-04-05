@@ -77,7 +77,6 @@ project.ext.react = [
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
-apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -96,7 +95,6 @@ def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -143,16 +141,16 @@ android {
 }
 
 dependencies {
-    implementation project(':react-native-vibrant-color')
     implementation project(':react-native-splash-screen')
-    implementation project(':react-native-vector-icons')
     implementation project(':rn-spotify-sdk')
     implementation project(':react-native-events')
+    implementation project(':react-native-vector-icons')
+    implementation project(':react-native-localize')
+    implementation project(':react-native-linear-gradient')
     implementation project(':react-native-gesture-handler')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     implementation "com.facebook.react:react-native:+"  // From node_modules
-    implementation project(':react-native-linear-gradient')
 }
 
 // Run this once to be able to run the application with BUCK
