@@ -14,6 +14,7 @@
     "no-underscore-dangle": "off",
     "react/jsx-one-expression-per-line": "off",
     "react/require-default-props": "off",
-    "linebreak-style": "off"
+    "linebreak-style": "off",
+    "no-console": "off"
   }
 }
