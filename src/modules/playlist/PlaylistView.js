@@ -6,6 +6,7 @@ import {
     ActivityIndicator,
     FlatList,
     TouchableOpacity,
+    StatusBar,
     ScrollView,
 } from 'react-native';
 import Spotify from 'rn-spotify-sdk';
@@ -66,41 +67,38 @@ class PlaylistView extends React.Component {
             });
 
         // check if the user follows this playlist (currently the HTTP request does not work)
-        Spotify.getMe().then(res => {
-            Spotify.sendRequest(
-                `v1/playlists/${playlistId}/followers/contains?ids=${res.id}`,
-                'GET',
-                {},
-                false,
-            ).then(isFollowing => {
-                console.log(isFollowing);
-            });
-        });
+        // FIXME: endpoint not working
+        // Spotify.getMe().then(res => {
+        //     Spotify.sendRequest(
+        //         `v1/playlists/${playlistId}/followers/contains?ids=${res.id}`,
+        //         'GET',
+        //         {},
+        //         false,
+        //     ).then(isFollowing => {
+        //         console.log(isFollowing);
+        //     });
+        // });
     };
 
     render() {
         return (
-            <View style={globalStyles.container}>
+            <View style={[globalStyles.container, { paddingTop: 0 }]}>
                 {this.state.playlist && !this.state.loading ? (
-                    <ScrollView>
-                        <View
-                            style={
-                                ([globalStyles.container], { paddingTop: 0 })
-                            }
-                        >
-                            <View style={styles.header}>
+                    <View>
+                        <View style={styles.header}>
+                            <TouchableOpacity
+                                style={{ width: '50%' }}
+                                onPress={() => this.props.navigation.goBack()}
+                            >
+                                <Icon
+                                    name="ios-arrow-back"
+                                    size={30}
+                                    color="#fff"
+                                />
+                            </TouchableOpacity>
+                            <View style={{ width: '50%' }}>
                                 <TouchableOpacity
-                                    onPress={() =>
-                                        this.props.navigation.goBack()
-                                    }
-                                >
-                                    <Icon
-                                        name="ios-arrow-back"
-                                        size={30}
-                                        color="#fff"
-                                    />
-                                </TouchableOpacity>
-                                <TouchableOpacity
+                                    style={{ paddingLeft: '95%' }}
                                     onPress={() => {
                                         this.props.showModal(
                                             {
@@ -138,90 +136,104 @@ class PlaylistView extends React.Component {
                                     />
                                 </TouchableOpacity>
                             </View>
-                            <View style={{ alignItems: 'center' }}>
-                                <Image
-                                    source={{
-                                        uri: this.state.playlist.images[0].url,
-                                    }}
-                                    style={{ width: 150, height: 150 }}
-                                />
-                                <Text
-                                    bold
-                                    size={24}
-                                    style={{
-                                        textAlign: 'center',
-                                    }}
-                                >
-                                    {this.state.playlist.name}
-                                </Text>
-                                <Text
-                                    size={14}
-                                    style={{
-                                        textAlign: 'center',
-                                    }}
-                                    color="grey"
-                                >
-                                    Playlist by{' '}
-                                    {this.state.playlist.owner.display_name}
-                                </Text>
-                                <TouchableOpacity
-                                    onPress={() =>
-                                        Spotify.playURI(
-                                            this.state.playlist.uri,
-                                            0,
-                                            0,
-                                        )
-                                    }
-                                >
-                                    <View
+                        </View>
+                        <ScrollView overScrollMode="never">
+                            <View
+                                style={
+                                    ([globalStyles.container],
+                                    {
+                                        paddingTop: 0,
+                                        paddingBottom:
+                                            StatusBar.currentHeight + 35,
+                                    })
+                                }
+                            >
+                                <View style={{ alignItems: 'center' }}>
+                                    <Image
+                                        source={{
+                                            uri: this.state.playlist.images[0]
+                                                .url,
+                                        }}
+                                        style={{ width: 150, height: 150 }}
+                                    />
+                                    <Text
+                                        bold
+                                        size={24}
                                         style={{
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            width: 150,
-                                            height: 50,
-                                            borderRadius: 25,
-                                            backgroundColor: '#1DB954',
-                                            marginTop: 10,
-                                            marginBottom: 10,
+                                            textAlign: 'center',
                                         }}
                                     >
-                                        <Text
-                                            bold
-                                            size={28}
-                                            style={{
-                                                textAlign: 'center',
-                                            }}
-                                        >
-                                            Play
-                                        </Text>
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
-
-                            <FlatList
-                                contentContainerStyle={{
-                                    flex: 1,
-                                    marginHorizontal: 10,
-                                }}
-                                scrollEnabled={false}
-                                data={this.state.playlist.tracks.items}
-                                keyExtractor={(_, i) => i.toString()}
-                                renderItem={({ item, index }) => (
-                                    <Song
+                                        {this.state.playlist.name}
+                                    </Text>
+                                    <Text
+                                        size={14}
+                                        style={{
+                                            textAlign: 'center',
+                                        }}
+                                        color="grey"
+                                    >
+                                        Playlist by{' '}
+                                        {this.state.playlist.owner.display_name}
+                                    </Text>
+                                    <TouchableOpacity
                                         onPress={() =>
                                             Spotify.playURI(
                                                 this.state.playlist.uri,
-                                                index,
+                                                0,
                                                 0,
                                             )
                                         }
-                                        song={item.track}
-                                        artists={item.track.artists}
-                                    />
-                                )}
-                            />
-                        </View>
-                    </ScrollView>
+                                    >
+                                        <View
+                                            style={{
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                width: 150,
+                                                height: 50,
+                                                borderRadius: 25,
+                                                backgroundColor: '#1DB954',
+                                                marginTop: 10,
+                                                marginBottom: 10,
+                                            }}
+                                        >
+                                            <Text
+                                                bold
+                                                size={28}
+                                                style={{
+                                                    textAlign: 'center',
+                                                }}
+                                            >
+                                                Play
+                                            </Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
+
+                                <FlatList
+                                    contentContainerStyle={{
+                                        flex: 1,
+                                        marginHorizontal: 10,
+                                    }}
+                                    scrollEnabled={false}
+                                    data={this.state.playlist.tracks.items}
+                                    keyExtractor={(_, i) => i.toString()}
+                                    renderItem={({ item, index }) => (
+                                        <Song
+                                            onPress={() =>
+                                                Spotify.playURI(
+                                                    this.state.playlist.uri,
+                                                    index,
+                                                    0,
+                                                )
+                                            }
+                                            song={item.track}
+                                            artists={item.track.artists}
+                                        />
+                                    )}
+                                />
+                            </View>
+                        </ScrollView>
+                    </View>
                 ) : (
                     <View
                         style={[
@@ -242,12 +254,10 @@ class PlaylistView extends React.Component {
 
 const styles = StyleSheet.create({
     header: {
-        flex: 1,
-        flexGrow: 1,
         backgroundColor: '#191414',
-        justifyContent: 'space-between',
         flexDirection: 'row',
-        marginHorizontal: 15,
+        marginHorizontal: 25,
+        marginTop: StatusBar.currentHeight,
         height: 35,
     },
 });

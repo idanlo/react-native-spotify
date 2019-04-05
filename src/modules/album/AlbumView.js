@@ -20,7 +20,6 @@ class AlbumView extends React.Component {
     state = {
         data: null,
         loading: true,
-        showModal: false,
     };
 
     componentDidMount() {
@@ -65,10 +64,6 @@ class AlbumView extends React.Component {
             .catch(err => {
                 console.log(err);
             });
-    };
-
-    setModal = () => {
-        this.setState(prevState => ({ showModal: !prevState.showModal }));
     };
 
     render() {
