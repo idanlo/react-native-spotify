@@ -13,18 +13,23 @@ import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { commonStyles as globalStyles } from '../../styles';
 import Text from '../../components/Text';
-import PlayerBase from './PlayerBase';
 
 const { width } = Dimensions.get('window');
 
-export default class PlayerView extends PlayerBase {
-    seek = async val => {
-        await Spotify.seek(val);
-        this.stateChangedHandler();
+export default class PlayerView extends React.Component {
+    seek = val => {
+        // seek the song
+        Spotify.seek(val);
+        // seek the redux store (the spotify seek event only happens when the music context changes)
+        this.props.seek(val);
+    };
+
+    playPauseHandler = () => {
+        Spotify.setPlaying(!this.props.state.playing);
     };
 
     render() {
-        return this.state.currentTrack && this.state.state ? (
+        return this.props.currentTrack && this.props.state ? (
             <LinearGradient
                 start={{ x: 0, y: 0 }}
                 end={{ x: 0, y: 1 }}
@@ -49,7 +54,7 @@ export default class PlayerView extends PlayerBase {
                                 bold
                                 style={{ textAlign: 'center' }}
                             >
-                                {this.state.currentTrack.albumName}
+                                {this.props.currentTrack.albumName}
                             </Text>
                         </View>
                         <TouchableOpacity
@@ -60,10 +65,10 @@ export default class PlayerView extends PlayerBase {
                     </View>
 
                     <View style={styles.body}>
-                        {this.state.prevTrack ? (
+                        {this.props.prevTrack ? (
                             <Image
                                 source={{
-                                    uri: `https:${this.state.prevTrack.albumCoverArtURL.substring(
+                                    uri: `https:${this.props.prevTrack.albumCoverArtURL.substring(
                                         7,
                                     )}`,
                                 }}
@@ -90,7 +95,7 @@ export default class PlayerView extends PlayerBase {
                         >
                             <Image
                                 source={{
-                                    uri: `https:${this.state.currentTrack.albumCoverArtURL.substring(
+                                    uri: `https:${this.props.currentTrack.albumCoverArtURL.substring(
                                         7,
                                     )}`,
                                 }}
@@ -98,10 +103,10 @@ export default class PlayerView extends PlayerBase {
                             />
                         </View>
 
-                        {this.state.nextTrack ? (
+                        {this.props.nextTrack ? (
                             <Image
                                 source={{
-                                    uri: `https:${this.state.nextTrack.albumCoverArtURL.substring(
+                                    uri: `https:${this.props.nextTrack.albumCoverArtURL.substring(
                                         7,
                                     )}`,
                                 }}
@@ -123,7 +128,7 @@ export default class PlayerView extends PlayerBase {
                                     numberOfLines={1}
                                     style={{ textAlign: 'left', width: '100%' }}
                                 >
-                                    {this.state.currentTrack.name}
+                                    {this.props.currentTrack.name}
                                 </Text>
                                 <Text
                                     size={18}
@@ -131,7 +136,7 @@ export default class PlayerView extends PlayerBase {
                                     numberOfLines={1}
                                     style={{ textAlign: 'left', width: '100%' }}
                                 >
-                                    {this.state.currentTrack.artistName}
+                                    {this.props.currentTrack.artistName}
                                 </Text>
                             </View>
                             <View
@@ -153,12 +158,12 @@ export default class PlayerView extends PlayerBase {
                         </View>
                         <View style={styles.slider}>
                             <Slider
-                                maximumValue={this.state.currentTrack.duration}
+                                maximumValue={this.props.currentTrack.duration}
                                 minimumValue={0}
                                 minimumTrackTintColor="#fff"
                                 maximumTrackTintColor="grey"
                                 thumbTintColor="#fff"
-                                value={this.state.timeline}
+                                value={this.props.timeline}
                                 style={{
                                     width: '100%',
                                 }}
@@ -169,7 +174,7 @@ export default class PlayerView extends PlayerBase {
                             <TouchableOpacity
                                 onPress={() =>
                                     Spotify.setShuffling(
-                                        !this.state.state.shuffling,
+                                        !this.props.state.shuffling,
                                     )
                                 }
                                 style={styles.sideBtn}
@@ -177,7 +182,7 @@ export default class PlayerView extends PlayerBase {
                                 <Icon
                                     name="ios-shuffle"
                                     color={
-                                        this.state.state.shuffling
+                                        this.props.state.shuffling
                                             ? '#1DB954'
                                             : '#fff'
                                     }
@@ -187,13 +192,13 @@ export default class PlayerView extends PlayerBase {
 
                             <TouchableOpacity
                                 onPress={() => Spotify.skipToPrevious()}
-                                disabled={!this.state.prevTrack}
+                                disabled={!this.props.prevTrack}
                                 style={styles.btn}
                             >
                                 <Icon
                                     name="ios-skip-backward"
                                     color={
-                                        this.state.prevTrack ? '#fff' : 'grey'
+                                        this.props.prevTrack ? '#fff' : 'grey'
                                     }
                                     size={40}
                                 />
@@ -202,7 +207,7 @@ export default class PlayerView extends PlayerBase {
                                 onPress={this.playPauseHandler}
                                 style={styles.btn}
                             >
-                                {this.state.state.playing ? (
+                                {this.props.state.playing ? (
                                     <Icon
                                         name="ios-pause"
                                         size={70}
@@ -219,13 +224,13 @@ export default class PlayerView extends PlayerBase {
 
                             <TouchableOpacity
                                 onPress={() => Spotify.skipToNext()}
-                                disabled={!this.state.nextTrack}
+                                disabled={!this.props.nextTrack}
                                 style={styles.btn}
                             >
                                 <Icon
                                     name="ios-skip-forward"
                                     color={
-                                        this.state.nextTrack ? '#fff' : 'grey'
+                                        this.props.nextTrack ? '#fff' : 'grey'
                                     }
                                     size={40}
                                 />
@@ -234,7 +239,7 @@ export default class PlayerView extends PlayerBase {
                             <TouchableOpacity
                                 onPress={() =>
                                     Spotify.setRepeating(
-                                        !this.state.state.repeating,
+                                        !this.props.state.repeating,
                                     )
                                 }
                                 style={styles.sideBtn}
@@ -242,7 +247,7 @@ export default class PlayerView extends PlayerBase {
                                 <Icon
                                     name="ios-repeat"
                                     color={
-                                        this.state.state.repeating
+                                        this.props.state.repeating
                                             ? '#1DB954'
                                             : '#fff'
                                     }

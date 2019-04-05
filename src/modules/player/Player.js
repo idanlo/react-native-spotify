@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {
     StyleSheet,
     View,
@@ -6,22 +7,36 @@ import {
     TouchableWithoutFeedback,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Spotify from 'rn-spotify-sdk/src/Spotify';
 import Text from '../../components/Text';
-import PlayerBase from './PlayerBase';
+import { InitPlayer } from './PlayerState';
 
-class Player extends PlayerBase {
+class Player extends React.Component {
     componentDidMount() {
-        this.mount();
+        if (!this.props.initialized) {
+            this.props.initPlayer();
+        }
     }
 
+    playPauseHandler = () => {
+        Spotify.setPlaying(!this.props.state.playing);
+    };
+
     render() {
-        return this.state.currentTrack ? (
+        if (this.props.currentTrack) {
+            console.log(
+                this.props.timeline,
+                this.props.currentTrack.duration,
+                (this.props.timeline / this.props.currentTrack.duration) * 100,
+            );
+        }
+        return this.props.initialized && this.props.currentTrack ? (
             <View style={playerStyles.player}>
                 <View
                     style={{
-                        width: this.state.currentTrack
-                            ? `${(this.state.timeline /
-                                  this.state.currentTrack.duration) *
+                        width: this.props.currentTrack
+                            ? `${(this.props.timeline /
+                                  this.props.currentTrack.duration) *
                                   100}%`
                             : '100%',
                         height: 1,
@@ -56,11 +71,11 @@ class Player extends PlayerBase {
                         >
                             <View style={{ flexDirection: 'row' }}>
                                 <Text style={playerStyles.songName}>
-                                    {this.state.currentTrack.name}
+                                    {this.props.currentTrack.name}
                                 </Text>
                                 <Text color="#A9A9A9">
                                     {' '}
-                                    ● {this.state.currentTrack.artistName}
+                                    ● {this.props.currentTrack.artistName}
                                 </Text>
                             </View>
                         </TouchableWithoutFeedback>
@@ -72,7 +87,7 @@ class Player extends PlayerBase {
                         }}
                     >
                         <TouchableOpacity onPress={this.playPauseHandler}>
-                            {this.state.state && this.state.state.playing ? (
+                            {this.props.state && this.props.state.playing ? (
                                 <Icon name="ios-pause" size={30} color="#fff" />
                             ) : (
                                 <Icon name="ios-play" size={30} color="#fff" />
@@ -109,4 +124,21 @@ const playerStyles = StyleSheet.create({
     },
 });
 
-export default Player;
+const mapStateToProps = state => ({
+    currentTrack: state.player.currentTrack,
+    nextTrack: state.player.nextTrack,
+    prevTrack: state.player.prevTrack,
+    timeline: state.player.timeline,
+    state: state.player.state,
+    interval: state.player.interval,
+    initialized: state.player.initialized,
+});
+
+const mapDispatchToProps = dispatch => ({
+    initPlayer: () => dispatch(InitPlayer()),
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(Player);

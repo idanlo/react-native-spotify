@@ -6,30 +6,31 @@ import { createLogger } from 'redux-logger';
 import reducer from './reducer';
 
 const enhancers = [
-  applyMiddleware(
-    thunkMiddleware,
-    createLogger({
-      collapsed: true,
-      // eslint-disable-next-line no-undef
-      predicate: () => __DEV__,
-    }),
-  ),
+    applyMiddleware(
+        thunkMiddleware,
+        createLogger({
+            collapsed: true,
+            // eslint-disable-next-line no-undef
+            predicate: (_, action) =>
+                action.type !== 'PlayerState/SET_TIMELINE',
+        }),
+    ),
 ];
 
 /* eslint-disable no-undef */
 const composeEnhancers =
-  (__DEV__ &&
-    typeof window !== 'undefined' &&
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
-  compose;
+    (__DEV__ &&
+        typeof window !== 'undefined' &&
+        window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
+    compose;
 /* eslint-enable no-undef */
 
 const enhancer = composeEnhancers(...enhancers);
 
 const persistConfig = {
-  key: 'root',
-  storage,
-  blacklist: [],
+    key: 'root',
+    storage,
+    blacklist: [],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducer);
