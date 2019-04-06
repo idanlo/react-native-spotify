@@ -70,12 +70,14 @@ class Player extends React.Component {
                             }
                         >
                             <View style={{ flexDirection: 'row' }}>
-                                <Text style={playerStyles.songName}>
-                                    {this.props.currentTrack.name}
-                                </Text>
-                                <Text color="#A9A9A9">
-                                    {' '}
-                                    ● {this.props.currentTrack.artistName}
+                                <Text numberOfLines={1}>
+                                    <Text bold>
+                                        {this.props.currentTrack.name}
+                                    </Text>
+                                    <Text color="#A9A9A9">
+                                        {' '}
+                                        ● {this.props.currentTrack.artistName}
+                                    </Text>
                                 </Text>
                             </View>
                         </TouchableWithoutFeedback>
