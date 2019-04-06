@@ -5,7 +5,9 @@ import PlaylistScreen from './PlaylistView';
 
 export default compose(
     connect(
-        null,
+        state => ({
+            currentTrack: state.player.currentTrack,
+        }),
         dispatch => ({
             showModal: (options, actions) =>
                 dispatch(showModal(options, actions)),

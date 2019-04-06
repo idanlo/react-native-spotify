@@ -11,8 +11,7 @@ const enhancers = [
         createLogger({
             collapsed: true,
             // eslint-disable-next-line no-undef
-            predicate: (_, action) =>
-                action.type !== 'PlayerState/SET_TIMELINE',
+            predicate: () => __DEV__,
         }),
     ),
 ];

@@ -13,7 +13,7 @@ import {
 import Spotify from 'rn-spotify-sdk';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Text from '../../components/Text';
-import { commonStyles as globalStyles } from '../../styles';
+import { commonStyles as globalStyles, colors } from '../../styles';
 import Song from '../../components/Song';
 
 class AlbumView extends React.Component {
@@ -227,6 +227,16 @@ class AlbumView extends React.Component {
                                                     index,
                                                     0,
                                                 )
+                                            }
+                                            color={
+                                                this.props.currentTrack &&
+                                                this.props.currentTrack.uri ===
+                                                    item.uri &&
+                                                this.props.currentTrack
+                                                    .contextUri ===
+                                                    this.state.data.uri
+                                                    ? colors.primaryLight
+                                                    : null
                                             }
                                             song={item}
                                             artists={this.state.data.artists}

@@ -17,7 +17,7 @@ function Song(props) {
         >
             <TouchableOpacity onPress={props.onPress}>
                 <View>
-                    <Text>{props.song.name}</Text>
+                    <Text color={props.color || '#fff'}>{props.song.name}</Text>
                     {props.artists && props.artists.length > 0 ? (
                         <Text size={13} color="grey">
                             {props.artists

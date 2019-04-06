@@ -5,7 +5,9 @@ import { showModal } from '../modal/ModalState';
 
 export default compose(
     connect(
-        null,
+        state => ({
+            currentTrack: state.player.currentTrack,
+        }),
         dispatch => ({
             showModal: (options, actions) =>
                 dispatch(showModal(options, actions)),
