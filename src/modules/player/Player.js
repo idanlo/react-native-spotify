@@ -3,11 +3,13 @@ import { connect } from 'react-redux';
 import {
     StyleSheet,
     View,
+    Dimensions,
     TouchableOpacity,
     TouchableWithoutFeedback,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Spotify from 'rn-spotify-sdk/src/Spotify';
+import Carousel from 'react-native-snap-carousel';
 import Text from '../../components/Text';
 import { InitPlayer } from './PlayerState';
 
@@ -18,8 +20,40 @@ class Player extends React.Component {
         }
     }
 
+    componentDidUpdate(prevProps) {
+        if (
+            this.props.currentTrack &&
+            prevProps.currentTrack &&
+            this.props.currentTrack.uri !== prevProps.currentTrack.uri
+        ) {
+            this._carousel.snapToItem(1, false, false);
+        }
+    }
+
     playPauseHandler = () => {
         Spotify.setPlaying(!this.props.state.playing);
+    };
+
+    renderItem = ({ item }) =>
+        item ? (
+            <TouchableWithoutFeedback
+                onPress={() => this.props.navigation.navigate('PlayerView')}
+            >
+                <View style={{ flexDirection: 'row' }}>
+                    <Text numberOfLines={1}>
+                        <Text bold>{item.name}</Text>
+                        <Text color="#A9A9A9"> ● {item.artistName}</Text>
+                    </Text>
+                </View>
+            </TouchableWithoutFeedback>
+        ) : null;
+
+    itemSnapHandler = index => {
+        if (index === 2) {
+            Spotify.skipToNext();
+        } else if (index === 0) {
+            Spotify.skipToPrevious();
+        }
     };
 
     render() {
@@ -64,23 +98,22 @@ class Player extends React.Component {
                             alignItems: 'center',
                         }}
                     >
-                        <TouchableWithoutFeedback
-                            onPress={() =>
-                                this.props.navigation.navigate('PlayerView')
-                            }
-                        >
-                            <View style={{ flexDirection: 'row' }}>
-                                <Text numberOfLines={1}>
-                                    <Text bold>
-                                        {this.props.currentTrack.name}
-                                    </Text>
-                                    <Text color="#A9A9A9">
-                                        {' '}
-                                        ● {this.props.currentTrack.artistName}
-                                    </Text>
-                                </Text>
-                            </View>
-                        </TouchableWithoutFeedback>
+                        <Carousel
+                            ref={c => {
+                                this._carousel = c;
+                            }}
+                            contentContainerStyle={{ alignItems: 'center' }}
+                            data={[
+                                this.props.prevTrack,
+                                this.props.currentTrack,
+                                this.props.nextTrack,
+                            ]}
+                            renderItem={this.renderItem}
+                            itemWidth={Dimensions.get('screen').width * 0.7}
+                            sliderWidth={Dimensions.get('screen').width * 0.7}
+                            onSnapToItem={this.itemSnapHandler}
+                            firstItem={1}
+                        />
                     </View>
                     <View
                         style={{
