@@ -154,7 +154,7 @@ export default class PlayerView extends React.Component {
                             </TouchableOpacity>
 
                             <TouchableOpacity
-                                onPress={() => this._carousel.snapToItem(0)}
+                                onPress={() => Spotify.skipToPrevious()}
                                 disabled={!this.props.prevTrack}
                                 style={styles.btn}
                             >
@@ -186,7 +186,7 @@ export default class PlayerView extends React.Component {
                             </TouchableOpacity>
 
                             <TouchableOpacity
-                                onPress={() => this._carousel.snapToItem(2)}
+                                onPress={() => Spotify.skipToNext()}
                                 disabled={!this.props.nextTrack}
                                 style={styles.btn}
                             >
