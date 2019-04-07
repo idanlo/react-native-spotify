@@ -39,7 +39,9 @@ class Player extends React.Component {
             <TouchableWithoutFeedback
                 onPress={() => this.props.navigation.navigate('PlayerView')}
             >
-                <View style={{ flexDirection: 'row' }}>
+                <View
+                    style={{ flexDirection: 'row', justifyContent: 'center' }}
+                >
                     <Text numberOfLines={1}>
                         <Text bold>{item.name}</Text>
                         <Text color="#A9A9A9"> ● {item.artistName}</Text>
@@ -102,7 +104,9 @@ class Player extends React.Component {
                             ref={c => {
                                 this._carousel = c;
                             }}
-                            contentContainerStyle={{ alignItems: 'center' }}
+                            contentContainerCustomStyle={{
+                                alignItems: 'center',
+                            }}
                             data={[
                                 this.props.prevTrack,
                                 this.props.currentTrack,
