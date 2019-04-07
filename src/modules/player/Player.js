@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Spotify from 'rn-spotify-sdk/src/Spotify';
-import Carousel from 'react-native-snap-carousel';
+import Carousel from '../carousel/Carousel';
 import Text from '../../components/Text';
 import { InitPlayer } from './PlayerState';
 
@@ -17,16 +17,6 @@ class Player extends React.Component {
     componentDidMount() {
         if (!this.props.initialized) {
             this.props.initPlayer();
-        }
-    }
-
-    componentDidUpdate(prevProps) {
-        if (
-            this.props.currentTrack &&
-            prevProps.currentTrack &&
-            this.props.currentTrack.uri !== prevProps.currentTrack.uri
-        ) {
-            this._carousel.snapToItem(1, false, false);
         }
     }
 
@@ -40,23 +30,18 @@ class Player extends React.Component {
                 onPress={() => this.props.navigation.navigate('PlayerView')}
             >
                 <View
-                    style={{ flexDirection: 'row', justifyContent: 'center' }}
+                    style={{
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                    }}
                 >
-                    <Text numberOfLines={1}>
+                    <Text numberOfLines={1} style={{ textAlign: 'center' }}>
                         <Text bold>{item.name}</Text>
                         <Text color="#A9A9A9"> ● {item.artistName}</Text>
                     </Text>
                 </View>
             </TouchableWithoutFeedback>
         ) : null;
-
-    itemSnapHandler = index => {
-        if (index === 2) {
-            Spotify.skipToNext();
-        } else if (index === 0) {
-            Spotify.skipToPrevious();
-        }
-    };
 
     render() {
         if (this.props.currentTrack) {
@@ -101,22 +86,8 @@ class Player extends React.Component {
                         }}
                     >
                         <Carousel
-                            ref={c => {
-                                this._carousel = c;
-                            }}
-                            contentContainerCustomStyle={{
-                                alignItems: 'center',
-                            }}
-                            data={[
-                                this.props.prevTrack,
-                                this.props.currentTrack,
-                                this.props.nextTrack,
-                            ]}
+                            width={Dimensions.get('screen').width * 0.7}
                             renderItem={this.renderItem}
-                            itemWidth={Dimensions.get('screen').width * 0.7}
-                            sliderWidth={Dimensions.get('screen').width * 0.7}
-                            onSnapToItem={this.itemSnapHandler}
-                            firstItem={1}
                         />
                     </View>
                     <View
