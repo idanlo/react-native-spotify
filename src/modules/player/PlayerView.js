@@ -8,29 +8,16 @@ import {
     TouchableOpacity,
     Slider,
 } from 'react-native';
-import Carousel from 'react-native-snap-carousel';
 import Spotify from 'rn-spotify-sdk/src/Spotify';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Carousel from '../carousel/Carousel';
 import { commonStyles as globalStyles } from '../../styles';
 import Text from '../../components/Text';
 
 const { width } = Dimensions.get('window');
 
 export default class PlayerView extends React.Component {
-    // the current track is always in index 1, when the user swipes to the next track (index 2), it switches tracks and
-    // 'redirects' the user back to index 1, and load the track after that in index 1, that way there is always 3 items in the array
-    componentDidUpdate(prevProps) {
-        // check if current track has changed
-        if (
-            this.props.currentTrack &&
-            prevProps.currentTrack &&
-            this.props.currentTrack.uri !== prevProps.currentTrack.uri
-        ) {
-            this._carousel.snapToItem(1, false, false); // false for no animation and not to fire callback (this.itemSnapHandler)
-        }
-    }
-
     seek = val => {
         // seek the song
         Spotify.seek(val);
@@ -53,16 +40,6 @@ export default class PlayerView extends React.Component {
                 />
             </View>
         ) : null;
-
-    itemSnapHandler = index => {
-        // index === 2 -> go to next track
-        // index === 0 -> go to previous track
-        if (index === 2) {
-            Spotify.skipToNext();
-        } else if (index === 0) {
-            Spotify.skipToPrevious();
-        }
-    };
 
     render() {
         return this.props.currentTrack && this.props.state ? (
@@ -102,20 +79,8 @@ export default class PlayerView extends React.Component {
 
                     <View style={styles.body}>
                         <Carousel
-                            ref={c => {
-                                this._carousel = c;
-                            }}
-                            contentContainerStyle={{ marginBottom: 75 }}
-                            data={[
-                                this.props.prevTrack,
-                                this.props.currentTrack,
-                                this.props.nextTrack,
-                            ]}
                             renderItem={this.renderItem}
-                            itemWidth={300}
-                            sliderWidth={Dimensions.get('screen').width}
-                            onSnapToItem={this.itemSnapHandler}
-                            firstItem={1}
+                            width={Dimensions.get('screen').width}
                         />
 
                         <View style={styles.songDetails}>

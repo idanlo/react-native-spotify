@@ -76,7 +76,11 @@ class Carousel extends React.Component {
                 ) : null} */}
                 {this.props.currentTrack ? (
                     <View
-                        style={{ width: '100%', justifyContent: 'center' }}
+                        style={{
+                            width: '100%',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}
                         {...this.panResponder.panHandlers}
                     >
                         {this.props.renderItem({
