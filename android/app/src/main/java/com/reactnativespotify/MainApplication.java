@@ -6,7 +6,7 @@ import com.facebook.react.ReactApplication;
 import com.lufinkey.react.spotify.RNSpotifyPackage;
 import com.lufinkey.react.eventemitter.RNEventEmitterPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
-import com.reactcommunity.rnlocalize.RNLocalizePackage;
+
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.facebook.react.ReactNativeHost;
@@ -34,7 +34,6 @@ public class MainApplication extends Application implements ReactApplication {
             new RNEventEmitterPackage(),
             new VectorIconsPackage(),
             new SplashScreenReactPackage(),
-            new RNLocalizePackage(),
             new LinearGradientPackage(),
             new RNGestureHandlerPackage()
       );

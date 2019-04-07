@@ -145,7 +145,6 @@ dependencies {
     implementation project(':rn-spotify-sdk')
     implementation project(':react-native-events')
     implementation project(':react-native-vector-icons')
-    implementation project(':react-native-localize')
     implementation project(':react-native-linear-gradient')
     implementation project(':react-native-gesture-handler')
     implementation fileTree(dir: "libs", include: ["*.jar"])
