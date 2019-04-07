@@ -6,8 +6,8 @@ export default function Text({ style, color, size, bold, ...props }) {
         <RNText
             style={[
                 {
-                    color: color ? color : '#fff',
-                    fontSize: size ? size : 14,
+                    color: color || '#fff',
+                    fontSize: size || 14,
                     fontWeight: bold ? 'bold' : 'normal',
                 },
                 style,
