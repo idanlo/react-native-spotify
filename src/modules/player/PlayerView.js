@@ -79,8 +79,8 @@ export default class PlayerView extends React.Component {
 
                     <View style={styles.body}>
                         <Carousel
-                            renderItem={this.renderItem}
                             width={Dimensions.get('screen').width}
+                            renderItem={this.renderItem}
                         />
 
                         <View style={styles.songDetails}>

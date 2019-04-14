@@ -33,6 +33,9 @@ class Player extends React.Component {
                     style={{
                         flexDirection: 'row',
                         justifyContent: 'center',
+                        height: 52,
+                        alignItems: 'center',
+                        width: '100%',
                     }}
                 >
                     <Text numberOfLines={1} style={{ textAlign: 'center' }}>
@@ -44,13 +47,6 @@ class Player extends React.Component {
         ) : null;
 
     render() {
-        if (this.props.currentTrack) {
-            console.log(
-                this.props.timeline,
-                this.props.currentTrack.duration,
-                (this.props.timeline / this.props.currentTrack.duration) * 100,
-            );
-        }
         return this.props.initialized && this.props.currentTrack ? (
             <View style={playerStyles.player}>
                 <View
@@ -87,6 +83,11 @@ class Player extends React.Component {
                     >
                         <Carousel
                             width={Dimensions.get('screen').width * 0.7}
+                            height={52}
+                            onPress={() =>
+                                this.props.navigation.navigate('PlayerView')
+                            }
+                            navigation={this.props.navigation}
                             renderItem={this.renderItem}
                         />
                     </View>

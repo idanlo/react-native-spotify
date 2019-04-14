@@ -31,6 +31,7 @@ class Carousel extends React.Component {
                     Animated.timing(this.state.pan, {
                         toValue: width * 2,
                         useNativeDriver: true,
+                        duration: 200,
                     }).start();
                 } else if (state.dx < -width) {
                     // user scrolled to the left (dx is negative) -> next track
@@ -39,11 +40,13 @@ class Carousel extends React.Component {
                     Animated.timing(this.state.pan, {
                         toValue: -width * 2,
                         useNativeDriver: true,
+                        duration: 200,
                     }).start();
                 } else {
                     Animated.timing(this.state.pan, {
                         toValue: 0,
                         useNativeDriver: true,
+                        duration: 200,
                     }).start();
                 }
             },
@@ -65,6 +68,7 @@ class Carousel extends React.Component {
             <Animated.View
                 style={{
                     width: this.props.width,
+                    height: this.props.height,
                     flexDirection: 'row',
                     alignItems: 'center',
                     transform: [{ translateX: this.state.pan }],
@@ -78,6 +82,7 @@ class Carousel extends React.Component {
                     <View
                         style={{
                             width: '100%',
+                            height: this.props.height,
                             justifyContent: 'center',
                             alignItems: 'center',
                         }}
