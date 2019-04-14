@@ -41,6 +41,19 @@ export default class PlayerView extends React.Component {
             </View>
         ) : null;
 
+    prettifySeconds = timeInSeconds => {
+        // Hours, minutes and seconds
+        const mins = Math.floor((timeInSeconds % 3600) / 60);
+        const secs = Math.floor(timeInSeconds % 60);
+
+        // Output like "1:01" or "4:03:59" or "123:03:59"
+        let ret = '';
+
+        ret += `${mins}:${secs < 10 ? '0' : ''}`;
+        ret += secs;
+        return ret;
+    };
+
     render() {
         return this.props.currentTrack && this.props.state ? (
             <LinearGradient
@@ -120,6 +133,26 @@ export default class PlayerView extends React.Component {
                             </View>
                         </View>
                         <View style={styles.slider}>
+                            <Text
+                                style={{
+                                    position: 'absolute',
+                                    bottom: -15,
+                                    left: 15,
+                                }}
+                            >
+                                {this.prettifySeconds(this.props.timeline)}
+                            </Text>
+                            <Text
+                                style={{
+                                    position: 'absolute',
+                                    bottom: -15,
+                                    right: 15,
+                                }}
+                            >
+                                {this.prettifySeconds(
+                                    this.props.currentTrack.duration,
+                                )}
+                            </Text>
                             <Slider
                                 maximumValue={this.props.currentTrack.duration}
                                 minimumValue={0}
