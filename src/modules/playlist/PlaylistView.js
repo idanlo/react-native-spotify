@@ -109,7 +109,7 @@ class PlaylistView extends React.Component {
                                                 secondaryText: `Playlist by ${
                                                     this.state.playlist.owner
                                                         .display_name
-                                                }`,
+                                                    }`,
                                             },
                                             [
                                                 {
@@ -117,8 +117,8 @@ class PlaylistView extends React.Component {
                                                     click: () =>
                                                         Spotify.sendRequest(
                                                             `v1/playlists/${
-                                                                this.state
-                                                                    .playlist.id
+                                                            this.state
+                                                                .playlist.id
                                                             }/followers`,
                                                             'PUT',
                                                             {},
@@ -141,11 +141,11 @@ class PlaylistView extends React.Component {
                             <View
                                 style={
                                     ([globalStyles.container],
-                                    {
-                                        paddingTop: 0,
-                                        paddingBottom:
-                                            StatusBar.currentHeight + 35,
-                                    })
+                                        {
+                                            paddingTop: 0,
+                                            paddingBottom:
+                                                StatusBar.currentHeight + 35,
+                                        })
                                 }
                             >
                                 <View style={{ alignItems: 'center' }}>
@@ -228,10 +228,10 @@ class PlaylistView extends React.Component {
                                             }
                                             color={
                                                 this.props.currentTrack &&
-                                                this.props.currentTrack.uri ===
+                                                    this.props.currentTrack.uri ===
                                                     item.track.uri &&
-                                                this.props.currentTrack
-                                                    .contextUri ===
+                                                    this.props.currentTrack
+                                                        .contextUri ===
                                                     this.state.playlist.uri
                                                     ? colors.primaryLight
                                                     : null
@@ -245,18 +245,18 @@ class PlaylistView extends React.Component {
                         </ScrollView>
                     </View>
                 ) : (
-                    <View
-                        style={[
-                            globalStyles.container,
-                            {
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                            },
-                        ]}
-                    >
-                        <ActivityIndicator size="large" color="#1DB954" />
-                    </View>
-                )}
+                        <View
+                            style={[
+                                globalStyles.container,
+                                {
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                },
+                            ]}
+                        >
+                            <ActivityIndicator size="large" color="#1DB954" />
+                        </View>
+                    )}
             </View>
         );
     }
