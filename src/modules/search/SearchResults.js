@@ -1,14 +1,47 @@
 import React from 'react';
-import { View, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
+import {
+    View,
+    TouchableOpacity,
+    TextInput,
+    FlatList,
+    Image,
+    ScrollView,
+    StyleSheet,
+} from 'react-native';
+import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { commonStyles as globalStyles } from '../../styles';
+import Spotify from 'rn-spotify-sdk';
+import { commonStyles as globalStyles, colors } from '../../styles';
+import Song from '../../components/Song';
 import Text from '../../components/Text';
 
 class SearchResults extends React.Component {
-    state = {};
+    state = {
+        text: '',
+        results: null,
+    };
 
-    fetchData = () => {
-        // TODO: fetch data
+    textInput = null; // the ref to TextInput which has the .focus() method
+
+    fetchData = async () => {
+        const { text } = this.state;
+        try {
+            const data = await Spotify.search(text, [
+                'album',
+                'artist',
+                'playlist',
+                'track',
+            ]);
+            this.textInput.blur();
+            console.log(data);
+            this.setState({ results: data });
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    onChangeText = text => {
+        this.setState({ text });
     };
 
     render() {
@@ -27,7 +60,13 @@ class SearchResults extends React.Component {
                         />
                     </TouchableOpacity>
                     <TextInput
+                        ref={t => {
+                            this.textInput = t;
+                        }}
+                        onLayout={() => this.textInput.focus()}
                         placeholder="Search..."
+                        onEndEditing={this.fetchData}
+                        onChangeText={this.onChangeText}
                         placeholderTextColor="#fff"
                         style={{
                             flex: 5,
@@ -48,6 +87,211 @@ class SearchResults extends React.Component {
                         />
                     </TouchableOpacity>
                 </View>
+                {this.state.results ? (
+                    <ScrollView>
+                        {this.state.results.artists.items.length > 0 ? (
+                            <View style={styles.albumList}>
+                                <Text style={styles.title}>Artists</Text>
+                                <FlatList
+                                    contentContainerStyle={{
+                                        justifyContent: 'center',
+                                    }}
+                                    horizontal
+                                    showsHorizontalScrollIndicator={false}
+                                    data={this.state.results.artists.items}
+                                    renderItem={({ item }) => (
+                                        <View style={styles.album}>
+                                            <TouchableOpacity
+                                                onPress={() =>
+                                                    // navigate to ArtistView
+                                                    this.props.navigation.navigate(
+                                                        'ArtistView',
+                                                        { artistId: item.id },
+                                                    )
+                                                }
+                                            >
+                                                <View>
+                                                    <Image
+                                                        source={{
+                                                            uri:
+                                                                item.images &&
+                                                                item.images
+                                                                    .length > 1
+                                                                    ? item
+                                                                          .images[1]
+                                                                          .url
+                                                                    : null,
+                                                        }}
+                                                        style={
+                                                            styles.artistImage
+                                                        }
+                                                    />
+                                                    <Text
+                                                        numberOfLines={1}
+                                                        style={styles.albumName}
+                                                    >
+                                                        {item.name}
+                                                    </Text>
+                                                </View>
+                                            </TouchableOpacity>
+                                        </View>
+                                    )}
+                                    keyExtractor={(_, i) => i.toString()}
+                                />
+                            </View>
+                        ) : null}
+
+                        {this.state.results.albums.items.length > 0 ? (
+                            <View style={styles.albumList}>
+                                <Text style={styles.title}>Albums</Text>
+                                <FlatList
+                                    contentContainerStyle={{
+                                        justifyContent: 'center',
+                                    }}
+                                    horizontal
+                                    showsHorizontalScrollIndicator={false}
+                                    data={this.state.results.albums.items}
+                                    renderItem={({ item }) => (
+                                        <View style={styles.album}>
+                                            <TouchableOpacity
+                                                onPress={() =>
+                                                    // navigate to AlbumView
+                                                    this.props.navigation.navigate(
+                                                        'AlbumView',
+                                                        { albumId: item.id },
+                                                    )
+                                                }
+                                            >
+                                                <View>
+                                                    <Image
+                                                        source={{
+                                                            uri:
+                                                                item.images &&
+                                                                item.images
+                                                                    .length > 1
+                                                                    ? item
+                                                                          .images[1]
+                                                                          .url
+                                                                    : null,
+                                                        }}
+                                                        style={
+                                                            styles.albumImage
+                                                        }
+                                                    />
+                                                    <Text
+                                                        numberOfLines={1}
+                                                        style={styles.albumName}
+                                                    >
+                                                        {item.name}
+                                                    </Text>
+                                                </View>
+                                            </TouchableOpacity>
+                                        </View>
+                                    )}
+                                    keyExtractor={(_, i) => i.toString()}
+                                />
+                            </View>
+                        ) : null}
+
+                        {this.state.results.playlists.items.length > 0 ? (
+                            <View style={styles.albumList}>
+                                <Text style={styles.title}>Playlists</Text>
+                                <FlatList
+                                    contentContainerStyle={{
+                                        justifyContent: 'center',
+                                    }}
+                                    horizontal
+                                    showsHorizontalScrollIndicator={false}
+                                    data={this.state.results.playlists.items}
+                                    renderItem={({ item }) => (
+                                        <View style={styles.album}>
+                                            <TouchableOpacity
+                                                onPress={() =>
+                                                    // navigate to PlaylistView
+                                                    this.props.navigation.navigate(
+                                                        'PlaylistView',
+                                                        { playlistId: item.id },
+                                                    )
+                                                }
+                                            >
+                                                <View>
+                                                    <Image
+                                                        source={{
+                                                            uri:
+                                                                item.images &&
+                                                                item.images
+                                                                    .length > 0
+                                                                    ? item
+                                                                          .images[0]
+                                                                          .url
+                                                                    : null,
+                                                        }}
+                                                        style={
+                                                            styles.albumImage
+                                                        }
+                                                    />
+                                                    <Text
+                                                        numberOfLines={1}
+                                                        style={styles.albumName}
+                                                    >
+                                                        {item.name}
+                                                    </Text>
+                                                </View>
+                                            </TouchableOpacity>
+                                        </View>
+                                    )}
+                                    keyExtractor={(_, i) => i.toString()}
+                                />
+                            </View>
+                        ) : null}
+
+                        {this.state.results.tracks.items.length > 0 ? (
+                            <View>
+                                <Text
+                                    style={[
+                                        styles.title,
+                                        { textAlign: 'center' },
+                                    ]}
+                                >
+                                    Tracks
+                                </Text>
+                                <FlatList
+                                    contentContainerStyle={{
+                                        zIndex: 1000,
+                                        flex: 1,
+                                        marginHorizontal: 10,
+                                    }}
+                                    scrollEnabled={false}
+                                    data={this.state.results.tracks.items}
+                                    keyExtractor={(_, i) => i.toString()}
+                                    renderItem={({ item }) => (
+                                        <Song
+                                            onPress={() =>
+                                                Spotify.playURI(
+                                                    item.album.uri,
+                                                    item.track_number - 1, // for some reason item.track_number is not an index (which is what it should be)
+                                                    0,
+                                                )
+                                            }
+                                            color={
+                                                this.props.currentTrack &&
+                                                this.props.currentTrack.uri ===
+                                                    item.uri &&
+                                                this.props.currentTrack
+                                                    .contextUri ===
+                                                    item.album.uri
+                                                    ? colors.primaryLight
+                                                    : null
+                                            }
+                                            song={item}
+                                            artists={item.artists}
+                                        />
+                                    )}
+                                />
+                            </View>
+                        ) : null}
+                    </ScrollView>
+                ) : null}
             </View>
         );
     }
@@ -62,6 +306,41 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flexDirection: 'row',
     },
+    title: {
+        fontSize: 34,
+        fontWeight: 'bold',
+        marginBottom: 10,
+        marginTop: 10,
+    },
+    albumList: {
+        width: '100%',
+        height: 260,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    album: {
+        height: 180,
+        width: 170,
+        alignItems: 'center',
+    },
+    albumImage: {
+        height: 150,
+        width: 150,
+    },
+    albumName: {
+        fontWeight: 'bold',
+        textAlign: 'center',
+        width: 150,
+    },
+    artistImage: {
+        width: 150,
+        height: 150,
+        borderRadius: 75,
+    },
 });
 
-export default SearchResults;
+const mapStateToProps = state => ({
+    currentTrack: state.player.currentTrack,
+});
+
+export default connect(mapStateToProps)(SearchResults);
