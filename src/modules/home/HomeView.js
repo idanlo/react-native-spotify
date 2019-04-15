@@ -307,7 +307,7 @@ const styles = StyleSheet.create({
     },
     albumList: {
         width: '100%',
-        height: 248,
+        height: 260,
         justifyContent: 'center',
         alignItems: 'center',
     },
