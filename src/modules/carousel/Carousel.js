@@ -7,6 +7,10 @@ import Spotify from 'rn-spotify-sdk';
 // renderItem - function({item})
 
 class Carousel extends React.Component {
+    static defaultProps = {
+        includeTouchables: false,
+    };
+
     constructor(props) {
         super(props);
         this.state = {
@@ -14,7 +18,12 @@ class Carousel extends React.Component {
         };
 
         this.panResponder = PanResponder.create({
-            onMoveShouldSetPanResponder: () => true,
+            onMoveShouldSetPanResponder: (_, state) =>
+                // only if touch input was dragged more than 25 it counts as a slide, below 25 is a touchable press
+                // only do this calculation if there are touchables inside the panresponder (received with prop - includeTouchables)
+                !this.props.includeTouchables ||
+                Math.abs(state.dx) > 25 ||
+                Math.abs(state.dy) > 25,
             onPanResponderMove: (evt, gestureState) => {
                 // console.log('PanResponder', evt, gestureState);
                 this.state.pan.setValue(gestureState.dx);

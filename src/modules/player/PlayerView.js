@@ -94,6 +94,7 @@ export default class PlayerView extends React.Component {
                         <Carousel
                             width={Dimensions.get('screen').width}
                             renderItem={this.renderItem}
+                            includeTouchables={false}
                         />
 
                         <View style={styles.songDetails}>

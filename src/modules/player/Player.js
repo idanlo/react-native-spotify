@@ -89,6 +89,7 @@ class Player extends React.Component {
                             }
                             navigation={this.props.navigation}
                             renderItem={this.renderItem}
+                            includeTouchables
                         />
                     </View>
                     <View
