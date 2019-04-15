@@ -8,17 +8,17 @@ import {
     TouchableOpacity,
     ActivityIndicator,
     Dimensions,
-    TextInput,
 } from 'react-native';
-// import { colorsFromUrl } from 'react-native-vibrant-color';
+import { createStackNavigator, createAppContainer } from 'react-navigation';
 import LinearGradient from 'react-native-linear-gradient';
 import Spotify from 'rn-spotify-sdk';
 import Text from '../../components/Text';
+import SearchResults from './SearchResults';
 // import { commonStyles as globalStyles } from '../../styles';
 
 const { width } = Dimensions.get('screen');
 
-export default class Search extends React.Component {
+class Search extends React.Component {
     state = {
         genres: null,
     };
@@ -28,40 +28,9 @@ export default class Search extends React.Component {
     componentDidMount() {
         // fetch 10 categories from spotify API
         Spotify.sendRequest('v1/browse/categories', 'GET', { limit: 16 }, false)
-            .then(async res => {
+            .then(res => {
                 // extract categories object from 'res' (object destructuring)
                 const { categories } = res;
-                // using `await Promise.all()` to wait for all promises inside `Array.map()` to resolve (get dominant colors)
-                // categories.items = await Promise.all(
-                //     categories.items.map(async category => {
-                //         // re-create the category object, now with a `color` key
-                //         const newCategory = { ...category };
-                //         // get dominant colors from `react-native-dominant-color`
-                //         // for some reason using 'await' alone does not work, the function doesn't return a value when using await
-                //         await colorsFromUrl(category.icons[0].url)
-                //             .then(colors => {
-                //                 // check if dominant/vibrant color exists
-                //                 if (colors) {
-                //                     if (colors.vibrantColor !== '#CCCCCC') {
-                //                         newCategory.color = colors.vibrantColor;
-                //                     } else if (
-                //                         colors.dominantColor !== '#CCCCCC'
-                //                     ) {
-                //                         newCategory.color =
-                //                             colors.dominantColor;
-                //                     } else {
-                //                         newCategory.color = '#CCCCCC';
-                //                     }
-                //                 }
-                //             })
-                //             .catch(err => {
-                //                 console.log(err);
-                //             });
-
-                //         // return the "new" category object with the `color` key
-                //         return { ...newCategory };
-                //     }),
-                // );
                 this.setState({ genres: categories });
             })
             .catch(err => {
@@ -88,26 +57,39 @@ export default class Search extends React.Component {
                             <Text bold size={34} style={styles.header}>
                                 Search
                             </Text>
-                            <TextInput
-                                onEndEditing={e =>
-                                    console.log(e.nativeEvent.text)
+                            <TouchableOpacity
+                                onPress={() =>
+                                    this.props.navigation.navigate(
+                                        'SearchResults',
+                                    )
                                 }
-                                placeholder="Artists, song or playlists"
-                                placeholderTextColor="#363636"
                                 style={{
                                     width: '75%',
+                                    height: 40,
                                     alignSelf: 'center',
                                     backgroundColor: '#F7F7F7',
                                     textAlign: 'center',
                                     borderRadius: 7,
                                 }}
-                            />
+                            >
+                                <View
+                                    style={{
+                                        alignItems: 'center',
+                                        height: 40,
+                                        justifyContent: 'center',
+                                    }}
+                                >
+                                    <Text bold color="#363636">
+                                        Artists, song or playlists
+                                    </Text>
+                                </View>
+                            </TouchableOpacity>
                         </View>
                         <View style={{ marginTop: 30 }}>
                             <Text
                                 bold
                                 size={20}
-                                style={{ marginBottom: 15, marginLeft: 10 }}
+                                style={{ marginBottom: 15, marginLeft: 15 }}
                             >
                                 Your top genres
                             </Text>
@@ -126,7 +108,6 @@ export default class Search extends React.Component {
                                                 flex: 1,
                                                 alignItems: 'center',
                                                 paddingBottom: 20,
-                                                position: 'relative',
                                             }}
                                         >
                                             <View
@@ -134,9 +115,6 @@ export default class Search extends React.Component {
                                                     width: width / 2 - 30,
                                                     height:
                                                         (width / 2 - 30) / 2,
-                                                    backgroundColor:
-                                                        item.color ||
-                                                        'transparent',
                                                     borderRadius: 6,
                                                     overflow: 'hidden',
                                                 }}
@@ -146,21 +124,11 @@ export default class Search extends React.Component {
                                                         uri: item.icons[0].url,
                                                     }}
                                                     style={{
-                                                        width: 65,
-                                                        height: 65,
+                                                        width: '100%',
+                                                        height: '100%',
                                                         position: 'absolute',
-                                                        top:
-                                                            (width / 2 - 30) /
-                                                                4 -
-                                                            25,
-                                                        right: -15,
+
                                                         resizeMode: 'cover',
-                                                        transform: [
-                                                            {
-                                                                rotateZ:
-                                                                    '40deg',
-                                                            },
-                                                        ],
                                                     }}
                                                 />
                                                 <Text
@@ -168,7 +136,7 @@ export default class Search extends React.Component {
                                                     size={16}
                                                     style={{
                                                         position: 'absolute',
-                                                        top: 12,
+                                                        bottom: 3,
                                                         left: 15,
                                                     }}
                                                 >
@@ -230,3 +198,20 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
 });
+
+const stackNavigator = createStackNavigator(
+    {
+        Search: {
+            screen: Search,
+        },
+        SearchResults: {
+            screen: SearchResults,
+        },
+    },
+    {
+        initialRouteName: 'Search',
+        headerMode: 'none',
+    },
+);
+
+export default createAppContainer(stackNavigator);
