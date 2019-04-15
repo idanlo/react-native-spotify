@@ -15,11 +15,13 @@ function Song(props) {
                 justifyContent: 'space-between',
             }}
         >
-            <TouchableOpacity onPress={props.onPress}>
+            <TouchableOpacity onPress={props.onPress} style={{ flex: 10 }}>
                 <View>
-                    <Text color={props.color || '#fff'}>{props.song.name}</Text>
+                    <Text numberOfLines={1} color={props.color || '#fff'}>
+                        {props.song.name}
+                    </Text>
                     {props.artists && props.artists.length > 0 ? (
-                        <Text size={13} color="grey">
+                        <Text numberOfLines={1} size={13} color="grey">
                             {props.artists
                                 .map(artist => artist.name)
                                 .join(', ')}
@@ -28,7 +30,10 @@ function Song(props) {
                 </View>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => console.log('MODAL')}>
+            <TouchableOpacity
+                onPress={() => console.log('MODAL')}
+                style={{ flex: 1, alignItems: 'flex-end' }}
+            >
                 <Icon name="md-more" color="#fff" size={30} />
             </TouchableOpacity>
         </View>
