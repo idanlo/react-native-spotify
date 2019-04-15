@@ -31,7 +31,7 @@ function Song(props) {
             </TouchableOpacity>
 
             <TouchableOpacity
-                onPress={() => console.log('MODAL')}
+                onPress={props.onOpenModal}
                 style={{ flex: 1, alignItems: 'flex-end' }}
             >
                 <Icon name="md-more" color="#fff" size={30} />

@@ -4,22 +4,20 @@ import {
     ActivityIndicator,
     FlatList,
     TouchableOpacity,
+    StatusBar,
     ScrollView,
     Dimensions,
     Image,
     StyleSheet,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Spotify from 'rn-spotify-sdk/src/Spotify';
+import Spotify from 'rn-spotify-sdk';
+import { commonStyles as globalStyles, colors } from '../../styles';
 import Text from '../../components/Text';
 import Album from '../album/Album';
-// import { ModalContext } from '../../components/Modal';
 import Song from '../../components/Song';
-import { commonStyles as globalStyles } from '../../styles';
 
 const { width } = Dimensions.get('window');
-
-const ModalContext = React.createContext(0);
 
 class ArtistView extends React.Component {
     state = {
@@ -115,312 +113,350 @@ class ArtistView extends React.Component {
 
     render() {
         return (
-            <View style={globalStyles.container}>
+            <View style={[globalStyles.container, { paddingTop: 0 }]}>
                 {this.state.artist &&
                 this.state.artistTopTracks &&
                 this.state.artistAlbums &&
                 this.state.artistRelated &&
                 !this.state.loading ? (
-                    <ModalContext.Consumer>
-                        {({ openModal }) => (
-                            <ScrollView>
-                                <View
-                                    style={[
-                                        globalStyles.container,
-                                        { paddingTop: 0 },
-                                    ]}
+                    <View>
+                        <View style={styles.header}>
+                            <TouchableOpacity
+                                style={{ width: '50%' }}
+                                onPress={() => this.props.navigation.goBack()}
+                            >
+                                <Icon
+                                    name="ios-arrow-back"
+                                    size={30}
+                                    color="#fff"
+                                />
+                            </TouchableOpacity>
+                            <View style={{ width: '50%' }}>
+                                <TouchableOpacity
+                                    style={{ paddingLeft: '95%' }}
+                                    onPress={() => {
+                                        this.props.showModal(
+                                            {
+                                                image: this.state.artist
+                                                    .images[1].url,
+                                                primaryText: this.state.artist
+                                                    .name,
+                                                type: 'artist',
+                                            },
+                                            [
+                                                {
+                                                    text: 'Add To Queue',
+                                                    click: () =>
+                                                        Spotify.queueURI(
+                                                            this.state.artist
+                                                                .uri,
+                                                        ),
+                                                },
+                                                {
+                                                    text: 'Follow',
+                                                    click: () =>
+                                                        Spotify.sendRequest(
+                                                            `v1/me/following?type=artist&ids=${
+                                                                this.state
+                                                                    .artist.id
+                                                            }`,
+                                                            'PUT',
+                                                            {},
+                                                            false,
+                                                        ),
+                                                },
+                                            ],
+                                        );
+                                    }}
                                 >
-                                    <View style={styles.header}>
-                                        <TouchableOpacity
-                                            onPress={() =>
-                                                this.props.navigation.goBack()
-                                            }
-                                        >
-                                            <Icon
-                                                name="ios-arrow-back"
-                                                size={30}
-                                                color="#fff"
-                                            />
-                                        </TouchableOpacity>
-                                        <TouchableOpacity
-                                            onPress={() => {
-                                                openModal(
-                                                    {
-                                                        image: this.state.artist
-                                                            .images[1].url,
-                                                        primaryText: this.state
-                                                            .artist.name,
-                                                        type: 'artist',
-                                                    },
-                                                    [
-                                                        {
-                                                            text:
-                                                                'Add To Queue',
-                                                            click: () =>
-                                                                Spotify.queueURI(
-                                                                    this.state
-                                                                        .artist
-                                                                        .uri,
-                                                                ),
-                                                        },
-                                                        {
-                                                            text: 'Follow',
-                                                            click: () =>
-                                                                Spotify.sendRequest(
-                                                                    `v1/me/following?type=artist&ids=${
-                                                                        this
-                                                                            .state
-                                                                            .artist
-                                                                            .id
-                                                                    }`,
-                                                                    'PUT',
-                                                                    {},
-                                                                    false,
-                                                                ),
-                                                        },
-                                                    ],
-                                                );
-                                            }}
-                                        >
-                                            <Icon
-                                                name="md-more"
-                                                size={30}
-                                                color="#fff"
-                                            />
-                                        </TouchableOpacity>
-                                    </View>
-                                    <View style={{ alignItems: 'center' }}>
-                                        <Image
-                                            source={{
-                                                uri: this.state.artist.images[1]
-                                                    .url,
-                                            }}
-                                            style={{
-                                                width: 150,
-                                                height: 150,
-                                                borderRadius: 75,
-                                            }}
-                                        />
-                                        <Text
-                                            bold
-                                            size={24}
-                                            style={{
-                                                textAlign: 'center',
-                                            }}
-                                        >
-                                            {this.state.artist.name}
-                                        </Text>
-                                        <TouchableOpacity
-                                            onPress={() =>
-                                                Spotify.playURI(
-                                                    this.state.artist.uri,
-                                                    0,
-                                                    0,
-                                                )
-                                            }
-                                        >
-                                            <View
-                                                style={{
-                                                    alignItems: 'center',
-                                                    justifyContent: 'center',
-                                                    width: 150,
-                                                    height: 50,
-                                                    borderRadius: 25,
-                                                    backgroundColor: '#1DB954',
-                                                    marginTop: 10,
-                                                    marginBottom: 10,
-                                                }}
-                                            >
-                                                <Text
-                                                    size={28}
-                                                    bold
-                                                    style={{
-                                                        textAlign: 'center',
-                                                    }}
-                                                >
-                                                    Play
-                                                </Text>
-                                            </View>
-                                        </TouchableOpacity>
-                                    </View>
-
+                                    <Icon
+                                        name="md-more"
+                                        size={30}
+                                        color="#fff"
+                                    />
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                        <ScrollView>
+                            <View
+                                style={[
+                                    globalStyles.container,
+                                    { paddingTop: 0 },
+                                ]}
+                            >
+                                <View style={{ alignItems: 'center' }}>
+                                    <Image
+                                        source={{
+                                            uri: this.state.artist.images[1]
+                                                .url,
+                                        }}
+                                        style={{
+                                            width: 150,
+                                            height: 150,
+                                            borderRadius: 75,
+                                        }}
+                                    />
                                     <Text
                                         bold
-                                        size={18}
-                                        style={{ textAlign: 'center' }}
+                                        size={24}
+                                        style={{
+                                            textAlign: 'center',
+                                        }}
                                     >
-                                        Popular
+                                        {this.state.artist.name}
                                     </Text>
-                                    {/* Popular songs list (top 5). this is not in the topTracks View because it 
+                                    <TouchableOpacity
+                                        onPress={() =>
+                                            Spotify.playURI(
+                                                this.state.artist.uri,
+                                                0,
+                                                0,
+                                            )
+                                        }
+                                    >
+                                        <View
+                                            style={{
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                width: 150,
+                                                height: 50,
+                                                borderRadius: 25,
+                                                backgroundColor: '#1DB954',
+                                                marginTop: 10,
+                                                marginBottom: 10,
+                                            }}
+                                        >
+                                            <Text
+                                                size={28}
+                                                bold
+                                                style={{
+                                                    textAlign: 'center',
+                                                }}
+                                            >
+                                                Play
+                                            </Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
+
+                                <Text
+                                    bold
+                                    size={18}
+                                    style={{ textAlign: 'center' }}
+                                >
+                                    Popular
+                                </Text>
+                                {/* Popular songs list (top 5). this is not in the topTracks View because it 
                                     then makes the Song component not full width for some reason */}
+                                <View
+                                    style={{
+                                        flex: 1,
+                                        marginHorizontal: 10,
+                                    }}
+                                >
+                                    <FlatList
+                                        scrollEnabled={false}
+                                        data={this.state.artistTopTracks.slice(
+                                            0,
+                                            5,
+                                        )}
+                                        keyExtractor={(_, i) => i.toString()}
+                                        renderItem={({ item, index }) => (
+                                            <Song
+                                                onPress={() =>
+                                                    Spotify.playURI(
+                                                        this.state.artist.uri,
+                                                        index,
+                                                        0,
+                                                    )
+                                                }
+                                                song={item}
+                                                artists={item.artists}
+                                                color={
+                                                    this.props.currentTrack &&
+                                                    this.props.currentTrack
+                                                        .uri === item.uri &&
+                                                    this.props.currentTrack
+                                                        .contextUri ===
+                                                        this.state.data.uri
+                                                        ? colors.primaryLight
+                                                        : null
+                                                }
+                                                onOpenModal={() => {
+                                                    this.props.showModal(
+                                                        {
+                                                            image: this.state
+                                                                .artist
+                                                                .images[1].url,
+                                                            primaryText: this
+                                                                .state.artist
+                                                                .name,
+                                                            secondaryText:
+                                                                item.name,
+                                                            type: 'artist',
+                                                        },
+
+                                                        [
+                                                            {
+                                                                text:
+                                                                    'Add To Queue',
+                                                                click: () =>
+                                                                    Spotify.queueURI(
+                                                                        item.uri,
+                                                                    ),
+                                                            },
+                                                            {
+                                                                text:
+                                                                    'View Album',
+                                                                click: () =>
+                                                                    this.props.navigation.navigate(
+                                                                        'AlbumView',
+                                                                        {
+                                                                            albumId:
+                                                                                item
+                                                                                    .album
+                                                                                    .id,
+                                                                        },
+                                                                    ),
+                                                            },
+                                                        ],
+                                                    );
+                                                }}
+                                            />
+                                        )}
+                                    />
                                     <View
                                         style={{
                                             flex: 1,
+                                            height: 50,
                                             marginHorizontal: 10,
+                                            marginTop: 8,
                                         }}
                                     >
-                                        <FlatList
-                                            scrollEnabled={false}
-                                            data={this.state.artistTopTracks.slice(
-                                                0,
-                                                5,
-                                            )}
-                                            keyExtractor={(_, i) =>
-                                                i.toString()
+                                        <TouchableOpacity>
+                                            <View>
+                                                <Text bold>See All Albums</Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+
+                                <Text
+                                    bold
+                                    size={18}
+                                    style={{
+                                        textAlign: 'center',
+                                        marginBottom: 15,
+                                    }}
+                                >
+                                    Albums
+                                </Text>
+                                <FlatList
+                                    contentContainerStyle={{
+                                        flex: 1,
+                                        marginHorizontal: 10,
+                                    }}
+                                    numColumns={2}
+                                    scrollEnabled={false}
+                                    data={this.state.artistAlbums.items}
+                                    keyExtractor={(_, i) => i.toString()}
+                                    renderItem={({ item }) => (
+                                        <Album
+                                            onPress={() =>
+                                                this.props.navigation.navigate(
+                                                    'AlbumView',
+                                                    { albumId: item.id },
+                                                )
                                             }
-                                            renderItem={({ item, index }) => (
-                                                <Song
-                                                    onPress={() =>
-                                                        Spotify.playURI(
-                                                            this.state.artist
-                                                                .uri,
-                                                            index,
-                                                            0,
-                                                        )
-                                                    }
-                                                    song={item}
-                                                    artists={item.artists}
-                                                />
-                                            )}
-                                        />
-                                        <View
                                             style={{
                                                 flex: 1,
-                                                height: 50,
-                                                marginHorizontal: 10,
-                                                marginTop: 8,
+                                                alignItems: 'center',
+                                                paddingBottom: 10,
+                                            }}
+                                            image={item.images[1].url}
+                                            imageStyle={{
+                                                height: width / 2 - 30,
+                                                width: width / 2 - 30,
+                                            }}
+                                            primaryText={item.name}
+                                            secondaryText={`${
+                                                item.total_tracks
+                                            } Songs ● ${item.release_date.substring(
+                                                0,
+                                                4,
+                                            )}`}
+                                        />
+                                    )}
+                                />
+
+                                <Text
+                                    bold
+                                    size={18}
+                                    style={{
+                                        textAlign: 'center',
+                                        marginBottom: 15,
+                                    }}
+                                >
+                                    Related Artists
+                                </Text>
+
+                                <FlatList
+                                    contentContainerStyle={{
+                                        justifyContent: 'center',
+                                    }}
+                                    horizontal
+                                    showsHorizontalScrollIndicator={false}
+                                    data={this.state.artistRelated}
+                                    keyExtractor={(_, i) => i.toString()}
+                                    renderItem={({ item }) => (
+                                        <View
+                                            style={{
+                                                height: 180,
+                                                width: 170,
+                                                alignItems: 'center',
                                             }}
                                         >
-                                            <TouchableOpacity>
+                                            <TouchableOpacity
+                                                onPress={() => {
+                                                    // navigate to ArtistView
+                                                    this.props.navigation.navigate(
+                                                        'ArtistView',
+                                                        {
+                                                            artistId: item.id,
+                                                        },
+                                                    );
+                                                    this.fetchData();
+                                                }}
+                                            >
                                                 <View>
-                                                    <Text bold>
-                                                        See All Albums
+                                                    <Image
+                                                        source={{
+                                                            uri:
+                                                                item.images[1]
+                                                                    .url,
+                                                        }}
+                                                        style={{
+                                                            width: 150,
+                                                            height: 150,
+                                                            borderRadius: 75,
+                                                        }}
+                                                    />
+                                                    <Text
+                                                        bold
+                                                        style={{
+                                                            textAlign: 'center',
+                                                        }}
+                                                    >
+                                                        {item.name}
                                                     </Text>
                                                 </View>
                                             </TouchableOpacity>
                                         </View>
-                                    </View>
-
-                                    <Text
-                                        bold
-                                        size={18}
-                                        style={{
-                                            textAlign: 'center',
-                                            marginBottom: 15,
-                                        }}
-                                    >
-                                        Albums
-                                    </Text>
-                                    <FlatList
-                                        contentContainerStyle={{
-                                            flex: 1,
-                                            marginHorizontal: 10,
-                                        }}
-                                        numColumns={2}
-                                        scrollEnabled={false}
-                                        data={this.state.artistAlbums.items}
-                                        keyExtractor={(_, i) => i.toString()}
-                                        renderItem={({ item }) => (
-                                            <Album
-                                                onPress={() =>
-                                                    this.props.navigation.navigate(
-                                                        'AlbumView',
-                                                        { albumId: item.id },
-                                                    )
-                                                }
-                                                style={{
-                                                    flex: 1,
-                                                    alignItems: 'center',
-                                                    paddingBottom: 10,
-                                                }}
-                                                image={item.images[1].url}
-                                                imageStyle={{
-                                                    height: width / 2 - 30,
-                                                    width: width / 2 - 30,
-                                                }}
-                                                primaryText={item.name}
-                                                secondaryText={`${
-                                                    item.total_tracks
-                                                } Songs ● ${item.release_date.substring(
-                                                    0,
-                                                    4,
-                                                )}`}
-                                            />
-                                        )}
-                                    />
-
-                                    <Text
-                                        bold
-                                        size={18}
-                                        style={{
-                                            textAlign: 'center',
-                                            marginBottom: 15,
-                                        }}
-                                    >
-                                        Related Artists
-                                    </Text>
-
-                                    <FlatList
-                                        contentContainerStyle={{
-                                            justifyContent: 'center',
-                                        }}
-                                        horizontal
-                                        showsHorizontalScrollIndicator={false}
-                                        data={this.state.artistRelated}
-                                        keyExtractor={(_, i) => i.toString()}
-                                        renderItem={({ item }) => (
-                                            <View
-                                                style={{
-                                                    height: 180,
-                                                    width: 170,
-                                                    alignItems: 'center',
-                                                }}
-                                            >
-                                                <TouchableOpacity
-                                                    onPress={() => {
-                                                        // navigate to ArtistView
-                                                        this.props.navigation.navigate(
-                                                            'ArtistView',
-                                                            {
-                                                                artistId:
-                                                                    item.id,
-                                                            },
-                                                        );
-                                                        this.fetchData();
-                                                    }}
-                                                >
-                                                    <View>
-                                                        <Image
-                                                            source={{
-                                                                uri:
-                                                                    item
-                                                                        .images[1]
-                                                                        .url,
-                                                            }}
-                                                            style={{
-                                                                width: 150,
-                                                                height: 150,
-                                                                borderRadius: 75,
-                                                            }}
-                                                        />
-                                                        <Text
-                                                            bold
-                                                            style={{
-                                                                textAlign:
-                                                                    'center',
-                                                            }}
-                                                        >
-                                                            {item.name}
-                                                        </Text>
-                                                    </View>
-                                                </TouchableOpacity>
-                                            </View>
-                                        )}
-                                    />
-                                </View>
-                            </ScrollView>
-                        )}
-                    </ModalContext.Consumer>
+                                    )}
+                                />
+                            </View>
+                        </ScrollView>
+                    </View>
                 ) : (
                     <View
                         style={[
@@ -441,12 +477,10 @@ class ArtistView extends React.Component {
 
 const styles = StyleSheet.create({
     header: {
-        flex: 1,
-        flexGrow: 1,
         backgroundColor: '#191414',
-        justifyContent: 'space-between',
         flexDirection: 'row',
-        marginHorizontal: 15,
+        marginHorizontal: 25,
+        marginTop: StatusBar.currentHeight,
         height: 35,
     },
     topTracks: {

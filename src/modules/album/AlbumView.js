@@ -240,6 +240,42 @@ class AlbumView extends React.Component {
                                             }
                                             song={item}
                                             artists={this.state.data.artists}
+                                            onOpenModal={() => {
+                                                this.props.showModal(
+                                                    {
+                                                        image: this.state.data
+                                                            .images[1].url,
+                                                        primaryText: this.state
+                                                            .data.name,
+                                                        secondaryText:
+                                                            item.name,
+                                                    },
+
+                                                    [
+                                                        {
+                                                            text:
+                                                                'Add To Queue',
+                                                            click: () =>
+                                                                Spotify.queueURI(
+                                                                    item.uri,
+                                                                ),
+                                                        },
+                                                        {
+                                                            text: 'View Artist',
+                                                            click: () =>
+                                                                this.props.navigation.navigate(
+                                                                    'ArtistView',
+                                                                    {
+                                                                        artistId:
+                                                                            item
+                                                                                .artists[0]
+                                                                                .id,
+                                                                    },
+                                                                ),
+                                                        },
+                                                    ],
+                                                );
+                                            }}
                                         />
                                     )}
                                 />
