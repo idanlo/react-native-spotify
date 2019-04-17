@@ -106,7 +106,9 @@ class SearchResults extends React.Component {
                                                     // navigate to ArtistView
                                                     this.props.navigation.navigate(
                                                         'ArtistView',
-                                                        { artistId: item.id },
+                                                        {
+                                                            artistId: item.id,
+                                                        },
                                                     )
                                                 }
                                             >
@@ -158,7 +160,9 @@ class SearchResults extends React.Component {
                                                     // navigate to AlbumView
                                                     this.props.navigation.navigate(
                                                         'AlbumView',
-                                                        { albumId: item.id },
+                                                        {
+                                                            albumId: item.id,
+                                                        },
                                                     )
                                                 }
                                             >
@@ -210,7 +214,9 @@ class SearchResults extends React.Component {
                                                     // navigate to PlaylistView
                                                     this.props.navigation.navigate(
                                                         'PlaylistView',
-                                                        { playlistId: item.id },
+                                                        {
+                                                            playlistId: item.id,
+                                                        },
                                                     )
                                                 }
                                             >
@@ -262,7 +268,10 @@ class SearchResults extends React.Component {
                                         marginHorizontal: 10,
                                     }}
                                     scrollEnabled={false}
-                                    data={this.state.results.tracks.items}
+                                    data={this.state.results.tracks.items.slice(
+                                        0,
+                                        5,
+                                    )}
                                     keyExtractor={(_, i) => i.toString()}
                                     renderItem={({ item }) => (
                                         <Song
@@ -288,6 +297,75 @@ class SearchResults extends React.Component {
                                         />
                                     )}
                                 />
+
+                                <View
+                                    style={{
+                                        flex: 1,
+                                        marginHorizontal: 20,
+                                        marginTop: 8,
+                                    }}
+                                >
+                                    <TouchableOpacity
+                                        onPress={() =>
+                                            this.props.navigation.navigate(
+                                                'PaginationView',
+                                                {
+                                                    next: this.state.results
+                                                        .artists.href,
+                                                },
+                                            )
+                                        }
+                                    >
+                                        <View style={styles.paginationLink}>
+                                            <Text bold>See All artists</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        onPress={() =>
+                                            this.props.navigation.navigate(
+                                                'PaginationView',
+                                                {
+                                                    next: this.state.results
+                                                        .tracks.href,
+                                                },
+                                            )
+                                        }
+                                    >
+                                        <View style={styles.paginationLink}>
+                                            <Text bold>See All songs</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        onPress={() =>
+                                            this.props.navigation.navigate(
+                                                'PaginationView',
+                                                {
+                                                    next: this.state.results
+                                                        .playlists.href,
+                                                },
+                                            )
+                                        }
+                                    >
+                                        <View style={styles.paginationLink}>
+                                            <Text bold>See All playlists</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        onPress={() =>
+                                            this.props.navigation.navigate(
+                                                'PaginationView',
+                                                {
+                                                    next: this.state.results
+                                                        .albums.href,
+                                                },
+                                            )
+                                        }
+                                    >
+                                        <View style={styles.paginationLink}>
+                                            <Text bold>See All albums</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
                             </View>
                         ) : null}
                     </ScrollView>
@@ -336,6 +414,9 @@ const styles = StyleSheet.create({
         width: 150,
         height: 150,
         borderRadius: 75,
+    },
+    paginationLink: {
+        height: 40,
     },
 });
 

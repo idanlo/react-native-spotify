@@ -13,6 +13,7 @@ import PlayerScreen from '../player/PlayerViewContainer';
 import AlbumScreen from '../album/AlbumViewContainer';
 import PlaylistScreen from '../playlist/PlaylistViewContainer';
 import ArtistScreen from '../artist/ArtistViewContainer';
+import PaginationScreen from '../pagination/PaginationViewContainer';
 
 import Player from '../player/Player';
 
@@ -64,6 +65,12 @@ const HomeNavigator = createBottomTabNavigator(
         },
         ArtistView: {
             screen: ArtistScreen,
+            navigationOptions: {
+                tabBarButtonComponent: () => null,
+            },
+        },
+        PaginationView: {
+            screen: PaginationScreen,
             navigationOptions: {
                 tabBarButtonComponent: () => null,
             },

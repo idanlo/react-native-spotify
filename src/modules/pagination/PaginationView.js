@@ -1,0 +1,215 @@
+import React from 'react';
+import { View, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+import Spotify from 'rn-spotify-sdk/src/Spotify';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { commonStyles as globalStyles, colors } from '../../styles';
+import Text from '../../components/Text';
+import Song from '../../components/Song';
+
+export default class PaginationView extends React.PureComponent {
+    state = {
+        next: '',
+        data: '',
+        type: '',
+    };
+
+    componentDidMount() {
+        // create route subscription to know when to re-fetch data because the component is mounted even if it is
+        // not in the view, so react-navigation provides events
+        this.routeSubscription = this.props.navigation.addListener(
+            'willFocus',
+            this.fetchInitialData,
+        );
+    }
+
+    componentWillUnmount() {
+        // cancel route subscription when the component unmounts (if the subscription exists)
+        if (this.routeSubscription) {
+            this.routeSubscription.remove();
+        }
+    }
+
+    fetchInitialData = ctx => {
+        let url;
+        // sometimes react-navigation gives a 'context' object which contains the route params
+        if (ctx) {
+            // eslint-disable-next-line prefer-destructuring
+            url = ctx.state.params.next;
+        } else {
+            url = this.props.navigation.getParam('next');
+        }
+        console.log('Pagination url', url);
+        url = url.substring(24); // https://api.spotify.com/ is 24 characters, and this is the format that the sdk receives
+        console.log('Sliced pagination url', url);
+        this.setState({ next: url });
+
+        Spotify.sendRequest(url, 'GET', {}, true).then(res => {
+            if ('tracks' in res) {
+                this.setState({
+                    data: res.tracks,
+                    next: res.tracks.next.substring(24),
+                    type: 'tracks',
+                });
+            } else if ('playlists' in res) {
+                this.setState({
+                    data: res.playlists,
+                    next: res.playlists.next.substring(24),
+                    type: 'playlists',
+                });
+            } else if ('artists' in res) {
+                this.setState({
+                    data: res.artists,
+                    next: res.artists.next.substring(24),
+                    type: 'artists',
+                });
+            } else if ('albums' in res) {
+                this.setState({
+                    data: res.albums,
+                    next: res.albums.next.substring(24),
+                    type: 'albums',
+                });
+            }
+            console.log('Pagination', res);
+        });
+    };
+
+    fetchPaginationData = () => {
+        // this is called whenever the flatlist is scrolled to the bottom
+        Spotify.sendRequest(this.state.next, 'GET', {}, true).then(res => {
+            if ('tracks' in res) {
+                this.setState(state => ({
+                    data: {
+                        ...state.data,
+                        items: [...state.data.items, ...res.tracks.items],
+                    },
+                    next: res.tracks.next.substring(24),
+                }));
+            } else if ('playlists' in res) {
+                this.setState(state => ({
+                    data: {
+                        ...state.data,
+                        items: [...state.data.items, ...res.playlists.items],
+                    },
+                    next: res.playlists.next.substring(24),
+                }));
+            } else if ('artists' in res) {
+                this.setState(state => ({
+                    data: {
+                        ...state.data,
+                        items: [...state.data.items, ...res.artists.items],
+                    },
+                    next: res.artists.next.substring(24),
+                }));
+            } else if ('albums' in res) {
+                this.setState(state => ({
+                    data: {
+                        ...state.data,
+                        items: [...state.data.items, ...res.albums.items],
+                    },
+                    next: res.albums.next.substring(24),
+                }));
+            }
+        });
+    };
+
+    renderItem = ({ item }) => {
+        if (item.type === 'track') {
+            return (
+                <Song
+                    onPress={() =>
+                        Spotify.playURI(
+                            item.album.uri,
+                            item.track_number - 1, // for some reason item.track_number is not an index (which is what it should be)
+                            0,
+                        )
+                    }
+                    color={
+                        this.props.currentTrack &&
+                        this.props.currentTrack.uri === item.uri &&
+                        this.props.currentTrack.contextUri === item.album.uri
+                            ? colors.primaryLight
+                            : null
+                    }
+                    song={item}
+                    artists={item.artists}
+                    onOpenModal={() => {
+                        this.props.showModal(
+                            {
+                                image: item.album.images[1].url,
+                                primaryText: item.album.name,
+                                secondaryText: item.name,
+                            },
+
+                            [
+                                {
+                                    text: 'Add To Queue',
+                                    click: () => Spotify.queueURI(item.uri),
+                                },
+                                {
+                                    text: 'View Artist',
+                                    click: () =>
+                                        this.props.navigation.navigate(
+                                            'ArtistView',
+                                            {
+                                                artistId: item.artists[0].id,
+                                            },
+                                        ),
+                                },
+                                {
+                                    text: 'View Album',
+                                    click: () =>
+                                        this.props.navigation.navigate(
+                                            'ArtistView',
+                                            {
+                                                artistId: item.album.id,
+                                            },
+                                        ),
+                                },
+                            ],
+                        );
+                    }}
+                />
+            );
+        }
+    };
+
+    render() {
+        return (
+            <View style={globalStyles.container}>
+                <View style={styles.header}>
+                    <TouchableOpacity
+                        style={{ flex: 1 }}
+                        onPress={() => this.props.navigation.goBack()}
+                    >
+                        <Icon name="ios-arrow-back" size={30} color="#fff" />
+                    </TouchableOpacity>
+                    <View>
+                        <View>
+                            <Text bold>{this.state.type}</Text>
+                        </View>
+                    </View>
+                    <View style={{ flex: 1 }} />
+                </View>
+                {this.state.data ? (
+                    <FlatList
+                        data={this.state.data.items}
+                        keyExtractor={(_, i) => i.toString()}
+                        onEndReached={this.fetchPaginationData}
+                        onEndReachedThreshold={0.1}
+                        renderItem={this.renderItem}
+                    />
+                ) : null}
+            </View>
+        );
+    }
+}
+
+const styles = StyleSheet.create({
+    header: {
+        backgroundColor: '#191414',
+        flexDirection: 'row',
+        marginHorizontal: 25,
+        height: 35,
+        alignItems: 'center',
+    },
+});
