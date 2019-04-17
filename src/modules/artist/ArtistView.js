@@ -325,20 +325,6 @@ class ArtistView extends React.Component {
                                             />
                                         )}
                                     />
-                                    <View
-                                        style={{
-                                            flex: 1,
-                                            height: 50,
-                                            marginHorizontal: 10,
-                                            marginTop: 8,
-                                        }}
-                                    >
-                                        <TouchableOpacity>
-                                            <View>
-                                                <Text bold>See All Albums</Text>
-                                            </View>
-                                        </TouchableOpacity>
-                                    </View>
                                 </View>
 
                                 <Text
@@ -388,7 +374,20 @@ class ArtistView extends React.Component {
                                         />
                                     )}
                                 />
-
+                                <View
+                                    style={{
+                                        flex: 1,
+                                        height: 50,
+                                        marginHorizontal: 20,
+                                        marginTop: 8,
+                                    }}
+                                >
+                                    <TouchableOpacity>
+                                        <View>
+                                            <Text bold>See All Albums</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
                                 <Text
                                     bold
                                     size={18}
