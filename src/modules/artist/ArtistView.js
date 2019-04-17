@@ -278,7 +278,7 @@ class ArtistView extends React.Component {
                                                         .uri === item.uri &&
                                                     this.props.currentTrack
                                                         .contextUri ===
-                                                        this.state.data.uri
+                                                        this.state.artist.uri
                                                         ? colors.primaryLight
                                                         : null
                                                 }
