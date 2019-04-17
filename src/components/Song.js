@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Text from './Text';
 
@@ -16,7 +16,24 @@ function Song(props) {
             }}
         >
             <TouchableOpacity onPress={props.onPress} style={{ flex: 10 }}>
-                <View>
+                <View
+                    // only apply these styles if there is an image (if it is an artist)
+                    style={{
+                        flexDirection: props.image ? 'row' : null,
+                        alignItems: props.image ? 'center' : null,
+                    }}
+                >
+                    {props.image ? (
+                        <Image
+                            source={{ uri: props.image }}
+                            style={{
+                                width: 40,
+                                height: 40,
+                                borderRadius: 20,
+                                marginRight: 10,
+                            }}
+                        />
+                    ) : null}
                     <Text numberOfLines={1} color={props.color || '#fff'}>
                         {props.song.name}
                     </Text>

@@ -9,7 +9,7 @@ import Song from '../../components/Song';
 export default class PaginationView extends React.PureComponent {
     state = {
         next: '',
-        data: '',
+        data: null,
         type: '',
     };
 
@@ -168,6 +168,30 @@ export default class PaginationView extends React.PureComponent {
                             ],
                         );
                     }}
+                />
+            );
+        }
+        if (item.type === 'artist') {
+            return (
+                <Song
+                    onPress={() =>
+                        this.props.navigation.navigate('ArtistView', {
+                            artistId: item.id,
+                        })
+                    }
+                    color={
+                        this.props.currentTrack &&
+                        this.props.currentTrack.contextUri === item.uri
+                            ? colors.primaryLight
+                            : null
+                    }
+                    song={item}
+                    artists={null}
+                    image={
+                        item.images && item.images.length > 1
+                            ? item.images[1].url
+                            : null
+                    }
                 />
             );
         }
