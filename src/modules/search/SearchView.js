@@ -104,6 +104,16 @@ class Search extends React.Component {
                                     }}
                                     renderItem={({ item }) => (
                                         <TouchableOpacity
+                                            onPress={() =>
+                                                this.props.navigation.navigate(
+                                                    'PaginationView',
+                                                    {
+                                                        next: `${
+                                                            item.href
+                                                        }/playlists`,
+                                                    },
+                                                )
+                                            }
                                             style={{
                                                 flex: 1,
                                                 alignItems: 'center',
@@ -127,7 +137,6 @@ class Search extends React.Component {
                                                         width: '100%',
                                                         height: '100%',
                                                         position: 'absolute',
-
                                                         resizeMode: 'cover',
                                                     }}
                                                 />

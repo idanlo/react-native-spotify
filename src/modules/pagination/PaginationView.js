@@ -88,41 +88,46 @@ export default class PaginationView extends React.PureComponent {
 
     fetchPaginationData = () => {
         // this is called whenever the flatlist is scrolled to the bottom
-        Spotify.sendRequest(this.state.next, 'GET', {}, true).then(res => {
-            if ('tracks' in res) {
-                this.setState(state => ({
-                    data: {
-                        ...state.data,
-                        items: [...state.data.items, ...res.tracks.items],
-                    },
-                    next: res.tracks.next.substring(24),
-                }));
-            } else if ('playlists' in res) {
-                this.setState(state => ({
-                    data: {
-                        ...state.data,
-                        items: [...state.data.items, ...res.playlists.items],
-                    },
-                    next: res.playlists.next.substring(24),
-                }));
-            } else if ('artists' in res) {
-                this.setState(state => ({
-                    data: {
-                        ...state.data,
-                        items: [...state.data.items, ...res.artists.items],
-                    },
-                    next: res.artists.next.substring(24),
-                }));
-            } else if ('albums' in res) {
-                this.setState(state => ({
-                    data: {
-                        ...state.data,
-                        items: [...state.data.items, ...res.albums.items],
-                    },
-                    next: res.albums.next.substring(24),
-                }));
-            }
-        });
+        if (this.state.next) {
+            Spotify.sendRequest(this.state.next, 'GET', {}, true).then(res => {
+                if ('tracks' in res) {
+                    this.setState(state => ({
+                        data: {
+                            ...state.data,
+                            items: [...state.data.items, ...res.tracks.items],
+                        },
+                        next: res.tracks.next.substring(24),
+                    }));
+                } else if ('playlists' in res) {
+                    this.setState(state => ({
+                        data: {
+                            ...state.data,
+                            items: [
+                                ...state.data.items,
+                                ...res.playlists.items,
+                            ],
+                        },
+                        next: res.playlists.next.substring(24),
+                    }));
+                } else if ('artists' in res) {
+                    this.setState(state => ({
+                        data: {
+                            ...state.data,
+                            items: [...state.data.items, ...res.artists.items],
+                        },
+                        next: res.artists.next.substring(24),
+                    }));
+                } else if ('albums' in res) {
+                    this.setState(state => ({
+                        data: {
+                            ...state.data,
+                            items: [...state.data.items, ...res.albums.items],
+                        },
+                        next: res.albums.next.substring(24),
+                    }));
+                }
+            });
+        }
     };
 
     renderItem = ({ item }) => {
