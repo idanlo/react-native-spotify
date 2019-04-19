@@ -1,16 +1,27 @@
 import React from 'react';
-import { View, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+import {
+    View,
+    FlatList,
+    TouchableOpacity,
+    Image,
+    ActivityIndicator,
+    Dimensions,
+    StyleSheet,
+} from 'react-native';
 import Spotify from 'rn-spotify-sdk/src/Spotify';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { commonStyles as globalStyles, colors } from '../../styles';
 import Text from '../../components/Text';
 import Song from '../../components/Song';
 
+const { width } = Dimensions.get('screen');
+
 export default class PaginationView extends React.PureComponent {
     state = {
         next: '',
         data: null,
         type: '',
+        loading: true,
     };
 
     componentDidMount() {
@@ -30,6 +41,7 @@ export default class PaginationView extends React.PureComponent {
     }
 
     fetchInitialData = ctx => {
+        this.setState({ loading: true });
         let url;
         // sometimes react-navigation gives a 'context' object which contains the route params
         if (ctx) {
@@ -44,6 +56,7 @@ export default class PaginationView extends React.PureComponent {
         this.setState({ next: url });
 
         Spotify.sendRequest(url, 'GET', {}, true).then(res => {
+            this.setState({ loading: false });
             if ('tracks' in res) {
                 this.setState({
                     data: res.tracks,
@@ -195,34 +208,103 @@ export default class PaginationView extends React.PureComponent {
                 />
             );
         }
+
+        if (item.type === 'playlist') {
+            return (
+                <View
+                    style={{
+                        flex: 1,
+                        paddingBottom: 25,
+                    }}
+                >
+                    <TouchableOpacity
+                        onPress={() =>
+                            this.props.navigation.navigate('PlaylistView', {
+                                playlistId: item.id,
+                            })
+                        }
+                        style={{ alignItems: 'center' }}
+                    >
+                        <Image
+                            source={{ uri: item.images[0].url }}
+                            style={{
+                                height: width / 2 - 30,
+                                width: width / 2 - 30,
+                            }}
+                        />
+                        <Text bold numberOfLines={1}>
+                            {item.name}
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            );
+        }
     };
 
     render() {
         return (
-            <View style={globalStyles.container}>
-                <View style={styles.header}>
-                    <TouchableOpacity
-                        style={{ flex: 1 }}
-                        onPress={() => this.props.navigation.goBack()}
-                    >
-                        <Icon name="ios-arrow-back" size={30} color="#fff" />
-                    </TouchableOpacity>
-                    <View>
-                        <View>
-                            <Text bold>{this.state.type}</Text>
+            <View style={[globalStyles.container, { paddingTop: 0 }]}>
+                {this.state.data && !this.state.loading ? (
+                    <View style={globalStyles.container}>
+                        <View style={styles.header}>
+                            <TouchableOpacity
+                                style={{ flex: 1 }}
+                                onPress={() => this.props.navigation.goBack()}
+                            >
+                                <Icon
+                                    name="ios-arrow-back"
+                                    size={30}
+                                    color="#fff"
+                                />
+                            </TouchableOpacity>
+                            <View>
+                                <View>
+                                    <Text bold>{this.state.type}</Text>
+                                </View>
+                            </View>
+                            <View style={{ flex: 1 }} />
                         </View>
+                        {this.state.data &&
+                        (this.state.data.items[0].type === 'artist' ||
+                            this.state.data.items[0].type === 'track') ? (
+                            <FlatList
+                                data={this.state.data.items}
+                                keyExtractor={(_, i) => i.toString()}
+                                onEndReached={this.fetchPaginationData}
+                                onEndReachedThreshold={0.1}
+                                renderItem={this.renderItem}
+                            />
+                        ) : null}
+                        {this.state.data &&
+                        (this.state.data.items[0].type === 'album' ||
+                            this.state.data.items[0].type === 'playlist') ? (
+                            <FlatList
+                                contentContainerStyle={{
+                                    // flex: 1,
+                                    marginHorizontal: 10,
+                                }}
+                                data={this.state.data.items}
+                                keyExtractor={(_, i) => i.toString()}
+                                onEndReached={this.fetchPaginationData}
+                                numColumns={2}
+                                onEndReachedThreshold={0.1}
+                                renderItem={this.renderItem}
+                            />
+                        ) : null}
                     </View>
-                    <View style={{ flex: 1 }} />
-                </View>
-                {this.state.data ? (
-                    <FlatList
-                        data={this.state.data.items}
-                        keyExtractor={(_, i) => i.toString()}
-                        onEndReached={this.fetchPaginationData}
-                        onEndReachedThreshold={0.1}
-                        renderItem={this.renderItem}
-                    />
-                ) : null}
+                ) : (
+                    <View
+                        style={[
+                            globalStyles.container,
+                            {
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            },
+                        ]}
+                    >
+                        <ActivityIndicator size="large" color="#1DB954" />
+                    </View>
+                )}
             </View>
         );
     }
