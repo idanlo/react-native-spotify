@@ -239,6 +239,37 @@ export default class PaginationView extends React.PureComponent {
                 </View>
             );
         }
+
+        if (item.type === 'album') {
+            return (
+                <View
+                    style={{
+                        flex: 1,
+                        paddingBottom: 25,
+                    }}
+                >
+                    <TouchableOpacity
+                        onPress={() =>
+                            this.props.navigation.navigate('AlbumView', {
+                                albumId: item.id,
+                            })
+                        }
+                        style={{ alignItems: 'center' }}
+                    >
+                        <Image
+                            source={{ uri: item.images[1].url }}
+                            style={{
+                                height: width / 2 - 30,
+                                width: width / 2 - 30,
+                            }}
+                        />
+                        <Text bold numberOfLines={1}>
+                            {item.name}
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            );
+        }
     };
 
     render() {
@@ -280,7 +311,6 @@ export default class PaginationView extends React.PureComponent {
                             this.state.data.items[0].type === 'playlist') ? (
                             <FlatList
                                 contentContainerStyle={{
-                                    // flex: 1,
                                     marginHorizontal: 10,
                                 }}
                                 data={this.state.data.items}
