@@ -48,7 +48,7 @@ class Search extends React.Component {
             <View style={{ backgroundColor: '#191414' }}>
                 <ScrollView>
                     <LinearGradient
-                        colors={['#fff', '#191414']}
+                        colors={['rgba(255, 255, 255, 0.4)', '#191414']}
                         start={{ x: 0, y: 0 }}
                         end={{ x: 3, y: 3 }}
                         locations={[0, 0.1]}
