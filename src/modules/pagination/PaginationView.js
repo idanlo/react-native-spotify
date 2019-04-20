@@ -19,6 +19,7 @@ const { width } = Dimensions.get('screen');
 export default class PaginationView extends React.PureComponent {
     state = {
         next: '',
+        href: '',
         data: null,
         type: '',
         loading: true,
@@ -50,12 +51,16 @@ export default class PaginationView extends React.PureComponent {
         } else {
             url = this.props.navigation.getParam('next');
         }
+        if (this.state.href === url) {
+            this.setState({ loading: false });
+            return;
+        }
         console.log('Pagination url', url);
-        url = url.substring(24); // https://api.spotify.com/ is 24 characters, and this is the format that the sdk receives
+        const slicedUrl = url.substring(24); // https://api.spotify.com/ is 24 characters, and this is the format that the sdk receives
         console.log('Sliced pagination url', url);
-        this.setState({ next: url });
+        this.setState({ next: slicedUrl, href: url });
 
-        Spotify.sendRequest(url, 'GET', {}, true).then(res => {
+        Spotify.sendRequest(slicedUrl, 'GET', {}, true).then(res => {
             this.setState({ loading: false });
             if ('tracks' in res) {
                 this.setState({
@@ -82,11 +87,27 @@ export default class PaginationView extends React.PureComponent {
                     type: 'albums',
                 });
             } else if ('items' in res) {
-                this.setState({
-                    data: { items: res.items },
-                    next: res.next.substring(24),
-                    type: res.items[0].type,
-                });
+                if ('album' in res.items[0]) {
+                    const newItems = res.items.map(item => item.album);
+                    this.setState({
+                        data: { items: newItems },
+                        next: res.next.substring(24),
+                        type: newItems[0].type,
+                    });
+                } else if ('track' in res.items[0]) {
+                    const newItems = res.items.map(item => item.track);
+                    this.setState({
+                        data: { items: newItems },
+                        next: res.next.substring(24),
+                        type: newItems[0].type,
+                    });
+                } else {
+                    this.setState({
+                        data: { items: res.items },
+                        next: res.next.substring(24),
+                        type: res.items[0].type,
+                    });
+                }
             }
             console.log('Pagination', res);
         });
@@ -97,6 +118,7 @@ export default class PaginationView extends React.PureComponent {
         if (this.state.next) {
             Spotify.sendRequest(this.state.next, 'GET', {}, true).then(res => {
                 if ('tracks' in res) {
+                    // handle endpoints like https://developer.spotify.com/documentation/web-api/reference/search/search/ when searching for tracks
                     this.setState(state => ({
                         data: {
                             ...state.data,
@@ -105,6 +127,7 @@ export default class PaginationView extends React.PureComponent {
                         next: res.tracks.next.substring(24),
                     }));
                 } else if ('playlists' in res) {
+                    // handle endpoints like https://developer.spotify.com/documentation/web-api/reference/search/search/ when searching for playlists
                     this.setState(state => ({
                         data: {
                             ...state.data,
@@ -116,6 +139,7 @@ export default class PaginationView extends React.PureComponent {
                         next: res.playlists.next.substring(24),
                     }));
                 } else if ('artists' in res) {
+                    // handle endpoints like https://developer.spotify.com/documentation/web-api/reference/search/search/ when searching for artists
                     this.setState(state => ({
                         data: {
                             ...state.data,
@@ -124,6 +148,7 @@ export default class PaginationView extends React.PureComponent {
                         next: res.artists.next.substring(24),
                     }));
                 } else if ('albums' in res) {
+                    // handle endpoints like https://developer.spotify.com/documentation/web-api/reference/search/search/ when searching for albums
                     this.setState(state => ({
                         data: {
                             ...state.data,
@@ -132,10 +157,31 @@ export default class PaginationView extends React.PureComponent {
                         next: res.albums.next.substring(24),
                     }));
                 } else if ('items' in res) {
-                    this.setState(state => ({
-                        data: { items: [...state.data.items, ...res.items] },
-                        next: res.next.substring(24),
-                    }));
+                    // handle endpoints where you receive an array of items without a wrapping object (like https://developer.spotify.com/documentation/web-api/reference/artists/get-artists-albums/)
+                    if ('album' in res.items[0]) {
+                        // handle endpoints where you receive an array of items without a wrapping object but the content inside is wrapped
+                        // in an object, like this endpoint https://developer.spotify.com/documentation/web-api/reference/library/get-users-saved-albums/
+                        const newItems = res.items.map(item => item.album);
+                        this.setState(state => ({
+                            data: { items: [...state.data.items, ...newItems] },
+                            next: res.next.substring(24),
+                        }));
+                    } else if ('track' in res.items[0]) {
+                        // handle endpoints where you receive an array of items without a wrapping object but the content inside is wrapped
+                        // in an object, like this endpoint https://developer.spotify.com/documentation/web-api/reference/library/get-users-saved-tracks/
+                        const newItems = res.items.map(item => item.track);
+                        this.setState(state => ({
+                            data: { items: [...state.data.items, ...newItems] },
+                            next: res.next.substring(24),
+                        }));
+                    } else {
+                        this.setState(state => ({
+                            data: {
+                                items: [...state.data.items, ...res.items],
+                            },
+                            next: res.next.substring(24),
+                        }));
+                    }
                 }
             });
         }
