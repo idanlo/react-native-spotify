@@ -81,6 +81,12 @@ export default class PaginationView extends React.PureComponent {
                     next: res.albums.next.substring(24),
                     type: 'albums',
                 });
+            } else if ('items' in res) {
+                this.setState({
+                    data: { items: res.items },
+                    next: res.next.substring(24),
+                    type: res.items[0].type,
+                });
             }
             console.log('Pagination', res);
         });
@@ -124,6 +130,11 @@ export default class PaginationView extends React.PureComponent {
                             items: [...state.data.items, ...res.albums.items],
                         },
                         next: res.albums.next.substring(24),
+                    }));
+                } else if ('items' in res) {
+                    this.setState(state => ({
+                        data: { items: [...state.data.items, ...res.items] },
+                        next: res.next.substring(24),
                     }));
                 }
             });

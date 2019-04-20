@@ -181,7 +181,11 @@ class ArtistView extends React.Component {
                             <View
                                 style={[
                                     globalStyles.container,
-                                    { paddingTop: 0 },
+                                    {
+                                        paddingTop: 0,
+                                        paddingBottom:
+                                            StatusBar.currentHeight + 35,
+                                    },
                                 ]}
                             >
                                 <View style={{ alignItems: 'center' }}>
@@ -382,7 +386,17 @@ class ArtistView extends React.Component {
                                         marginTop: 8,
                                     }}
                                 >
-                                    <TouchableOpacity>
+                                    <TouchableOpacity
+                                        onPress={() =>
+                                            this.props.navigation.navigate(
+                                                'PaginationView',
+                                                {
+                                                    next: this.state
+                                                        .artistAlbums.href,
+                                                },
+                                            )
+                                        }
+                                    >
                                         <View>
                                             <Text bold>See All Albums</Text>
                                         </View>
