@@ -13,6 +13,8 @@ function Song(props) {
                 height: 50,
                 marginHorizontal: 10,
                 justifyContent: 'space-between',
+                // backgroundColor: 'green',
+                // width: '100%',
             }}
         >
             <TouchableOpacity onPress={props.onPress} style={{ flex: 10 }}>
@@ -42,6 +44,11 @@ function Song(props) {
                             {props.artists
                                 .map(artist => artist.name)
                                 .join(', ')}
+                        </Text>
+                    ) : null}
+                    {props.secondaryText ? (
+                        <Text numberOfLines={1} size={13} color="grey">
+                            {props.secondaryText}
                         </Text>
                     ) : null}
                 </View>
