@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, TouchableOpacity, Image } from 'react-native';
+import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Text from './Text';
 
@@ -13,13 +14,11 @@ function Song(props) {
                 height: 50,
                 marginHorizontal: 10,
                 justifyContent: 'space-between',
-                // backgroundColor: 'green',
-                // width: '100%',
             }}
         >
             <TouchableOpacity onPress={props.onPress} style={{ flex: 10 }}>
                 <View
-                    // only apply these styles if there is an image (if it is an artist)
+                    // only use 'flex-direction: row' for items with image
                     style={{
                         flexDirection: props.image ? 'row' : null,
                         alignItems: props.image ? 'center' : null,
@@ -36,21 +35,25 @@ function Song(props) {
                             }}
                         />
                     ) : null}
-                    <Text numberOfLines={1} color={props.color || '#fff'}>
-                        {props.song.name}
-                    </Text>
-                    {props.artists && props.artists.length > 0 ? (
-                        <Text numberOfLines={1} size={13} color="grey">
-                            {props.artists
-                                .map(artist => artist.name)
-                                .join(', ')}
+                    <View style={{ flexDirection: 'column' }}>
+                        <Text numberOfLines={1} color={props.color || '#fff'}>
+                            {props.text ? props.text : props.song.name}
                         </Text>
-                    ) : null}
-                    {props.secondaryText ? (
-                        <Text numberOfLines={1} size={13} color="grey">
-                            {props.secondaryText}
-                        </Text>
-                    ) : null}
+                        {props.artists &&
+                        props.artists.length > 0 &&
+                        !props.secondaryText ? (
+                            <Text numberOfLines={1} size={13} color="grey">
+                                {props.artists
+                                    .map(artist => artist.name)
+                                    .join(', ')}
+                            </Text>
+                        ) : null}
+                        {props.secondaryText ? (
+                            <Text numberOfLines={1} size={13} color="grey">
+                                {props.secondaryText}
+                            </Text>
+                        ) : null}
+                    </View>
                 </View>
             </TouchableOpacity>
 
@@ -63,5 +66,16 @@ function Song(props) {
         </View>
     );
 }
+
+Song.propTypes = {
+    song: PropTypes.shape({ name: PropTypes.string.isRequired }).isRequired,
+    onOpenModal: PropTypes.func,
+    secondaryText: PropTypes.string,
+    image: PropTypes.string,
+    artists: PropTypes.arrayOf(
+        PropTypes.shape({ name: PropTypes.string.isRequired }),
+    ),
+    text: PropTypes.string,
+};
 
 export default Song;
