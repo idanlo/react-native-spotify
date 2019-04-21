@@ -1,10 +1,22 @@
 import React from 'react';
-import { View, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
+import {
+    View,
+    ScrollView,
+    TouchableOpacity,
+    FlatList,
+    StyleSheet,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Spotify from 'rn-spotify-sdk';
 import Text from '../../components/Text';
+import Song from '../../components/Song';
 import { commonStyles as globalStyles } from '../../styles';
 
 export default class Library extends React.Component {
+    state = {
+        recentlyPlayed: null,
+    };
+
     routeSubscription = null;
 
     componentDidMount() {
@@ -20,19 +32,105 @@ export default class Library extends React.Component {
         this.routeSubscription.remove();
     }
 
-    fetchData = ctx => {
-        console.log('TODO');
+    fetchData = async () => {
+        if (this.state.recentlyPlayed) return;
+        Spotify.sendRequest('v1/me/player/recently-played', 'GET', {}, false)
+            .then(async res => {
+                const recentlyPlayed = await Promise.all(
+                    res.items.map(async item => {
+                        try {
+                            // the spotify api returns the string 'null' for recently-played tracks with no context
+                            if (item.context && item.context !== 'null') {
+                                if (item.context.type === 'artist') {
+                                    const artist = await Spotify.sendRequest(
+                                        item.context.href.substring(24),
+                                        'GET',
+                                        {},
+                                        false,
+                                    );
+                                    return {
+                                        track: item.track,
+                                        artist,
+                                    };
+                                }
+                                if (item.context.type === 'playlist_v2') {
+                                    const playlist = await Spotify.sendRequest(
+                                        item.context.href.substring(24),
+                                        'GET',
+                                        {},
+                                        false,
+                                    );
+                                    return {
+                                        track: item.track,
+                                        playlist,
+                                    };
+                                }
+                            } else {
+                                return item;
+                            }
+                        } catch (e) {
+                            console.log(e);
+                        }
+                    }),
+                );
+                console.log(recentlyPlayed);
+                this.setState({ recentlyPlayed });
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    };
+
+    getSongProps = item => {
+        const props = {};
+        if ('artist' in item) {
+            props.text = item.artist.name;
+            props.secondaryText = 'Artist';
+            props.artist = true;
+            props.image =
+                item.artist.images && item.artist.images.length > 0
+                    ? item.artist.images[0].url
+                    : null;
+            props.onPress = () =>
+                this.props.navigation.navigate('ArtistView', {
+                    artistId: item.artist.id,
+                });
+        } else if ('playlist' in item) {
+            props.text = item.playlist.name;
+            props.secondaryText = 'Playlist';
+            props.artist = false;
+            props.image =
+                item.playlist.images && item.playlist.images.length > 0
+                    ? item.playlist.images[0].url
+                    : null;
+            props.onPress = () =>
+                this.props.navigation.navigate('PlaylistView', {
+                    playlistId: item.playlist.id,
+                });
+        } else {
+            props.text = item.track.album.name;
+            props.secondaryText = `Album ● by ${item.track.artists
+                .map(artist => artist.name)
+                .join(', ')}`;
+            props.artist = false;
+            props.image =
+                item.track.album.images && item.track.album.images.length > 0
+                    ? item.track.album.images[0].url
+                    : null;
+            props.onPress = () =>
+                this.props.navigation.navigate('AlbumView', {
+                    albumId: item.track.album.id,
+                });
+        }
+
+        return props;
     };
 
     render() {
         return (
             <View style={globalStyles.container}>
-                <ScrollView
-                    contentContainerStyle={{
-                        alignItems: 'center',
-                    }}
-                >
-                    <Text bold size={34}>
+                <ScrollView>
+                    <Text bold size={34} style={{ textAlign: 'center' }}>
                         Library
                     </Text>
                     <>
@@ -176,6 +274,31 @@ export default class Library extends React.Component {
                             </TouchableOpacity>
                         </View>
                     </>
+                    {this.state.recentlyPlayed ? (
+                        <View>
+                            <Text
+                                size={28}
+                                bold
+                                style={{ textAlign: 'center' }}
+                            >
+                                Recently Played
+                            </Text>
+                            <FlatList
+                                scrollEnabled={false}
+                                data={this.state.recentlyPlayed}
+                                contentContainerStyle={{
+                                    flex: 1,
+                                }}
+                                keyExtractor={(_, i) => i.toString()}
+                                renderItem={({ item }) => (
+                                    <Song
+                                        song={item.track}
+                                        {...this.getSongProps(item)}
+                                    />
+                                )}
+                            />
+                        </View>
+                    ) : null}
                 </ScrollView>
             </View>
         );
