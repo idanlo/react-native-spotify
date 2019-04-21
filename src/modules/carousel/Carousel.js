@@ -22,8 +22,8 @@ class Carousel extends React.Component {
                 // only if touch input was dragged more than 25 it counts as a slide, below 25 is a touchable press
                 // only do this calculation if there are touchables inside the panresponder (received with prop - includeTouchables)
                 !this.props.includeTouchables ||
-                Math.abs(state.dx) > 25 ||
-                Math.abs(state.dy) > 25,
+                Math.abs(state.dx) > 15 ||
+                Math.abs(state.dy) > 15,
             onPanResponderMove: (evt, gestureState) => {
                 // console.log('PanResponder', evt, gestureState);
                 this.state.pan.setValue(gestureState.dx);
