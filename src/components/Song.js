@@ -70,6 +70,7 @@ function Song(props) {
 Song.propTypes = {
     song: PropTypes.shape({ name: PropTypes.string.isRequired }).isRequired,
     onOpenModal: PropTypes.func,
+    onPress: PropTypes.func,
     secondaryText: PropTypes.string,
     image: PropTypes.string,
     artists: PropTypes.arrayOf(
