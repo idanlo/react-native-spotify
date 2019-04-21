@@ -29,7 +29,7 @@ function Song(props) {
                             style={{
                                 width: 40,
                                 height: 40,
-                                borderRadius: 20,
+                                borderRadius: props.artist ? 20 : 0,
                                 marginRight: 10,
                             }}
                         />

@@ -262,6 +262,7 @@ export default class PaginationView extends React.PureComponent {
                     }
                     song={item}
                     artists={null}
+                    artist
                     image={
                         item.images && item.images.length > 1
                             ? item.images[1].url
