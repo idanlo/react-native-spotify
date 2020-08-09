@@ -67,40 +67,38 @@ function Home(props) {
   }, []);
   return (
     <View style={[globalStyles.container, {paddingTop: 0}]}>
-      <SafeAreaView>
-        <StatusBar backgroundColor="transparent" translucent />
-        <ScrollView>
-          <LinearGradient
-            colors={['#3A5B5F', '#191414']}
-            start={{x: 0, y: 0}}
-            end={{x: 3, y: 3}}
-            locations={[0, 0.1]}>
-            <View style={{marginTop: StatusBar.currentHeight}}>
-              {recentlyPlayed ? (
-                <RecentlyPlayed
-                  items={recentlyPlayed.items}
-                  navigation={props.navigation}
-                />
-              ) : null}
-              {featured ? (
-                <Featured featured={featured} navigation={props.navigation} />
-              ) : null}
-              {topArtists ? (
-                <TopArtists
-                  items={topArtists.items}
-                  navigation={props.navigation}
-                />
-              ) : null}
-              {newReleases ? (
-                <NewReleases
-                  items={newReleases.albums.items}
-                  navigation={props.navigation}
-                />
-              ) : null}
-            </View>
-          </LinearGradient>
-        </ScrollView>
-      </SafeAreaView>
+      <StatusBar backgroundColor="transparent" translucent />
+      <ScrollView>
+        <LinearGradient
+          colors={['#3A5B5F', '#191414']}
+          start={{x: 0, y: 0}}
+          end={{x: 3, y: 3}}
+          locations={[0, 0.1]}>
+          <View style={{marginTop: StatusBar.currentHeight + 40}}>
+            {recentlyPlayed ? (
+              <RecentlyPlayed
+                items={recentlyPlayed.items}
+                navigation={props.navigation}
+              />
+            ) : null}
+            {featured ? (
+              <Featured featured={featured} navigation={props.navigation} />
+            ) : null}
+            {topArtists ? (
+              <TopArtists
+                items={topArtists.items}
+                navigation={props.navigation}
+              />
+            ) : null}
+            {newReleases ? (
+              <NewReleases
+                items={newReleases.albums.items}
+                navigation={props.navigation}
+              />
+            ) : null}
+          </View>
+        </LinearGradient>
+      </ScrollView>
     </View>
   );
 }

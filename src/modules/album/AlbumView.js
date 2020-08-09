@@ -68,7 +68,11 @@ class AlbumView extends React.Component {
 
   render() {
     return (
-      <View style={[globalStyles.container, {paddingTop: 0}]}>
+      <View
+        style={[
+          globalStyles.container,
+          {paddingTop: StatusBar.currentHeight + 50},
+        ]}>
         {this.state.data && !this.state.loading ? (
           <View>
             <View style={styles.header}>
@@ -108,7 +112,7 @@ class AlbumView extends React.Component {
                       ],
                     );
                   }}>
-                  <Icon name="md-more" size={30} color="#fff" />
+                  <Icon name="ios-ellipsis-horizontal" size={30} color="#fff" />
                 </TouchableOpacity>
               </View>
             </View>
