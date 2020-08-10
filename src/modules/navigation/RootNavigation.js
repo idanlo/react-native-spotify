@@ -1,18 +1,18 @@
-import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 
 import MainTabNavigator from './MainTabNavigator';
 import LoginScreen from '../login/LoginViewContainer';
 
 const switchNavigator = createSwitchNavigator(
-    {
-        Login: {
-            screen: LoginScreen,
-        },
-        Main: MainTabNavigator,
+  {
+    Login: {
+      screen: LoginScreen,
     },
-    {
-        initialRouteName: 'Login',
-    },
+    Main: MainTabNavigator,
+  },
+  {
+    initialRouteName: 'Login',
+  },
 );
 
 export default createAppContainer(switchNavigator);

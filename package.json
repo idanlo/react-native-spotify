@@ -1,107 +1,50 @@
 {
-  "name": "react-native-spotify",
+  "name": "ReactNativeSpotify",
   "version": "0.0.1",
-  "private": false,
+  "private": true,
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "start": "react-native start",
     "test": "jest",
-    "test:update": "jest -u",
-    "test:coverage": "jest --coverage",
-    "run:ios": "react-native run-ios",
-    "run:android": "react-native run-android",
-    "lint": "./node_modules/eslint/bin/eslint.js src",
-    "lint:fix": "./node_modules/eslint/bin/eslint.js src --fix",
-    "flow": "./node_modules/flow-bin/cli.js",
-    "e2e:build": "detox build --configuration ios.sim.debug",
-    "e2e:test": "detox test --configuration ios.sim.debug"
+    "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-community/masked-view": "^0.1.10",
+    "@react-navigation/bottom-tabs": "^5.8.0",
+    "@react-navigation/native": "^5.7.3",
     "prop-types": "^15.7.2",
-    "react": "16.8.3",
-    "react-native": "0.59.4",
-    "react-native-gesture-handler": "^1.0.16",
-    "react-native-lightbox": "^0.8.0",
-    "react-native-linear-gradient": "^2.5.3",
-    "react-native-splash-screen": "^3.2.0",
-    "react-native-vector-icons": "^6.3.0",
-    "react-navigation": "^3.8.1",
-    "react-redux": "^7.0.2",
+    "react": "16.13.1",
+    "react-native": "0.63.2",
+    "react-native-events": "^1.0.15",
+    "react-native-gesture-handler": "^1.7.0",
+    "react-native-lightbox": "^0.8.1",
+    "react-native-linear-gradient": "^2.5.6",
+    "react-native-reanimated": "^1.10.2",
+    "react-native-safe-area-context": "^3.1.4",
+    "react-native-screens": "^2.10.1",
+    "react-native-vector-icons": "^7.0.0",
+    "react-navigation": "3.8.1",
+    "react-navigation-tabs": "^2.9.0",
+    "react-redux": "^7.2.1",
     "recompose": "^0.30.0",
-    "redux": "^4.0.1",
+    "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
-    "redux-persist": "^5.10.0",
+    "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
-    "rn-spotify-sdk": "^1.2.6"
+    "rn-spotify-sdk": "^1.2.15"
   },
   "devDependencies": {
-    "@babel/core": "^7.3.4",
-    "@babel/preset-flow": "^7.0.0",
-    "babel-eslint": "^10.0.1",
-    "babel-jest": "^24.5.0",
-    "danger": "^7.0.2",
-    "detox": "^12.1.1",
-    "enzyme": "^3.7.0",
-    "enzyme-adapter-react-16": "^1.7.0",
-    "eslint": "^5.9.0",
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-config-prettier": "^4.1.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-jsx-a11y": "^6.1.2",
-    "eslint-plugin-react": "^7.11.1",
-    "flow-bin": "^0.93.0",
-    "jest": "^24.5.0",
-    "jsdom": "13.0.0",
-    "jsdom-global": "3.0.2",
-    "metro-react-native-babel-preset": "^0.53.1",
-    "plop": "^2.2.0",
-    "prettier": "^1.16.1",
-    "react-addons-test-utils": "^15.6.2",
-    "react-dom": "^16.6.3",
-    "react-test-renderer": "16.8.3",
-    "sinon": "^7.1.1"
+    "@babel/core": "^7.8.4",
+    "@babel/runtime": "^7.8.4",
+    "@react-native-community/eslint-config": "^1.1.0",
+    "babel-jest": "^25.1.0",
+    "eslint": "^6.5.1",
+    "jest": "^25.1.0",
+    "metro-react-native-babel-preset": "^0.59.0",
+    "react-test-renderer": "16.13.1"
   },
   "jest": {
-    "preset": "react-native",
-    "transform": {
-      "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js"
-    },
-    "collectCoverage": true,
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx}",
-      "!**/node_modules/**",
-      "!android/**",
-      "!ios/**",
-      "!assets/**"
-    ],
-    "coverageDirectory": "jest_coverage",
-    "setupFiles": [
-      "./jest-setup.js"
-    ],
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/e2e/"
-    ]
-  },
-  "rnpm": {
-    "assets": [
-      "./assets/fonts/"
-    ]
-  },
-  "detox": {
-    "configurations": {
-      "ios.sim.debug": {
-        "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/ReactNativeSpotify.app",
-        "build": "xcodebuild -UseModernBuildSystem=NO -project ios/ReactNativeSpotify.xcodeproj -scheme ReactNativeSpotify -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
-        "type": "ios.simulator",
-        "name": "iPhone XS"
-      },
-      "ios.sim.release": {
-        "binaryPath": "ios/build/Build/Products/Release-iphonesimulator/ReactNativeSpotify.app",
-        "build": "xcodebuild -UseModernBuildSystem=NO -project ios/ReactNativeSpotify.xcodeproj -scheme ReactNativeSpotify -configuration Release -sdk iphonesimulator -derivedDataPath ios/build",
-        "type": "ios.simulator",
-        "name": "iPhone 7"
-      }
-    },
-    "test-runner": "jest"
+    "preset": "react-native"
   }
 }
