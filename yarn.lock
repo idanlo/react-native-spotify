@@ -5671,10 +5671,10 @@ react-native-safe-area-view@^0.14.1, react-native-safe-area-view@^0.14.9:
   dependencies:
     debounce "^1.2.0"
 
-react-native-screens@^2.10.1:
-  version "2.10.1"
-  resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-2.10.1.tgz#06d22fae87ef0ce51c616c34a199726db1403b95"
-  integrity sha512-Z2kKSk4AwWRQNCBmTjViuBQK0/Lx0jc25TZptn/2gKYUCOuVRvCekoA26u0Tsb3BIQ8tWDsZW14OwDlFUXW1aw==
+react-native-screens@^2.17.0:
+  version "2.17.0"
+  resolved "https://registry.yarnpkg.com/react-native-screens/-/react-native-screens-2.17.0.tgz#78acbcf632eefa6da341e2581eaf2de0d6db9469"
+  integrity sha512-JlCAU1tQDAhrXFI86NWvaO90ovG2gHvTfCFkW0SHoe4kZfSvZIKfGUXk8E3j6R8+1QJYLDJlZTwVsM/j70fHWQ==
 
 react-native-tab-view@^1.2.0, react-native-tab-view@^1.3.4:
   version "1.4.1"
