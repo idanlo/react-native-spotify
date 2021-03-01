@@ -17,7 +17,7 @@
     "react": "16.13.1",
     "react-native": "0.63.2",
     "react-native-events": "^1.0.15",
-    "react-native-gesture-handler": "^1.7.0",
+    "react-native-gesture-handler": "^1.10.3",
     "react-native-lightbox": "^0.8.1",
     "react-native-linear-gradient": "^2.5.6",
     "react-native-reanimated": "^1.10.2",
